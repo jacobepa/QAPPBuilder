@@ -16,7 +16,7 @@ from django.shortcuts import render
 from django.utils.decorators import method_decorator
 from django.views.generic import CreateView, DetailView, ListView, \
     TemplateView, UpdateView, DeleteView
-from accounts.models import User
+from django.contrib.auth.models import User
 from constants.qar5 import SECTION_A_INFO, SECTION_D_INFO, SECTION_E_INFO, \
     SECTION_F_INFO, SECTION_C_INFO
 from constants.qar5_sectionb import SECTION_B_INFO

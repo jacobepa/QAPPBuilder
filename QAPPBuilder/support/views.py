@@ -532,7 +532,8 @@ def edit_support_type(request, obj_id):
         else:
             form = SupportTypeForm(instance=support_type)
     else:
-        url = '/accounts/not_authorized/'
+        # TODO redo this
+        url = '/acc/not_authorized/'
 
     return render(request, 'edit_office.html', locals())
 
@@ -650,7 +651,8 @@ def edit_priority(request, obj_id):
         else:
             form = PriorityForm(instance=priority)
     else:
-        url = '/accounts/not_authorized/'
+        # TODO redo this
+        url = '/acc/not_authorized/'
 
     return render(request, 'edit_office.html', locals())
 

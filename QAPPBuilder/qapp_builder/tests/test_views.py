@@ -15,7 +15,7 @@ import django
 from django.db.models.query import QuerySet, EmptyQuerySet
 from django.test import Client, TestCase
 from django.test.client import RequestFactory
-from accounts.models import User
+from django.contrib.auth.models import User
 from qapp_builder.models import Division, Qapp, QappSharingTeamMap
 from qapp_builder.forms import QappForm
 from qapp_builder.views import check_can_edit, get_qapp_all, QappEdit

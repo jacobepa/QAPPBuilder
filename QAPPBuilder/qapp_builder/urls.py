@@ -122,7 +122,6 @@ urlpatterns = [
 
 
     # Begin other module import URLs.
-    re_path(r'^accounts/', include('accounts.urls')),
     re_path(r'^support/', include('support.urls')),
     re_path(r'^teams/', include('teams.urls')),
 ]
