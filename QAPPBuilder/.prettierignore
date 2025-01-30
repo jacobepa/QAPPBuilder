@@ -1,0 +1,9 @@
+# Ignore everything recursively
+*
+*.py
+
+# But not html
+!*.html
+
+# Check subdirectories too
+!*/

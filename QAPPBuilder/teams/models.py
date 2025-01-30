@@ -12,7 +12,7 @@ Available functions:
 """
 
 from django.db import models
-from accounts.models import User
+from django.contrib.auth.models import User
 
 
 # Create your models here.
@@ -37,7 +37,7 @@ class Team(models.Model):
 
     def __str__(self):
         """Override str method to display name instead of stringified obj."""
-        return str(self.name)
+        return self.name
 
 
 class TeamMembership(models.Model):
