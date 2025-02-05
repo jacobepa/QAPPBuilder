@@ -135,20 +135,6 @@
         <li class="menu-item" role="presentation">
           <a href="{{contact_url}}" class="menu-link" role="menuitem">Contact</a>
         </li>
-
-        {% url 'register' as register_url %}
-        <li {% if self.path==register_url %} class="expanded active-trail menu-item" {% else %}
-          class="menu-item" {% endif %} role="presentation">
-          <a href="{{register_url}}" {% if self.path==register_url %} class="active-trail menu-link active" {%
-            else %} class="menu-link" {% endif %} role="menuitem">Register</a>
-        </li>
-
-        {% url 'login' as login_url %}
-        <li {% if self.path==login_url %} class="expanded active-trail menu-item" {% else %} class="menu-item"
-          {% endif %} role="presentation">
-          <a href="{{login_url}}" {% if self.path==login_url %} class="active-trail menu-link active" {% else
-            %} class="menu-link" {% endif %} role="menuitem">Log-In</a>
-        </li>
         {% endif %}
       </ul>
 
@@ -181,9 +167,6 @@
             {% endif %}
           </a>
           <ul class="dropdown-menu">
-            <li class="menu-item">
-              <a class="menu-link" href="{% url 'profile' %}">My profile</a>
-            </li>
             {% if request.user.is_staff %}
             <li class="menu-item">
               <a class="menu-link" href="{% url 'admin:index' %}">Admin Portal</a>
@@ -191,11 +174,8 @@
             <li class="menu-item">
               <a class="menu-link" href="{% url 'web_dev_tools' %}">Web Dev Tools</a>
             </li>
-            {% endif %}
             <li role="separator" class="divider"></li>
-            <li class="menu-item">
-              <a class="menu-link" href="{% url 'logout' %}">Logout</a>
-            </li>
+            {% endif %}
           </ul>
         </li>
       </ul>

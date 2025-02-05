@@ -44,12 +44,9 @@ INSTALLED_APPS = [
   'django.contrib.messages',
   'django.contrib.staticfiles',
   'django.contrib.humanize',
-  # Auth SAML2
-  'django_saml2_auth',
   # Add your apps here to enable them.
   'constants',
   'qapp_builder',
-  'qapp_builder2',
   'support',
   'teams'
 ]
@@ -187,122 +184,127 @@ LOGGING = {
   },
 }
 
-# Auth SAML2
-SAML2_AUTH = {
-  # Metadata is required, choose either remote url or local file path
-  'METADATA_AUTO_CONF_URL': '[The auto(dynamic) metadata conf URL of SAML2]',
-  'METADATA_LOCAL_FILE_PATH': '[The metadata configuration file path]',
-  'KEY_FILE': '[The key file path]',
-  'CERT_FILE': '[The certificate file path]',
+SAML_ENABLED = False
 
-  'DEBUG': False,  # Send debug information to a log file
-  # Optional logging configuration.
-  # By default, it won't log anything.
-  # The following configuration is an example of how to configure the logger,
-  # which can be used together with the DEBUG option above. Please note that
-  # the logger config follows the Python's logging configuration schema:
-  # https://docs.python.org/3/library/logging.config.html#logging-config-dictschema
-  'LOGGING': LOGGING,
+if SAML_ENABLED:
+  # Auth SAML2
+  INSTALLED_APPS.append('django_saml2_auth')
+  # MIDDLEWARE.append('django_saml2_auth.middleware.SAML2AuthMiddleware')
+  SAML2_AUTH = {
+    # Metadata is required, choose either remote url or local file path
+    'METADATA_AUTO_CONF_URL': '[The auto(dynamic) metadata conf URL of SAML2]',
+    'METADATA_LOCAL_FILE_PATH': '[The metadata configuration file path]',
+    'KEY_FILE': '[The key file path]',
+    'CERT_FILE': '[The certificate file path]',
 
-  # Optional settings below
-  # Custom target redirect URL after the user get logged in.
-  # Default to /admin if not set. This setting will be overwritten if you
-  # have parameter ?next= specificed in the login URL.
-  'DEFAULT_NEXT_URL': '/admin',
+    'DEBUG': False,  # Send debug information to a log file
+    # Optional logging configuration.
+    # By default, it won't log anything.
+    # The following configuration is an example of how to configure the logger,
+    # which can be used together with the DEBUG option above. Please note that
+    # the logger config follows the Python's logging configuration schema:
+    # https://docs.python.org/3/library/logging.config.html#logging-config-dictschema
+    'LOGGING': LOGGING,
 
-  # Create a new Django user when a new user logs in. Defaults to True.
-  'CREATE_USER': True,
-  'NEW_USER_PROFILE': {
-    'USER_GROUPS': [],  # The default group name when a new user logs in
-    'ACTIVE_STATUS': True,  # The default active status for new users
-    'STAFF_STATUS': False,  # The staff status for new users
-    'SUPERUSER_STATUS': False,  # The superuser status for new users
-  },
-  # Change Email/UserName/FirstName/LastName to corresponding SAML2
-  # userprofile attributes.
-  'ATTRIBUTES_MAP': {
-    'email': 'user.email',
-    'username': 'user.username',
-    'first_name': 'user.first_name',
-    'last_name': 'user.last_name',
-    # Mandatory, can be un-required if TOKEN_REQUIRED is False
-    'token': 'Token',
-    'groups': 'Groups',  # Optional
-  },
-  'GROUPS_MAP': {  # Optionally allow mapping SAML2 Groups to Django Groups
-    'SAML Group Name': 'Django Group Name',
-  },
-  'TRIGGER': {
-    # Optional: needs to return a User Model instance or None
-    # 'GET_USER': 'path.to.your.get.user.hook.method',
+    # Optional settings below
+    # Custom target redirect URL after the user get logged in.
+    # Default to /admin if not set. This setting will be overwritten if you
+    # have parameter ?next= specificed in the login URL.
+    'DEFAULT_NEXT_URL': '/admin',
 
-    # 'CREATE_USER': 'path.to.your.new.user.hook.method',
-    # 'BEFORE_LOGIN': 'path.to.your.login.hook.method',
-    # 'AFTER_LOGIN': 'path.to.your.after.login.hook.method',
+    # Create a new Django user when a new user logs in. Defaults to True.
+    'CREATE_USER': True,
+    'NEW_USER_PROFILE': {
+      'USER_GROUPS': [],  # The default group name when a new user logs in
+      'ACTIVE_STATUS': True,  # The default active status for new users
+      'STAFF_STATUS': False,  # The staff status for new users
+      'SUPERUSER_STATUS': False,  # The superuser status for new users
+    },
+    # Change Email/UserName/FirstName/LastName to corresponding SAML2
+    # userprofile attributes.
+    'ATTRIBUTES_MAP': {
+      'email': 'user.email',
+      'username': 'user.username',
+      'first_name': 'user.first_name',
+      'last_name': 'user.last_name',
+      # Mandatory, can be un-required if TOKEN_REQUIRED is False
+      'token': 'Token',
+      'groups': 'Groups',  # Optional
+    },
+    'GROUPS_MAP': {  # Optionally allow mapping SAML2 Groups to Django Groups
+      'SAML Group Name': 'Django Group Name',
+    },
+    'TRIGGER': {
+      # Optional: needs to return a User Model instance or None
+      # 'GET_USER': 'path.to.your.get.user.hook.method',
 
-    # Optional. This is executed right before METADATA_AUTO_CONF_URL.
-    # For systems with many metadata files registered allows to
-    # narrow the search scope.
-    # 'GET_USER_ID_FROM_SAML_RESPONSE': 'path.to.your.get.user.from.saml.hook.method',  # noqa: E501
+      # 'CREATE_USER': 'path.to.your.new.user.hook.method',
+      # 'BEFORE_LOGIN': 'path.to.your.login.hook.method',
+      # 'AFTER_LOGIN': 'path.to.your.after.login.hook.method',
 
-    # This can override the METADATA_AUTO_CONF_URL to enumerate
-    # all existing metadata autoconf URLs
-    # 'GET_METADATA_AUTO_CONF_URLS': 'path.to.your.get.metadata.conf.hook.method',  # noqa: E501
-  },
-  # Custom URL to validate incoming SAML requests against
-  'ASSERTION_URL': 'https://mysite.com',
+      # Optional. This is executed right before METADATA_AUTO_CONF_URL.
+      # For systems with many metadata files registered allows to
+      # narrow the search scope.
+      # 'GET_USER_ID_FROM_SAML_RESPONSE': 'path.to.your.get.user.from.saml.hook.method',  # noqa: E501
 
-  # Populates the Issuer element in authn request
-  'ENTITY_ID': 'https://mysite.com/saml2_auth/acs/',
+      # This can override the METADATA_AUTO_CONF_URL to enumerate
+      # all existing metadata autoconf URLs
+      # 'GET_METADATA_AUTO_CONF_URLS': 'path.to.your.get.metadata.conf.hook.method',  # noqa: E501
+    },
+    # Custom URL to validate incoming SAML requests against
+    'ASSERTION_URL': 'https://mysite.com',
 
-  # Sets the Format property of authn NameIDPolicy element, e.g. 'user.email'
-  'NAME_ID_FORMAT': 'user.email',
+    # Populates the Issuer element in authn request
+    'ENTITY_ID': 'https://mysite.com/saml2_auth/acs/',
 
-  # Set this to True if you are running a Single Page Application (SPA)
-  # with Django Rest Framework (DRF), and are using JWT
-  # authentication to authorize client users
-  'USE_JWT': False,
+    # Sets the Format property of authn NameIDPolicy element, e.g. 'user.email'
+    'NAME_ID_FORMAT': 'user.email',
 
-  # 'JWT_ALGORITHM': 'HS256',  # JWT algorithm to sign the message with
-  # 'JWT_SECRET': 'your.jwt.secret',  # JWT secret to sign the message with
+    # Set this to True if you are running a Single Page Application (SPA)
+    # with Django Rest Framework (DRF), and are using JWT
+    # authentication to authorize client users
+    'USE_JWT': False,
 
-  # # Private key to sign the message with.
-  # # The algorithm should be set to RSA256 or a more secure alternative.
-  # 'JWT_PRIVATE_KEY': '--- YOUR PRIVATE KEY ---',
+    # 'JWT_ALGORITHM': 'HS256',  # JWT algorithm to sign the message with
+    # 'JWT_SECRET': 'your.jwt.secret',  # JWT secret to sign the message with
 
-  # # If your private key is encrypted, you might need to provide
-  # # a passphrase for decryption
-  # 'JWT_PRIVATE_KEY_PASSPHRASE': 'your.passphrase',
+    # # Private key to sign the message with.
+    # # The algorithm should be set to RSA256 or a more secure alternative.
+    # 'JWT_PRIVATE_KEY': '--- YOUR PRIVATE KEY ---',
 
-  # # Public key to decode the signed JWT token
-  # 'JWT_PUBLIC_KEY': '--- YOUR PUBLIC KEY ---',
+    # # If your private key is encrypted, you might need to provide
+    # # a passphrase for decryption
+    # 'JWT_PRIVATE_KEY_PASSPHRASE': 'your.passphrase',
 
-  # 'JWT_EXP': 60,  # JWT expiry time in seconds
+    # # Public key to decode the signed JWT token
+    # 'JWT_PUBLIC_KEY': '--- YOUR PUBLIC KEY ---',
 
-  # # Redirect URL for the client if you are using JWT auth with DRF.
-  # # See explanation below
-  # 'FRONTEND_URL': 'https://myfrontendclient.com',
+    # 'JWT_EXP': 60,  # JWT expiry time in seconds
 
-  # whether of not to get the user in case_sentive mode
-  'LOGIN_CASE_SENSITIVE': False,
+    # # Redirect URL for the client if you are using JWT auth with DRF.
+    # # See explanation below
+    # 'FRONTEND_URL': 'https://myfrontendclient.com',
 
-  # Require each authentication request to be signed
-  'AUTHN_REQUESTS_SIGNED': True,
+    # whether of not to get the user in case_sentive mode
+    'LOGIN_CASE_SENSITIVE': False,
 
-  'LOGOUT_REQUESTS_SIGNED': True,  # Require each logout request to be signed
-  'WANT_ASSERTIONS_SIGNED': True,  # Require each assertion to be signed
-  'WANT_RESPONSE_SIGNED': True,  # Require response to be signed
+    # Require each authentication request to be signed
+    'AUTHN_REQUESTS_SIGNED': True,
 
-  # Accepted time difference between your server and the Identity Provider
-  'ACCEPTED_TIME_DIFF': None,
+    'LOGOUT_REQUESTS_SIGNED': True,  # Require each logout request to be signed
+    'WANT_ASSERTIONS_SIGNED': True,  # Require each assertion to be signed
+    'WANT_RESPONSE_SIGNED': True,  # Require response to be signed
 
-  # Allowed hosts to redirect to using the ?next parameter
-  'ALLOWED_REDIRECT_HOSTS': ['localhost', '127.0.0.1',
-                             'qappbuilder.epa.gov'],
+    # Accepted time difference between your server and the Identity Provider
+    'ACCEPTED_TIME_DIFF': None,
 
-  # Whether or not to require the token parameter in the SAML assertion
-  'TOKEN_REQUIRED': True,
-}
+    # Allowed hosts to redirect to using the ?next parameter
+    'ALLOWED_REDIRECT_HOSTS': ['localhost', '127.0.0.1',
+                               'qappbuilder.epa.gov'],
+
+    # Whether or not to require the token parameter in the SAML assertion
+    'TOKEN_REQUIRED': True,
+  }
 
 try:
   from .local_settings import *
