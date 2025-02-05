@@ -10,24 +10,29 @@ fixture_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '../fixtur
 fixture_filename = 'sectionb_type.json'
 
 def load_fixture(_apps, _schema_editor):
-    """Load data from a fixture when running migrations"""
-    fixture_file = os.path.join(fixture_dir, fixture_filename)
-    fixture = open(fixture_file, 'rb')
-    objects = serializers.deserialize('json', fixture, ignorenonexistent=True)
-    for obj in objects:
-        try:
-            with transaction.atomic():
-                obj.save()
-        except IntegrityError:
-            pass    # Ignore if duplicate obj already exists in db
-    fixture.close()
+  """Load data from a fixture when running migrations"""
+  fixture_file = os.path.join(fixture_dir, fixture_filename)
+  fixture = open(fixture_file, 'rb')
+  objects = serializers.deserialize('json', fixture, ignorenonexistent=True)
+  for obj in objects:
+    try:
+      with transaction.atomic():
+        obj.save()
+    except IntegrityError:
+      pass  # Ignore if duplicate obj already exists in db
+  fixture.close()
+
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('qapp_builder', '0002_division_fixture'),
-    ]
+  dependencies = [
+    ('qapp_builder', '0002_division_fixture'),
+  ]
 
-    operations = [
-        migrations.RunPython(load_fixture),
-    ]
+  operations = [
+    migrations.RunPython(load_fixture),
+    # Set the auto increment value to start after the imported fixture ids
+    migrations.RunSQL(
+      "SELECT setval('qapp_builder_sectionbtype_id_seq', max(id)) FROM qapp_builder_sectionbtype;",
+      migrations.RunSQL.noop),
+  ]

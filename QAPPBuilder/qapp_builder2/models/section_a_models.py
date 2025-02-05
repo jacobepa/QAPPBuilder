@@ -96,14 +96,14 @@ class SectionA4(models.Model):
   """A4: Project Purpose, Problem Definition and Background"""
 
   # A4.1: Project Background
-  f1 = models.TextField()
-  f2 = models.TextField()
-  f3 = models.TextField()
+  backgroun_desc = models.TextField()
+  existing_sources = models.TextField()
+  other_docs = models.TextField()
 
   # A4.2: Project Purpose and Problem Definition
-  f4 = models.TextField()
-  f5 = models.TextField()
-  f6 = models.TextField()
+  eio_purpose = models.TextField()
+  env_decisions = models.TextField()
+  needed_info = models.TextField()
 
 
 class SectionA5(models.Model):

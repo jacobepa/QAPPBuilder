@@ -89,3 +89,7 @@ SECTION_A_2_HELP = {
     For programmatic QAPPs (PQAPPs), signature of Center/Office Director of
     QA (recommended for QA Category B, required for QA Category A).'''
 }
+
+SECTION_A_4_HELP = {
+  '': ''''''
+}
