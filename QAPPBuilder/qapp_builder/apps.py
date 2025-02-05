@@ -28,8 +28,8 @@ from django.apps import AppConfig
 
 
 class QappBuilderConfig(AppConfig):
-    """qapp_builder configuration."""
+  """qapp_builder configuration."""
 
-    name = 'qapp_builder'
-    verbose_name = 'qapp_builder'
-    default_app_config = 'qapp_builder.apps.QappBuilderConfig'
+  name = 'qapp_builder'
+  verbose_name = 'qapp_builder'
+  default_app_config = 'qapp_builder.apps.QappBuilderConfig'

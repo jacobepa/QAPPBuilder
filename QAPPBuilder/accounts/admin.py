@@ -15,7 +15,7 @@ Available functions:
 """
 
 from django.contrib import admin
-from accounts.models import UserProfile, Country, State, Sector, Role
+from .models import UserProfile, Country, State, Sector, Role
 
 admin.site.register(Country)
 admin.site.register(State)
@@ -24,13 +24,13 @@ admin.site.register(Role)
 
 
 class UserProfileAdmin(admin.ModelAdmin):
-    """Assigns 'USER ID' number, once user registers with qapp_builder."""
+  """Assigns 'USER ID' number, once user registers with qapp_builder."""
 
-    list_display = ("user_id",)
-    search_fields = ("user__username",)
-    exclude = ('created_by', 'last_modified_by',)
-    list_filter = ("user_id",)
-    list_per_page = 25
+  list_display = ("user_id",)
+  search_fields = ("user__username",)
+  exclude = ('created_by', 'last_modified_by',)
+  list_filter = ("user_id",)
+  list_per_page = 25
 
 
 admin.site.register(UserProfile, UserProfileAdmin)

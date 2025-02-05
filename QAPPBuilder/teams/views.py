@@ -27,7 +27,7 @@ from django.utils.decorators import method_decorator
 from django.shortcuts import render
 from django.views.generic import FormView, ListView
 from django.test.client import RequestFactory
-from accounts.models import User
+from django.contrib.auth.models import User
 from teams.forms import TeamManagementForm, Team
 from teams.models import TeamMembership
 from teams.serializers import TeamSerializer, UserSerializer, \
