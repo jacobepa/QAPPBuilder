@@ -1,22 +1,6 @@
 from django.db import models
-import constants as CONST
-from teams.models import Team
-
-
-class Definition(models.Model):
-  acronym_abbrev = models.TextField(blank=False, null=False)
-  definition = models.TextField(blank=False, null=False)
-
-
-class VersionControl(models.Model):
-
-  qapp_id = models.TextField(blank=False, null=False)
-  updated_on = models.DateField(blank=False, null=False)
-  authors = models.TextField(blank=False, null=False)
-  description = models.TextField(blank=False, null=False)
-
-
-# TODO: Cross-ref for SectionA1 and VersionControl many-to-many?
+from qapp_builder2.models.utility_models import VersionControl, Definition, \
+  Participant, QappDocument
 
 
 class SectionA1(models.Model):
@@ -147,15 +131,6 @@ class SectionA6(models.Model):
   dqi = models.TextField()
 
 
-class Participant(models.Model):
-  """An entry in the distribution list."""
-
-  name_and_org = models.TextField()
-  email = models.TextField()
-  roles = models.TextField()
-  responsibilities = models.TextField()
-
-
 class SectionA7(models.Model):
   """A7: Distribution List"""
 
@@ -215,7 +190,7 @@ class SectionA12(models.Model):
   """A12: Documents and Records"""
 
   # TODO: Check format of documents and records
-  docs_records = models.TextField()
+  docs_records = models.ManyToManyField(QappDocument)
   requirements = models.TextField()
   record_sched = models.TextField()
 
@@ -238,9 +213,3 @@ class SectionA(models.Model):
   a10 = models.ForeignKey(SectionA10, on_delete=models.CASCADE)
   a11 = models.ForeignKey(SectionA11, on_delete=models.CASCADE)
   a12 = models.ForeignKey(SectionA12, on_delete=models.CASCADE)
-
-
-class Qapp(models.Model):
-
-  teams = models.ManyToManyField(Team, through='QappSharingTeamMap')
-  section_a = SectionA()
