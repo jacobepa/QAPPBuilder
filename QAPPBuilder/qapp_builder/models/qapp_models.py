@@ -1,16 +1,16 @@
 from django.contrib.auth.models import User
 from django.db import models
-from .section_a_models import SectionA
 from teams.models import Team
 
 
 class Qapp(models.Model):
 
+  title = models.TextField(blank=False, null=False)
   created_by = models.ForeignKey(User, on_delete=models.CASCADE)
   created_on = models.DateTimeField(auto_now_add=True)
   updated_on = models.DateTimeField(auto_now=True)
   teams = models.ManyToManyField(Team)  # , through='QappSharingTeamMap')
-  section_a = models.ForeignKey(SectionA, on_delete=models.CASCADE)
+  # section_a = models.ForeignKey(SectionA, on_delete=models.CASCADE)
   # TODO other sections
 
 

@@ -13,7 +13,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpRequest
 from django.shortcuts import render
-from django.views.generic import TemplateView
+from django.views.generic import CreateView, TemplateView
 from django.contrib.auth.models import User
 from .models import Qapp, QappSharingTeamMap
 from teams.models import Team, TeamMembership
@@ -131,3 +131,19 @@ def get_qar5_for_team(team_id, qapp_id=None):
       id__in=include_qapps).filter(id=qapp_id).first()
 
   return Qapp.objects.filter(id__in=include_qapps)
+
+
+# class QappCreate(LoginRequiredMixin, CreateView):
+#   """
+#   Class for creating new QAPPs.
+#   This class will actually start with the SectionA1 form and create a parent
+#   QAPP object before saving and inserting the SectionA1 model/FK.
+#   """
+
+
+class SectionA1Create(LoginRequiredMixin, CreateView):
+  """
+  Class for creating a new Section A1 for a QAPP.
+  This form will also create a parent QAPP when a new Section A1 is created.
+  """
+

@@ -13,4 +13,30 @@ Available functions:
 - TBD
 """
 
-# from django.contrib import admin
+from django.contrib import admin
+from .models import Qapp, SectionA, SectionA1, SectionA2
+
+
+class QappAdmin(admin.ModelAdmin):
+    """
+    Define options used to display and edit Qapp objects.
+
+    (qapp_builder) on the Django Admin page.
+    """
+
+    def save_model(self, request, obj, form, change):
+        """
+        Overwrite the default save_model method.
+
+        So we can automatically set the created_by field as current user.
+        """
+        # Only set created_by when it's the first save (create)
+        if not obj.pk:
+            obj.created_by = request.user
+        return super().save_model(request, obj, form, change)
+
+
+admin.site.register(Qapp, QappAdmin)
+admin.site.register(SectionA)
+admin.site.register(SectionA1)
+admin.site.register(SectionA2)

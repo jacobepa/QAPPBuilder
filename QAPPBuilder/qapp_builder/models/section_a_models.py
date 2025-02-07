@@ -1,16 +1,27 @@
 from django.db import models
+from .qapp_models import Qapp
 from .utility_models import (
   VersionControl, Definition, Participant, QappDocument
 )
 
 
+class SectionA(models.Model):
+
+  qapp = models.OneToOneField(
+    Qapp, on_delete=models.CASCADE, related_name='section_a')
+
+
 class SectionA1(models.Model):
   """Section A1 is the QAPP's Title Page"""
+
+  section_a = models.OneToOneField(
+    SectionA, on_delete=models.CASCADE, related_name='section_a1')
 
   # ###########################################################################
   # Required for both EPA and non-EPA orgs:
   # ---------------------------------------
-  title = models.TextField(blank=False, null=False)
+  # NOTE: Moved title to the QAPP object instead.
+  # title = models.TextField(blank=False, null=False)
   version_date = models.DateField(blank=False, null=False)
   # Name of the org conducting the environmental information operations
   conducting_org_name = models.TextField(blank=False, null=False)
@@ -61,6 +72,9 @@ class SectionA2(models.Model):
   above each expected signature in Section A2.
   """
 
+  section_a = models.OneToOneField(
+    SectionA, on_delete=models.CASCADE, related_name='section_a2')
+
   # Required for all organizations (EPA and Non-EPA)
   epa_op_man = models.TextField(blank=False, null=False)
   epa_qam = models.TextField(blank=False, null=False)
@@ -96,6 +110,9 @@ class SectionA2(models.Model):
 class SectionA4(models.Model):
   """A4: Project Purpose, Problem Definition and Background"""
 
+  section_a = models.OneToOneField(
+    SectionA, on_delete=models.CASCADE, related_name='section_a4')
+
   # A4.1: Project Background
   backgroun_desc = models.TextField()
   existing_sources = models.TextField()
@@ -109,6 +126,9 @@ class SectionA4(models.Model):
 
 class SectionA5(models.Model):
   """A5: Project Task Description"""
+
+  section_a = models.OneToOneField(
+    SectionA, on_delete=models.CASCADE, related_name='section_a5')
 
   desc = models.TextField()
   deliverables = models.TextField()
@@ -127,6 +147,9 @@ class SectionA6(models.Model):
   A6: Information/Data Quality Objectives and Performance/Acceptance Criteria
   """
 
+  section_a = models.OneToOneField(
+    SectionA, on_delete=models.CASCADE, related_name='section_a6')
+
   dqo = models.TextField()
   criteria = models.TextField()
   dqi = models.TextField()
@@ -135,6 +158,9 @@ class SectionA6(models.Model):
 class SectionA7(models.Model):
   """A7: Distribution List"""
 
+  section_a = models.OneToOneField(
+    SectionA, on_delete=models.CASCADE, related_name='section_a7')
+
   distributor = models.TextField()
   # recipients = models.TextField()
   distribution_list = models.ManyToManyField(Participant)
@@ -142,6 +168,9 @@ class SectionA7(models.Model):
 
 class SectionA8(models.Model):
   """A8: Project Organization"""
+
+  section_a = models.OneToOneField(
+    SectionA, on_delete=models.CASCADE, related_name='section_a8')
 
   # TODO: The participant list is related to the distribution list above
   #       I actually think it is the same list, but they want an org chart here
@@ -157,11 +186,17 @@ class SectionA8(models.Model):
 class SectionA9(models.Model):
   """A9: Project Quality Assurance Manager Independence"""
 
+  section_a = models.OneToOneField(
+    SectionA, on_delete=models.CASCADE, related_name='section_a9')
+
   desc = models.TextField()
 
 
 class SectionA10(models.Model):
   """A10: Project Organization Chart and Communications"""
+
+  section_a = models.OneToOneField(
+    SectionA, on_delete=models.CASCADE, related_name='section_a10')
 
   # TODO is project org chart an image or table?
   proj_org_chart = models.ImageField()
@@ -174,6 +209,9 @@ class SectionA10(models.Model):
 
 class SectionA11(models.Model):
   """A11: Personnel Training/Certification"""
+
+  section_a = models.OneToOneField(
+    SectionA, on_delete=models.CASCADE, related_name='section_a11')
 
   eio_verifier = models.TextField()
   training_documenter = models.TextField()
@@ -190,6 +228,9 @@ class SectionA11(models.Model):
 class SectionA12(models.Model):
   """A12: Documents and Records"""
 
+  section_a = models.OneToOneField(
+    SectionA, on_delete=models.CASCADE, related_name='section_a12')
+
   # TODO: Check format of documents and records
   docs_records = models.ManyToManyField(QappDocument)
   requirements = models.TextField()
@@ -198,19 +239,3 @@ class SectionA12(models.Model):
   # Field Activities only:
   dc_rm_reqs = models.TextField()
   citation = models.TextField()
-
-
-class SectionA(models.Model):
-
-  a1 = models.ForeignKey(SectionA1, on_delete=models.CASCADE)
-  a2 = models.ForeignKey(SectionA2, on_delete=models.CASCADE)
-  # NOTE: A3 doesn't have any inputs...
-  a4 = models.ForeignKey(SectionA4, on_delete=models.CASCADE)
-  a5 = models.ForeignKey(SectionA5, on_delete=models.CASCADE)
-  a6 = models.ForeignKey(SectionA6, on_delete=models.CASCADE)
-  a7 = models.ForeignKey(SectionA7, on_delete=models.CASCADE)
-  a8 = models.ForeignKey(SectionA8, on_delete=models.CASCADE)
-  a9 = models.ForeignKey(SectionA9, on_delete=models.CASCADE)
-  a10 = models.ForeignKey(SectionA10, on_delete=models.CASCADE)
-  a11 = models.ForeignKey(SectionA11, on_delete=models.CASCADE)
-  a12 = models.ForeignKey(SectionA12, on_delete=models.CASCADE)
