@@ -13,9 +13,11 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpRequest
 from django.shortcuts import render
-from django.views.generic import CreateView, TemplateView
+from django.urls import reverse_lazy
+from django.views.generic import TemplateView, CreateView
 from django.contrib.auth.models import User
-from .models import Qapp, QappSharingTeamMap
+from qapp_builder.forms.qapp_forms import QappForm
+from qapp_builder.models import Qapp, QappSharingTeamMap
 from teams.models import Team, TeamMembership
 
 
@@ -133,17 +135,13 @@ def get_qar5_for_team(team_id, qapp_id=None):
   return Qapp.objects.filter(id__in=include_qapps)
 
 
-# class QappCreate(LoginRequiredMixin, CreateView):
-#   """
-#   Class for creating new QAPPs.
-#   This class will actually start with the SectionA1 form and create a parent
-#   QAPP object before saving and inserting the SectionA1 model/FK.
-#   """
+class QappCreateView(LoginRequiredMixin, CreateView):
+  model = Qapp
+  form_class = QappForm
+  template_name = 'qapp/qapp_form.html'
+  success_url = reverse_lazy('section_a1_create')
 
-
-class SectionA1Create(LoginRequiredMixin, CreateView):
-  """
-  Class for creating a new Section A1 for a QAPP.
-  This form will also create a parent QAPP when a new Section A1 is created.
-  """
-
+  def form_valid(self, form):
+    form.instance.created_by = self.request.user  # Auto-fill created_by
+    self.object = form.save()
+    return super().form_valid(form)

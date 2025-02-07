@@ -9,9 +9,7 @@ class Qapp(models.Model):
   created_by = models.ForeignKey(User, on_delete=models.CASCADE)
   created_on = models.DateTimeField(auto_now_add=True)
   updated_on = models.DateTimeField(auto_now=True)
-  teams = models.ManyToManyField(Team)  # , through='QappSharingTeamMap')
-  # section_a = models.ForeignKey(SectionA, on_delete=models.CASCADE)
-  # TODO other sections
+  teams = models.ManyToManyField(Team, through='QappSharingTeamMap')
 
 
 class QappSharingTeamMap(models.Model):

@@ -6,28 +6,40 @@
 
 """Definition of urls for qapp_builder."""
 
-from django.urls import re_path
+from django.urls import path
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include
-from qapp_builder.views import QappIndex, contact, clean_qapps, web_dev_tools
+import qapp_builder.views.views as views
+import qapp_builder.views.section_a_views as section_a_views
 from qapp_builder.settings import MEDIA_ROOT, MEDIA_URL
 
 
 urlpatterns = [
-  re_path(r'^admin', admin.site.urls),
+  path('admin', admin.site.urls),
 
-  re_path(r'^$', QappIndex.as_view(), name='home'),
-  re_path(r'^dashboard/?$', QappIndex.as_view(), name='dashboard'),
-  re_path(r'^contact/?$', contact, name='contact'),
+  path('', views.QappIndex.as_view(), name='home'),
+  path('dashboard/', views.QappIndex.as_view(), name='dashboard'),
+  path('contact/', views.contact, name='contact'),
 
-  re_path(r'^dev/?$', web_dev_tools, name='web_dev_tools'),
-  re_path(r'^dev/clean_qapps/?$', clean_qapps, name='clean_qapps'),
+  path('dev/', views.web_dev_tools, name='web_dev_tools'),
+  path('dev/clean_qapps/', views.clean_qapps, name='clean_qapps'),
 
-    # Begin other module import URLs.
-    re_path(r'^accounts/', include('accounts.urls')),
-    re_path(r'^support/', include('support.urls')),
-    re_path(r'^teams/', include('teams.urls')),
+  # ###########################################################################
+  # QAPP URLs
+  # ----------
+  path('qapp/create/',
+       views.QappCreateView.as_view(),
+       name='qapp_create'),
+  path('qapp/<int:qapp_id>/section_a1/create/',
+       section_a_views.SectionA1CreateView.as_view(),
+       name='section_a1_create'),
+  # ###########################################################################
+
+  # Begin other module import URLs.
+  path('accounts/', include('accounts.urls')),
+  path('support/', include('support.urls')),
+  path('teams/', include('teams.urls')),
 ]
 
 urlpatterns += static(MEDIA_URL, document_root=MEDIA_ROOT)
