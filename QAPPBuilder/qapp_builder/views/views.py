@@ -14,7 +14,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpRequest
 from django.shortcuts import render
 from django.urls import reverse_lazy
-from django.views.generic import TemplateView, CreateView
+from django.views.generic import CreateView, DetailView, ListView, TemplateView
 from django.contrib.auth.models import User
 from qapp_builder.forms.qapp_forms import QappForm
 from qapp_builder.models import Qapp, QappSharingTeamMap
@@ -100,7 +100,7 @@ def check_can_edit(qapp, user):
 class QappIndex(LoginRequiredMixin, TemplateView):
   """Class to return the first page of the Existing Data flow."""
 
-  template_name = 'qapp_index.html'
+  template_name = 'qapp/qapp_index.html'
 
   def get_context_data(self, **kwargs):
     """
@@ -139,9 +139,55 @@ class QappCreateView(LoginRequiredMixin, CreateView):
   model = Qapp
   form_class = QappForm
   template_name = 'qapp/qapp_form.html'
-  success_url = reverse_lazy('section_a1_create')
+  # success_url = reverse_lazy('sectiona1_create')
 
   def form_valid(self, form):
     form.instance.created_by = self.request.user  # Auto-fill created_by
     self.object = form.save()
     return super().form_valid(form)
+
+  def get_success_url(self):
+    return reverse_lazy('sectiona1_create', kwargs={'pk': self.object.id})
+
+
+class QappList(LoginRequiredMixin, ListView):
+  """Class for listing this user's (or all if admin) QAPP objects."""
+
+  model = Qapp
+  template_name = 'qapp/qapp_list.html'
+  context_object_name = 'qapp_list'
+
+  def get_context_data(self, **kwargs):
+    """
+    Override the default method to send data to the template.
+
+    Specifically, include the user or team information
+    for this list of data.
+    """
+    context = super().get_context_data(**kwargs)
+    path = self.request.path.split('/')
+    p_id = path[len(path) - 1]
+    p_type = path[len(path) - 2]
+    if p_type == 'user':
+      context['p_user'] = User.objects.get(id=p_id)
+    elif p_type == 'team':
+      context['team'] = Team.objects.get(id=p_id)
+    return context
+
+  def get_queryset(self):
+    """Get a list of QAPP objects based on the provided user or team ID."""
+    path = self.request.path.split('/')
+    p_id = path[len(path) - 1]
+    p_type = path[len(path) - 2]
+    if p_type == 'user':
+      return get_qar5_for_user(p_id)
+    if p_type == 'team':
+      return get_qar5_for_team(p_id)
+    return get_qapp_all()
+
+
+class QappDetail(LoginRequiredMixin, DetailView):
+  """Class for viewing an existing (newly created) QAPP."""
+
+  model = Qapp
+  template_name = 'qapp/qapp_detail.html'

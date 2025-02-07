@@ -1,21 +1,96 @@
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic.edit import CreateView
-from qapp_builder.models import SectionA1, SectionA, Qapp
-
+from django.views.generic.edit import CreateView, UpdateView
+from django.views.generic import DetailView
+from qapp_builder.models import SectionA1, SectionA2, SectionA, Qapp
 import qapp_builder.forms.section_a_forms as forms
 
 
-class SectionA1CreateView(LoginRequiredMixin, CreateView):
+class SectionA1Create(LoginRequiredMixin, CreateView):
   model = SectionA1
   form_class = forms.SectionA1Form
-  template_name = 'section_a1_form.html'
-  success_url = reverse_lazy('section_a1_list')
+  template_name = 'qapp/sectiona/a1_form.html'
+
+  def get_success_url(self):
+    return reverse('sectiona2_create', kwargs={'pk': self.kwargs['pk']})
 
   def form_valid(self, form):
-    # Retrieve or create the parent SectionA
-    qapp = Qapp.objects.get(pk=self.kwargs['qapp_id'])
+    qapp = Qapp.objects.get(pk=self.kwargs['pk'])
     section_a, created = SectionA.objects.get_or_create(qapp=qapp)
-    form.instance.section_a = section_a  # Assign the parent SectionA
+    form.instance.section_a = section_a
     self.object = form.save()
     return super().form_valid(form)
+
+
+class SectionA1Update(LoginRequiredMixin, UpdateView):
+  model = SectionA1
+  form_class = forms.SectionA1Form
+  template_name = 'qapp/sectiona/a1_form.html'
+
+  def get_success_url(self):
+    return reverse('sectiona2_update', kwargs={'pk': self.kwargs['pk']})
+
+
+class SectionA1Detail(LoginRequiredMixin, DetailView):
+  model = SectionA1
+  template_name = 'qapp/sectiona/a1_detail.html'
+  context_object_name = 'section_a1'
+
+  def get_object(self, queryset=None):
+    try:
+      qapp = Qapp.objects.get(pk=self.kwargs['pk'])
+      section_a1 = SectionA1.objects.get(section_a__qapp=qapp)
+      return section_a1
+    except SectionA1.DoesNotExist:
+      return None
+
+  def get(self, request, *args, **kwargs):
+    self.object = self.get_object()
+    if self.object is None:
+      return reverse('sectiona1_create', kwargs={'pk': self.kwargs['pk']})
+    return super().get(request, *args, **kwargs)
+
+
+class SectionA2Create(LoginRequiredMixin, CreateView):
+  model = SectionA2
+  form_class = forms.SectionA2Form
+  template_name = 'qapp/sectiona/a2_form.html'
+
+  def get_success_url(self):
+    return reverse('sectiona3_create', kwargs={'pk': self.kwargs['pk']})
+
+  def form_valid(self, form):
+    qapp = Qapp.objects.get(pk=self.kwargs['pk'])
+    section_a = SectionA.objects.get(qapp=qapp)
+    form.instance.section_a = section_a
+    self.object = form.save()
+    return super().form_valid(form)
+
+
+class SectionA2Update(LoginRequiredMixin, UpdateView):
+  model = SectionA2
+  form_class = forms.SectionA2Form
+  template_name = 'qapp/sectiona/a2_form.html'
+
+  def get_success_url(self):
+    return reverse('sectiona3_update', kwargs={'pk': self.kwargs['pk']})
+
+
+class SectionA2Detail(LoginRequiredMixin, DetailView):
+  model = SectionA2
+  template_name = 'qapp/sectiona/a2_detail.html'
+  context_object_name = 'section_a2'
+
+  def get_object(self, queryset=None):
+    try:
+      qapp = Qapp.objects.get(pk=self.kwargs['pk'])
+      section_a2 = SectionA2.objects.get(section_a__qapp=qapp)
+      return section_a2
+    except SectionA2.DoesNotExist:
+      return None
+
+  def get(self, request, *args, **kwargs):
+    self.object = self.get_object()
+    if self.object is None:
+      return reverse('sectiona2_create', kwargs={'pk': self.kwargs['pk']})
+    return super().get(request, *args, **kwargs)

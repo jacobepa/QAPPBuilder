@@ -1,0 +1,36 @@
+{% extends "main/base.html" %}
+
+{% block content %}
+  <h2>QAPP Detail</h2>
+
+  <table class="table">
+    <tr>
+      <th>Title:</th>
+      <td>{{ object.title }}</td>
+    </tr>
+    <tr>
+      <th>Created by:</th>
+      <td>{{ object.created_by }}</td>
+    </tr>
+    <tr>
+      <th>Created on:</th>
+      <td>{{ object.created_on }}</td>
+    </tr>
+    <tr>
+      <th>Last Updated on:</th>
+      <td>{{ object.updated_on }}</td>
+    </tr>
+    <tr>
+      <th>Teams:</th>
+      <td>
+        <ul>
+          {% for team in object.teams.all %}
+            <li>{{ team.name }}</li>
+          {% endfor %}
+        </ul>
+      </td>
+    </tr>
+  </table>
+
+  <a href="{% url 'section_a1_detail' object.id %}" class="btn btn-primary">Go to Section A1</a>
+{% endblock %}

@@ -26,14 +26,43 @@ urlpatterns = [
   path('dev/clean_qapps/', views.clean_qapps, name='clean_qapps'),
 
   # ###########################################################################
-  # QAPP URLs
-  # ----------
+  # QAPP URLs ------------------------------------
+  path('qapp/list/user/<int:pk>/',
+       views.QappList.as_view(),
+       name='qapp_list_user'),
+  path('qapp/list/team/<int:pk>/',
+       views.QappList.as_view(),
+       name='qapp_list_team'),
   path('qapp/create/',
        views.QappCreateView.as_view(),
        name='qapp_create'),
-  path('qapp/<int:qapp_id>/section_a1/create/',
-       section_a_views.SectionA1CreateView.as_view(),
-       name='section_a1_create'),
+  path('qapp/<int:pk>/detail/',
+       views.QappDetail.as_view(),
+       name='qapp_detail'),
+  # SectionA URLs #############################################################
+  # SectionA1 ------------------------------------
+  path('qapp/<int:pk>/sectiona1/create/',
+       section_a_views.SectionA1Create.as_view(),
+       name='sectiona1_create'),
+  path('qapp/<int:pk>/sectiona1/update/',
+       section_a_views.SectionA1Update.as_view(),
+       name='sectiona1_update'),
+  path('qapp/<int:pk>/sectiona1/detail/',
+       section_a_views.SectionA1Detail.as_view(),
+       name='sectiona1_detail'),
+  # SectionA2 ------------------------------------
+  path('qapp/<int:pk>/sectiona2/create/',
+       section_a_views.SectionA2Create.as_view(),
+       name='sectiona2_create'),
+  path('qapp/<int:pk>/sectiona2/update/',
+       section_a_views.SectionA2Update.as_view(),
+       name='sectiona2_update'),
+  path('qapp/<int:pk>/sectiona2/detail/',
+       section_a_views.SectionA2Detail.as_view(),
+       name='sectiona2_detail'),
+  # SectionA3 ------------------------------------
+  # TODO....
+  # SectionB URLs #############################################################
   # ###########################################################################
 
   # Begin other module import URLs.

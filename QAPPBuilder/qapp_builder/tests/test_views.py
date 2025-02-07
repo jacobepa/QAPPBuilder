@@ -102,7 +102,7 @@
 
 #     def test_qapp_list_user(self):
 #         """Test the qapp list page for a User."""
-#         response = self.client.get('/list/user/1/')
+#         response = self.client.get('/qapp/list/user/1/')
 #         self.assertContains(response, 'QUALITY ASSURANCE PROJECT PLAN', 1, 200)
 #         self.assertContains(response, 'Create a new QAPP', 1, 200)
 #         self.assertContains(response, 'View or Edit Existing QAPP', 1, 200)
