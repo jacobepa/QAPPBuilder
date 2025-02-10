@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.db import models
 from teams.models import Team
+from .utility_models import render_model_details
 
 
 class Qapp(models.Model):
@@ -10,6 +11,9 @@ class Qapp(models.Model):
   created_on = models.DateTimeField(auto_now_add=True)
   updated_on = models.DateTimeField(auto_now=True)
   teams = models.ManyToManyField(Team, through='QappSharingTeamMap')
+
+  def render_details(self):
+    return render_model_details(self)
 
 
 class QappSharingTeamMap(models.Model):

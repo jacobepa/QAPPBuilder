@@ -14,7 +14,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpRequest
 from django.shortcuts import render
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, DetailView, ListView, TemplateView
+from django.views.generic import CreateView, DetailView, ListView, \
+  TemplateView, UpdateView
 from django.contrib.auth.models import User
 from qapp_builder.forms.qapp_forms import QappForm
 from qapp_builder.models import Qapp, QappSharingTeamMap
@@ -139,7 +140,6 @@ class QappCreateView(LoginRequiredMixin, CreateView):
   model = Qapp
   form_class = QappForm
   template_name = 'qapp/qapp_form.html'
-  # success_url = reverse_lazy('sectiona1_create')
 
   def form_valid(self, form):
     form.instance.created_by = self.request.user  # Auto-fill created_by
@@ -187,7 +187,35 @@ class QappList(LoginRequiredMixin, ListView):
 
 
 class QappDetail(LoginRequiredMixin, DetailView):
-  """Class for viewing an existing (newly created) QAPP."""
+  """Class for viewing an existing QAPP."""
 
   model = Qapp
   template_name = 'qapp/qapp_detail.html'
+
+  def get_context_data(self, **kwargs):
+    context = super().get_context_data(**kwargs)
+    # Add custom context here
+    context['title'] = self.object.title
+    context['edit_url'] = f'/qapp/{self.object.id}/edit/'
+    # TODO: Figure out where this request came from originally (user or team)
+    context['previous_url'] = f'/qapp/list/user/{self.request.user.id}/'
+    context['next_url'] = f'/qapp/{self.object.id}/sectiona1/detail/'
+    return context
+
+
+class QappUpdate(LoginRequiredMixin, UpdateView):
+  """Class for editing an existing (newly created) QAPP."""
+
+  model = Qapp
+  form_class = QappForm
+  template_name = 'qapp/qapp_form.html'
+
+  def get_success_url(self):
+    return reverse_lazy('qapp_detail', kwargs={'pk': self.object.id})
+
+  def get_context_data(self, **kwargs):
+    context = super().get_context_data(**kwargs)
+    # Add custom context here
+    context['title'] = 'Edit QAPP'
+    context['previous_url'] = f'/qapp/{self.object.id}/detail/'
+    return context

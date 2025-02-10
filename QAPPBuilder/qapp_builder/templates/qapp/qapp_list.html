@@ -97,7 +97,7 @@
 <script>
   function viewEditExistingQar5(btn) {
     if ($(btn).attr('disabled')) return;
-    window.location.href = '/qapp/detail/' + $(btn).attr('id');
+    window.location.href = `/qapp/${$(btn).attr('id')}/detail/`;
   }
   function exportAllQar5(exportType) {
     var goTo = window.location.pathname.replace('list', exportType);

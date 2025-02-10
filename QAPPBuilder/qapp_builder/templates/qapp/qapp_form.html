@@ -2,11 +2,12 @@
 {% load static %}
 
 {% block content %}
-  <h2>Create QAPP</h2>
+  <h2>{{title}}</h2>
 
   <form method="post">
     {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit" class="usa-button">Save and Continue</button>
+    {{ form.as_epa }}
+
+    {% include 'edit_buttons_partial.html' %}
   </form>
 {% endblock %}

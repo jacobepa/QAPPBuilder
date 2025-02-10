@@ -120,6 +120,8 @@ USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 
+DATETIME_FORMAT = 'N j, Y, P'  # Example: Feb 10, 2025, 5:29 p.m.
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 STATIC_URL = '/static/'

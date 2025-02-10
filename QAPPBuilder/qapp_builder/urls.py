@@ -39,6 +39,9 @@ urlpatterns = [
   path('qapp/<int:pk>/detail/',
        views.QappDetail.as_view(),
        name='qapp_detail'),
+  path('qapp/<int:pk>/edit/',
+       views.QappUpdate.as_view(),
+       name='qapp_update'),
   # SectionA URLs #############################################################
   # SectionA1 ------------------------------------
   path('qapp/<int:pk>/sectiona1/create/',

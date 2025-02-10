@@ -1,36 +1,35 @@
 {% extends "main/base.html" %}
 
 {% block content %}
-  <h2>QAPP Detail</h2>
+  <h2>{{title}}</h2>
+  <h3>QAPP Details</h3>
 
-  <table class="usa-table">
-    <tr>
-      <th>Title:</th>
-      <td>{{ object.title }}</td>
-    </tr>
-    <tr>
-      <th>Created by:</th>
-      <td>{{ object.created_by }}</td>
-    </tr>
-    <tr>
-      <th>Created on:</th>
-      <td>{{ object.created_on }}</td>
-    </tr>
-    <tr>
-      <th>Last Updated on:</th>
-      <td>{{ object.updated_on }}</td>
-    </tr>
-    <tr>
-      <th>Teams:</th>
-      <td>
-        <ul>
-          {% for team in object.teams.all %}
-            <li>{{ team.name }}</li>
-          {% endfor %}
-        </ul>
-      </td>
-    </tr>
-  </table>
+  {{ object.render_details }}
 
-  <a href="{% url 'section_a1_detail' object.id %}" class="usa-button ">Go to Section A1</a>
+  <!-- <th>Teams:</th>
+  <td>
+    <ul>
+      {% for team in object.teams.all %}
+        <li>{{ team.name }}</li>
+      {% endfor %}
+    </ul>
+  </td> -->
+
+  <div class="usa-button-group margin-top-2">
+    <li class="usa-button-group__item">
+      <a class="usa-button" href="{{previous_url}}">&laquo; Previous Page</a>
+    </li>
+    <li class="usa-button-group__item">
+      <a class="usa-button usa-button--accent-warm" href="{{edit_url}}">
+        <!-- TODO: I need to figure out the sprite icons... -->
+        <!-- <svg class="usa-icon" aria-hidden="false" focusable="false" role="img">
+          <use href="https://www.epa.gov/themes/epa_theme/images/sprite.svg#edit"></use>
+        </svg> -->
+        Edit Page
+      </a>
+    </li>
+    <li class="usa-button-group__item">
+      <a class="usa-button" href="{{next_url}}">Next Page &raquo;</a>
+    </li>
+  </div>
 {% endblock %}

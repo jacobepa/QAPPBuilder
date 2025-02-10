@@ -1,5 +1,6 @@
-from django.urls import reverse_lazy, reverse
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import HttpResponseRedirect
+from django.urls import reverse
 from django.views.generic.edit import CreateView, UpdateView
 from django.views.generic import DetailView
 from qapp_builder.models import SectionA1, SectionA2, SectionA, Qapp
@@ -34,20 +35,16 @@ class SectionA1Update(LoginRequiredMixin, UpdateView):
 class SectionA1Detail(LoginRequiredMixin, DetailView):
   model = SectionA1
   template_name = 'qapp/sectiona/a1_detail.html'
-  context_object_name = 'section_a1'
 
   def get_object(self, queryset=None):
-    try:
-      qapp = Qapp.objects.get(pk=self.kwargs['pk'])
-      section_a1 = SectionA1.objects.get(section_a__qapp=qapp)
-      return section_a1
-    except SectionA1.DoesNotExist:
-      return None
+    qapp_id = self.kwargs['pk']
+    return SectionA1.objects.filter(section_a__qapp_id=qapp_id).first() or None
 
   def get(self, request, *args, **kwargs):
     self.object = self.get_object()
+    print(self.object)
     if self.object is None:
-      return reverse('sectiona1_create', kwargs={'pk': self.kwargs['pk']})
+      return HttpResponseRedirect(reverse('sectiona1_create', kwargs=kwargs))
     return super().get(request, *args, **kwargs)
 
 
