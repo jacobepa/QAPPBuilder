@@ -1,7 +1,7 @@
 ﻿{% extends "main/base.html" %}
 
 {% block content %}
-    <div class="container">
+    <div class="grid-container">
 
         <h1>Quality Assurance (QA) Project Plan Development.</h1>
         <h2>Office of Research and Development (ORD)</h2>
@@ -24,17 +24,17 @@
             Track with the approved QAPP by the QA Manager when final. The work on
             this project has been approved under the CESER QAPP K-LRTD-0032360-QP-1-0.</p>
         <p>
-            <button class="btn btn-default"
+            <button class="usa-button"
                     onclick="window.location='https://www.epa.gov/sites/production/files/2015-06/documents/g9-final.pdf'">
                 Learn more about USEPA Existing Data &raquo;
             </button>
         </p>
 
-        <div class="row">
-            <div class="col-sm-6">
-                <label class="col-sm-12">View QAPP documents for...</label>
-                <div class="col-sm-5">
-                    <button class="btn btn-info dropdown-toggle col-sm-12" type="button"
+        <div class="grid-row">
+            <div class="grid-col">
+                <label class="grid-col">View QAPP documents for...</label>
+                <div class="grid-col">
+                    <button class="usa-button usa-button--accent-cool dropdown-toggle grid-col" type="button"
                             id="dropdownUserButton" data-toggle="dropdown"
                             aria-haspopup="true" aria-expanded="false">
                         Users
@@ -48,8 +48,8 @@
                     </div>
                 </div>
 
-                <div class="col-sm-5 offset-sm-1">
-                    <button class="btn btn-info dropdown-toggle col-sm-12" type="button"
+                <div class="grid-col offset">
+                    <button class="usa-button usa-button--accent-cool dropdown-toggle grid-col" type="button"
                             id="dropdownTeamButton" data-toggle="dropdown"
                             aria-haspopup="true" aria-expanded="false">
                         Teams
@@ -63,13 +63,13 @@
                     </div>
                 </div>
             </div>
-            <div class="col-sm-6">
-                <label class="col-sm-12">or create a new QAPP...</label>
-                <button onclick="window.location.href='{% url 'team_create' %}'" class="col-sm-5 btn btn-success">
+            <div class="grid-col">
+                <label class="grid-col">or create a new QAPP...</label>
+                <button onclick="window.location.href='{% url 'team_create' %}'" class="grid-col usa-button btn-success">
                     <span class="glyphicon glyphicon-plus"></span>
                     New Team
                 </button>
-                <button onclick="window.location.href='{% url 'qapp_create' %}'" class="col-sm-5 offset-sm-1 btn btn-success">
+                <button onclick="window.location.href='{% url 'qapp_create' %}'" class="grid-col offset usa-button btn-success">
                     <span class="glyphicon glyphicon-plus"></span>
                     New QAPP
                 </button>

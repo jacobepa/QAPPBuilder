@@ -8,16 +8,16 @@
         {% csrf_token %}
 
         <div class="form-group">
-            <label for="name" class="col-sm-1 control-label">Name</label>
-            <div class="col-sm-11">
+            <label for="name" class="grid-col-1 control-label">Name</label>
+            <div class="grid-col-11">
                 <input class="form-control" type="text" name="name" value="{{team.name}}"/>
             </div>
         </div>
-        <div class="row">
-            <div class="col-sm-12">
+        <div class="grid-row">
+            <div class="grid-col-12">
                 <div class="float-right">
-                    <button type="submit" class="btn btn-md btn-success">Save</button>
-                    <button type="reset" class="btn btn-md btn-warning"
+                    <button type="submit" class="usa-button btn-success">Save</button>
+                    <button type="reset" class="usa-button usa-button--accent-warm"
                             onclick="window.location='{% url 'team_list' %}'">
                         Cancel
                     </button>

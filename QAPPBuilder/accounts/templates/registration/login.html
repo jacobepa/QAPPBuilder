@@ -34,18 +34,18 @@
                 <input type="hidden" id="user_action" name="user_action" value=""/>
                 <button type="submit" id="login_submit"
                         onclick="document.getElementById('user_action').value = 'login';"
-                        class="btn btn-sm btn-info">
+                        class="usa-button usa-button--accent-cool">
                     Submit
                 </button>
                 <button type="submit" id="login_register"
                         onclick="document.getElementById('user_action').value = 'register';"
-                        class="btn btn-sm btn-warning">
+                        class="usa-button usa-button--accent-warm">
                     New User
                 </button>
             </div>
-            <div class="row">
-                <div class="col-sm-7"> </div>
-                <div class="col-sm-5">
+            <div class="grid-row">
+                <div class="grid-col-7"> </div>
+                <div class="grid-col-5">
                     <div class="small">
                         <a href="{% url 'password_reset' %}">Forgot password</a> |
                         <a href="{% url 'username_reminder' %}">Forgot username</a>
@@ -54,8 +54,8 @@
             </div>
         </form>
 
-        <div class="row">
-            <div class="col-sm-7">
+        <div class="grid-row">
+            <div class="grid-col-7">
                 <div class="small">
                     <p>
                         For information on this app please contact:

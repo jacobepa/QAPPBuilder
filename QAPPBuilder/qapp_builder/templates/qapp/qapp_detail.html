@@ -3,7 +3,7 @@
 {% block content %}
   <h2>QAPP Detail</h2>
 
-  <table class="table">
+  <table class="usa-table">
     <tr>
       <th>Title:</th>
       <td>{{ object.title }}</td>
@@ -32,5 +32,5 @@
     </tr>
   </table>
 
-  <a href="{% url 'section_a1_detail' object.id %}" class="btn btn-primary">Go to Section A1</a>
+  <a href="{% url 'section_a1_detail' object.id %}" class="usa-button ">Go to Section A1</a>
 {% endblock %}

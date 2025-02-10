@@ -14,18 +14,18 @@
                 <ul class="list-group">
                     {% for membership in team.team_memberships %}
                     <li class="list-group-item">
-                        <div class="row">
-                            <div class="col-sm-4">
+                        <div class="grid-row">
+                            <div class="grid-col-4">
                                 {% if membership.member.first_name %}
                                 {{membership.member.first_name}} {{membership.member.last_name}}
                                 {% else %}
                                 {{membership.member.username}}
                                 {% endif %}
                             </div>
-                            <div class="col-sm-4">
+                            <div class="grid-col-4">
                                 {{membership.added_date}}
                             </div>
-                            <div class="col-sm-3">
+                            <div class="grid-col-3">
                                 {% if membership.is_owner %}
                                 Owner
                                 {% else %}
@@ -48,13 +48,13 @@
                                     {% endif %}
                                 {% endif %}
                             </div>
-                            <div class="col-sm-1">
+                            <div class="grid-col-1">
                                 {% if membership.is_owner == False and user_can_edit %}
                                 <form method="post" action="{% url 'team_manage' team_id %}">
                                     {% csrf_token %}
                                     <input type="hidden" name="command" value="deleteuser" />
                                     <input type="hidden" name="user_id" value="{{membership.member.id}}" />
-                                    <button class="btn btn-xs btn-link" type="submit">
+                                    <button class="usa-button btn-xs btn-link" type="submit">
                                         <span class="red glyphicon glyphicon-remove"></span>
                                     </button>
                                 </form>
@@ -75,26 +75,26 @@
                     {% if nonmembers %}
                     {% for member in nonmembers %}
                     <li class="list-group-item">
-                        <div class="row">
-                            <div class="col-sm-4">
+                        <div class="grid-row">
+                            <div class="grid-col-4">
                                 {% if member.first_name %}
                                 {{member.first_name}} {{member.last_name}}
                                 {% else %}
                                 {{member.username}}
                                 {% endif %}
                             </div>
-                            <div class="col-sm-4">
+                            <div class="grid-col-4">
                                 {{member.email}}
                             </div>
-                            <div class="col-sm-3">
+                            <div class="grid-col-3">
                             </div>
-                            <div class="col-sm-1">
+                            <div class="grid-col-1">
                                 <form method="post" action="{% url 'team_manage' team_id %}">
                                     {% csrf_token %}
 
                                     <input type="hidden" name="command" value="adduser" />
                                     <input type="hidden" name="user_id" value="{{member.id}}" />
-                                    <button class="btn btn-xs btn-link" type="submit">
+                                    <button class="usa-button btn-xs btn-link" type="submit">
                                         <span class="glyphicon glyphicon-plus"></span>
                                     </button>
                                 </form>
@@ -113,10 +113,10 @@
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-sm-12">
+    <div class="grid-row">
+        <div class="grid-col-12">
             <div class="float-right">
-                <button type="reset" class="btn btn-md btn-success"
+                <button type="reset" class="usa-button btn-success"
                         onclick="window.location='{% url 'team_list' %}'">
                     Done
                 </button>

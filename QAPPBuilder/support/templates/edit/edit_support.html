@@ -117,11 +117,11 @@
 
         {% for field in form %}
         <div class="form-group">
-            <label class="col-sm-2 control-label">
+            <label class="grid-col-2 control-label">
                 <div>{{field.label_tag}}</div>
                 <div class="help-block">{{field.help_text}}</div>
             </label>
-            <div class="col-sm-10">
+            <div class="grid-col-10">
                 {{field}}
                 {% if field.errors %}<div class="alert alert-danger">{{field.errors.as_text}}</div>{% endif %}
             </div>
@@ -129,9 +129,9 @@
         </div>
         {% endfor %}
         <div class="form-group">
-            <div class="col-sm-2"></div>
-            <div class="col-sm-10">
-                <input type="submit" value="Submit" class="btn btn-success">
+            <div class="grid-col-2"></div>
+            <div class="grid-col-10">
+                <input type="submit" value="Submit" class="usa-button btn-success">
                 Add Any Attachments Before Submitting
             </div>
         </div>
@@ -149,12 +149,12 @@
         <table class="example table-autosort table-stripeclass:alternate table-autofilter" id="support_attachments_table">
             <thead id="support_attachments_head">
             <tr>
-                <th class="table-sortable:alphanumeric">Filename</th>
-                <th class="table-header">Delete</th>
+                <th class="usa-table-sortable:alphanumeric">Filename</th>
+                <th class="usa-table-header">Delete</th>
             </tr>
             <tr>
-                <th class="table-filterable"></th>
-                <th class="table-header"></th>
+                <th class="usa-table-filterable"></th>
+                <th class="usa-table-header"></th>
             </tr>
 
             </thead>

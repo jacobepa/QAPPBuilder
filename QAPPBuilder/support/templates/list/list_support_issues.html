@@ -10,41 +10,41 @@
 	{% else %}
 	<p><h3>Submitted Help Requests: {{query_show}}</h3></p>
 	{% endif %}
-	
+
 	<table class="example table-autosort:1 table-autosort-asc table-stripeclass:alternate table-autofilter" id="support_table">
 		<thead id="support_head">
 		<tr>
-			<th class="table-sortable:alphanumeric">Submitter</th>
-			<th class="table-sortable:numeric">Ref Num</th>
-            <th class="table-sortable:alphanumeric">Subject</th>
-            <th class="table-sortable:alphanumeric">Description</th>
-            <th class="table-sortable:date">Date Created</th>
-            <th class="table-sortable:date">Date Addressed</th>
-            <th class="table-sortable:alphanumeric">Review Notes</th>
-            <th class="table-sortable:alphanumeric">Status</th>
-			<th class="table-header">Edit</th>
-			<th class="table-header">Show</th>
-			<th class="table-header">Delete</th>
+			<th class="usa-table-sortable:alphanumeric">Submitter</th>
+			<th class="usa-table-sortable:numeric">Ref Num</th>
+            <th class="usa-table-sortable:alphanumeric">Subject</th>
+            <th class="usa-table-sortable:alphanumeric">Description</th>
+            <th class="usa-table-sortable:date">Date Created</th>
+            <th class="usa-table-sortable:date">Date Addressed</th>
+            <th class="usa-table-sortable:alphanumeric">Review Notes</th>
+            <th class="usa-table-sortable:alphanumeric">Status</th>
+			<th class="usa-table-header">Edit</th>
+			<th class="usa-table-header">Show</th>
+			<th class="usa-table-header">Delete</th>
 		</tr>
 		<tr>
-			<th class="table-filterable"></th>
-			<th class="table-filterable"></th>
-			<th class="table-filterable"></th>
-			<th class="table-filterable"></th>
-            <th class="table-filterable"></th>
+			<th class="usa-table-filterable"></th>
+			<th class="usa-table-filterable"></th>
+			<th class="usa-table-filterable"></th>
+			<th class="usa-table-filterable"></th>
+            <th class="usa-table-filterable"></th>
 
-			<th class="table-filterable"></th>
-			<th class="table-filterable"></th>
-			<th class="table-filterable"></th>
+			<th class="usa-table-filterable"></th>
+			<th class="usa-table-filterable"></th>
+			<th class="usa-table-filterable"></th>
 
-			<th class="table-header"></th>
-			<th class="table-header"></th>
-			<th class="table-header"></th>
+			<th class="usa-table-header"></th>
+			<th class="usa-table-header"></th>
+			<th class="usa-table-header"></th>
 	  	</tr>
 
 		</thead>
 		<tbody id="support_body">
-			
+
 			{% for obj in supports %}
 				<tr>
 					<td>{{obj.weblink}}</td>
@@ -59,7 +59,7 @@
                     <td>{{obj.review_notes}}</td>
 
                     <td>{{obj.status}}</td>
-					
+
 					<td>
                         {% if obj.user == user or user.is_staff %}
                         <a href="{% url 'support:edit_support' support_type_name obj.id %}">Edit</a>
