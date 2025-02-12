@@ -1,17 +1,17 @@
 from django.db import models
 from .qapp_models import Qapp
 from .utility_models import (
-  VersionControl, Definition, Participant, QappDocument, EpaTemplateModel
+  VersionControl, Definition, Participant, QappDocument, EpaBaseModel
 )
 
 
-class SectionA(EpaTemplateModel):
+class SectionA(EpaBaseModel):
 
   qapp = models.OneToOneField(
     Qapp, on_delete=models.CASCADE, related_name='section_a')
 
 
-class SectionA1(EpaTemplateModel):
+class SectionA1(EpaBaseModel):
   """Section A1 is the QAPP's Title Page"""
 
   section_a = models.OneToOneField(
@@ -60,8 +60,13 @@ class SectionA1(EpaTemplateModel):
   definitions = models.ManyToManyField(Definition)
   # ###########################################################################
 
+  def save(self, *args, **kwargs):
+    if not self.section_a_id:
+      self.section_a = SectionA.objects.create(qapp=self.qapp)
+    super(SectionA1, self).save(*args, **kwargs)
 
-class SectionA2(EpaTemplateModel):
+
+class SectionA2(EpaBaseModel):
   """
   Section A2 is the QAPP's Approval Page.
 
@@ -88,7 +93,7 @@ class SectionA2(EpaTemplateModel):
   pqapp_dir = models.TextField(blank=True, null=True)
 
 
-# class SectionA3(EpaTemplateModel):
+# class SectionA3(EpaBaseModel):
 #   """
 #   Section A3 is the QAPP's Table of Contents, Document Format,
 #   and Document Control.
@@ -107,7 +112,7 @@ class SectionA2(EpaTemplateModel):
 #     # o Page number in relation to the total number of pages (i.e., pg X of Y)
 
 
-class SectionA4(EpaTemplateModel):
+class SectionA4(EpaBaseModel):
   """A4: Project Purpose, Problem Definition and Background"""
 
   section_a = models.OneToOneField(
@@ -124,7 +129,7 @@ class SectionA4(EpaTemplateModel):
   needed_info = models.TextField()
 
 
-class SectionA5(EpaTemplateModel):
+class SectionA5(EpaBaseModel):
   """A5: Project Task Description"""
 
   section_a = models.OneToOneField(
@@ -142,7 +147,7 @@ class SectionA5(EpaTemplateModel):
   ord_app_inv_entry = models.TextField()
 
 
-class SectionA6(EpaTemplateModel):
+class SectionA6(EpaBaseModel):
   """
   A6: Information/Data Quality Objectives and Performance/Acceptance Criteria
   """
@@ -155,7 +160,7 @@ class SectionA6(EpaTemplateModel):
   dqi = models.TextField()
 
 
-class SectionA7(EpaTemplateModel):
+class SectionA7(EpaBaseModel):
   """A7: Distribution List"""
 
   section_a = models.OneToOneField(
@@ -166,7 +171,7 @@ class SectionA7(EpaTemplateModel):
   distribution_list = models.ManyToManyField(Participant)
 
 
-class SectionA8(EpaTemplateModel):
+class SectionA8(EpaBaseModel):
   """A8: Project Organization"""
 
   section_a = models.OneToOneField(
@@ -183,7 +188,7 @@ class SectionA8(EpaTemplateModel):
   a_team_rep = models.TextField()
 
 
-class SectionA9(EpaTemplateModel):
+class SectionA9(EpaBaseModel):
   """A9: Project Quality Assurance Manager Independence"""
 
   section_a = models.OneToOneField(
@@ -192,7 +197,7 @@ class SectionA9(EpaTemplateModel):
   desc = models.TextField()
 
 
-class SectionA10(EpaTemplateModel):
+class SectionA10(EpaBaseModel):
   """A10: Project Organization Chart and Communications"""
 
   section_a = models.OneToOneField(
@@ -207,7 +212,7 @@ class SectionA10(EpaTemplateModel):
   non_epa_comms = models.TextField()
 
 
-class SectionA11(EpaTemplateModel):
+class SectionA11(EpaBaseModel):
   """A11: Personnel Training/Certification"""
 
   section_a = models.OneToOneField(
@@ -225,7 +230,7 @@ class SectionA11(EpaTemplateModel):
   citi_personnel = models.TextField()
 
 
-class SectionA12(EpaTemplateModel):
+class SectionA12(EpaBaseModel):
   """A12: Documents and Records"""
 
   section_a = models.OneToOneField(

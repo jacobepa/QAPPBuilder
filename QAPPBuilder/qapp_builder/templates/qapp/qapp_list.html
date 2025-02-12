@@ -34,7 +34,7 @@
 
   {% if user.is_authenticated %}
   <div class="grid-row mb-2">
-    <button class="grid-col usa-button" onclick="window.location.href='/create'">
+    <button class="grid-col usa-button" onclick="window.location.href='{% url 'qapp_create' %}'">
       Create a new QAPP
     </button>
   </div>

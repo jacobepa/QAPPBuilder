@@ -2,7 +2,7 @@ from django.db import models
 from django.utils.safestring import mark_safe
 
 
-class EpaTemplateModel(models.Model):
+class EpaBaseModel(models.Model):
   """Abstract class to be inherited by all EPA/QAPP Models."""
 
   def render_details(self):
@@ -12,13 +12,13 @@ class EpaTemplateModel(models.Model):
     abstract = True
 
 
-class Definition(EpaTemplateModel):
+class Definition(EpaBaseModel):
   """Represents a Definition for an Acronym, Abbreviation, or Term"""
   acronym_abbrev = models.TextField(blank=False, null=False)
   definition = models.TextField(blank=False, null=False)
 
 
-class VersionControl(EpaTemplateModel):
+class VersionControl(EpaBaseModel):
   """Represents a row in the version control table"""
   qapp_id = models.TextField(blank=False, null=False)
   updated_on = models.DateField(blank=False, null=False)
@@ -26,7 +26,7 @@ class VersionControl(EpaTemplateModel):
   description = models.TextField(blank=False, null=False)
 
 
-class Participant(EpaTemplateModel):
+class Participant(EpaBaseModel):
   """Represents an entry in the distribution list"""
 
   name_and_org = models.TextField()
@@ -35,7 +35,7 @@ class Participant(EpaTemplateModel):
   responsibilities = models.TextField()
 
 
-class QappDocument(EpaTemplateModel):
+class QappDocument(EpaBaseModel):
   """
   Represents a Document or Record. SectionA12 will contain a table
   (i.e. many-to-many relationship) of documents/records.

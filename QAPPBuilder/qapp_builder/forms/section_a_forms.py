@@ -1,14 +1,18 @@
-# from django import forms
+from django import forms
 from django.contrib.admin.widgets import FilteredSelectMultiple
 from qapp_builder.models import SectionA1, SectionA2, VersionControl, Definition
-from .utility_forms import EpaTemplateForm
+from .utility_forms import EpaBaseForm
 
 
-class SectionA1Form(EpaTemplateForm):
+class SectionA1Form(EpaBaseForm):
+  """Form for Section A1. Contains special inputs Versions and Definitions."""
+
   class Meta:
     model = SectionA1
-    fields = '__all__'
+    exclude = ['section_a', 'qapp']
     widgets = {
+      'version_date': forms.DateInput(
+        format='%m/%d/%Y', attrs={'type': 'date', 'class': 'usa-input'}),
       'versions': FilteredSelectMultiple("Versions", is_stacked=False),
       'definitions': FilteredSelectMultiple("Definitions", is_stacked=False),
     }
@@ -19,7 +23,9 @@ class SectionA1Form(EpaTemplateForm):
     self.fields['definitions'].queryset = Definition.objects.all()
 
 
-class SectionA2Form(EpaTemplateForm):
+class SectionA2Form(EpaBaseForm):
+  """Form for Section A2."""
+
   class Meta:
     model = SectionA2
-    fields = '__all__'
+    exclude = ['section_a', 'qapp']

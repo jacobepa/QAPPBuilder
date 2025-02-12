@@ -33,10 +33,10 @@ def assign_epa_css(self_form):
       field.widget.attrs['class'] = 'usa-select'
 
 
-class EpaTemplateForm(forms.ModelForm):
+class EpaBaseForm(forms.ModelForm):
 
   def __init__(self, *args, **kwargs):
-    super(EpaTemplateForm, self).__init__(*args, **kwargs)
+    super(EpaBaseForm, self).__init__(*args, **kwargs)
     assign_epa_css(self)
 
   def as_epa(self):
