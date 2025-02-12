@@ -1,10 +1,10 @@
 from django.contrib.auth.models import User
 from django.db import models
 from teams.models import Team
-from .utility_models import render_model_details
+from .utility_models import EpaTemplateModel
 
 
-class Qapp(models.Model):
+class Qapp(EpaTemplateModel):
 
   title = models.TextField(blank=False, null=False)
   created_by = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -12,11 +12,8 @@ class Qapp(models.Model):
   updated_on = models.DateTimeField(auto_now=True)
   teams = models.ManyToManyField(Team, through='QappSharingTeamMap')
 
-  def render_details(self):
-    return render_model_details(self)
 
-
-class QappSharingTeamMap(models.Model):
+class QappSharingTeamMap(EpaTemplateModel):
   """Mapping between QAPP and Teams they share."""
 
   added_date = models.DateTimeField(
