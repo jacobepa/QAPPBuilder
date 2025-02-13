@@ -29,7 +29,7 @@ class SectionA1(EpaBaseModel):
   developing_org_name = models.TextField(blank=False, null=False)
   applicability_period = models.TextField(blank=False, null=False)
   # Allow many to many for version control info
-  versions = models.ManyToManyField(VersionControl)
+  versions = models.ManyToManyField(VersionControl, blank=True)
   # TODO: This should probably be selector with option to add new?
   doc_control_identifier = models.TextField(blank=False, null=False)
   # ###########################################################################
@@ -57,7 +57,7 @@ class SectionA1(EpaBaseModel):
   # ---------------------------------
   ord_qa_cat = models.TextField(blank=True, null=True)
   ord_program = models.TextField(blank=True, null=True)
-  definitions = models.ManyToManyField(Definition)
+  definitions = models.ManyToManyField(Definition, blank=True)
   # ###########################################################################
 
   def save(self, *args, **kwargs):
@@ -168,7 +168,7 @@ class SectionA7(EpaBaseModel):
 
   distributor = models.TextField()
   # recipients = models.TextField()
-  distribution_list = models.ManyToManyField(Participant)
+  distribution_list = models.ManyToManyField(Participant, blank=True)
 
 
 class SectionA8(EpaBaseModel):
@@ -237,7 +237,7 @@ class SectionA12(EpaBaseModel):
     SectionA, on_delete=models.CASCADE, related_name='section_a12')
 
   # TODO: Check format of documents and records
-  docs_records = models.ManyToManyField(QappDocument)
+  docs_records = models.ManyToManyField(QappDocument, blank=True)
   requirements = models.TextField()
   record_sched = models.TextField()
 
