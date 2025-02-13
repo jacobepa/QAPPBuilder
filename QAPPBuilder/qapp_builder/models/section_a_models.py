@@ -81,7 +81,7 @@ class SectionA2(EpaBaseModel):
     SectionA, on_delete=models.CASCADE, related_name='section_a2')
 
   # Required for all organizations (EPA and Non-EPA)
-  epa_op_man = models.TextField(blank=False, null=False)
+  epa_op_man = models.TextField("Test", blank=False, null=False)
   epa_qam = models.TextField(blank=False, null=False)
 
   # Required for non-EPA organizations
