@@ -19,7 +19,7 @@ class Definition(EpaBaseModel):
 
 
 class VersionControl(EpaBaseModel):
-  """Represents a row in the version control table"""
+  """Represents a row in the version control table (TODO what section?)"""
   qapp_id = models.TextField(blank=False, null=False)
   updated_on = models.DateField(blank=False, null=False)
   authors = models.TextField(blank=False, null=False)
@@ -27,7 +27,7 @@ class VersionControl(EpaBaseModel):
 
 
 class Participant(EpaBaseModel):
-  """Represents an entry in the distribution list"""
+  """Represents an entry in the distribution list (TODO what section?)"""
 
   name_and_org = models.TextField()
   email = models.TextField()

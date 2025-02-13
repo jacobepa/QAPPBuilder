@@ -42,7 +42,6 @@ class SectionA1Detail(LoginRequiredMixin, DetailView):
 
   def get(self, request, *args, **kwargs):
     self.object = self.get_object()
-    print(self.object)
     if self.object is None:
       return HttpResponseRedirect(reverse('sectiona1_create', kwargs=kwargs))
     return super().get(request, *args, **kwargs)
