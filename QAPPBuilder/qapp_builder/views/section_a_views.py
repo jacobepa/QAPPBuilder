@@ -2,8 +2,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.views.generic.edit import CreateView, UpdateView
-from django.views.generic import DetailView
-from qapp_builder.models import SectionA1, SectionA2, SectionA, Qapp
+from django.views.generic import DetailView, TemplateView
+from qapp_builder.models import SectionA1, SectionA2, SectionA4, SectionA, Qapp
 import qapp_builder.forms.section_a_forms as forms
 
 
@@ -53,7 +53,7 @@ class SectionA2Create(LoginRequiredMixin, CreateView):
   template_name = 'qapp/sectiona/a2_form.html'
 
   def get_success_url(self):
-    return reverse('sectiona3_create', kwargs={'pk': self.kwargs['pk']})
+    return reverse('sectiona5_create', kwargs={'pk': self.kwargs['pk']})
 
   def form_valid(self, form):
     qapp = Qapp.objects.get(pk=self.kwargs['pk'])
@@ -90,3 +90,55 @@ class SectionA2Detail(LoginRequiredMixin, DetailView):
     if self.object is None:
       return reverse('sectiona2_create', kwargs={'pk': self.kwargs['pk']})
     return super().get(request, *args, **kwargs)
+
+
+class SectionA3Page(LoginRequiredMixin, TemplateView):
+  """Class to return the first page of the Existing Data flow."""
+
+  template_name = 'qapp/sectiona/a3.html'
+
+
+class SectionA4Create(LoginRequiredMixin, CreateView):
+  model = SectionA4
+  form_class = forms.SectionA2Form
+  template_name = 'qapp/sectiona/a4_form.html'
+
+  def get_success_url(self):
+    return reverse('sectiona3_page', kwargs={'pk': self.kwargs['pk']})
+
+  def form_valid(self, form):
+    qapp = Qapp.objects.get(pk=self.kwargs['pk'])
+    section_a = SectionA.objects.get(qapp=qapp)
+    form.instance.section_a = section_a
+    self.object = form.save()
+    return super().form_valid(form)
+
+
+class SectionA4Update(LoginRequiredMixin, UpdateView):
+  model = SectionA4
+  form_class = forms.SectionA4Form
+  template_name = 'qapp/sectiona/a4_form.html'
+
+  def get_success_url(self):
+    return reverse('sectiona3_update', kwargs={'pk': self.kwargs['pk']})
+
+
+class SectionA4Detail(LoginRequiredMixin, DetailView):
+  model = SectionA4
+  template_name = 'qapp/sectiona/a4_detail.html'
+  context_object_name = 'section_a4'
+
+  def get_object(self, queryset=None):
+    try:
+      qapp = Qapp.objects.get(pk=self.kwargs['pk'])
+      section_a4 = SectionA4.objects.get(section_a__qapp=qapp)
+      return section_a4
+    except SectionA4.DoesNotExist:
+      return None
+
+  def get(self, request, *args, **kwargs):
+    self.object = self.get_object()
+    if self.object is None:
+      return reverse('sectiona4_create', kwargs={'pk': self.kwargs['pk']})
+    return super().get(request, *args, **kwargs)
+
