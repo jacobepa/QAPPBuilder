@@ -18,14 +18,6 @@ class Definition(EpaBaseModel):
   definition = models.TextField(blank=False, null=False)
 
 
-class VersionControl(EpaBaseModel):
-  """Represents a row in the version control table (TODO what section?)"""
-  qapp_id = models.TextField(blank=False, null=False)
-  updated_on = models.DateField(blank=False, null=False)
-  authors = models.TextField(blank=False, null=False)
-  description = models.TextField(blank=False, null=False)
-
-
 class Participant(EpaBaseModel):
   """Represents an entry in the distribution list (TODO what section?)"""
 

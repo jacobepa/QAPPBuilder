@@ -11,6 +11,8 @@ def as_epa(self_form):
   """
   output = []
   for field in self_form:
+    if field.is_hidden:
+      continue  # Skip hidden fields
     output.append(render_field(self_form, field))
   return mark_safe('\n'.join(output))
 

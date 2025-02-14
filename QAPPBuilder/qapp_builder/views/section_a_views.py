@@ -1,5 +1,6 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
+from django.shortcuts import redirect
 from django.urls import reverse
 from django.views.generic.edit import CreateView, UpdateView
 from django.views.generic import DetailView
@@ -8,25 +9,63 @@ import qapp_builder.forms.section_a_forms as forms
 
 
 class SectionA1Create(LoginRequiredMixin, CreateView):
+
   model = SectionA1
   form_class = forms.SectionA1Form
   template_name = 'qapp/sectiona/a1_form.html'
 
-  def get_success_url(self):
-    return reverse('sectiona2_create', kwargs={'pk': self.kwargs['pk']})
+  def get_context_data(self, **kwargs):
+    data = super().get_context_data(**kwargs)
+    if self.request.POST:
+      data['version_formset'] = forms.VersionControlFormSet(self.request.POST)
+    else:
+      data['version_formset'] = forms.VersionControlFormSet()
+    return data
 
   def form_valid(self, form):
     qapp = Qapp.objects.get(pk=self.kwargs['pk'])
     section_a, created = SectionA.objects.get_or_create(qapp=qapp)
     form.instance.section_a = section_a
-    self.object = form.save()
-    return super().form_valid(form)
+    context = self.get_context_data()
+    version_formset = context['version_formset']
+    if form.is_valid() and version_formset.is_valid():
+      self.object = form.save()
+      version_formset.instance = self.object
+      version_formset.save()
+      return redirect(self.get_success_url())
+    else:
+      return self.render_to_response(self.get_context_data(form=form))
+
+  def get_success_url(self):
+    return reverse('sectiona2_create', kwargs={'pk': self.kwargs['pk']})
 
 
 class SectionA1Update(LoginRequiredMixin, UpdateView):
+
   model = SectionA1
   form_class = forms.SectionA1Form
   template_name = 'qapp/sectiona/a1_form.html'
+
+  def get_context_data(self, **kwargs):
+    data = super().get_context_data(**kwargs)
+    if self.request.POST:
+      data['version_formset'] = forms.VersionControlFormSet(
+        self.request.POST, instance=self.object)
+    else:
+      data['version_formset'] = forms.VersionControlFormSet(
+        instance=self.object)
+    return data
+
+  def form_valid(self, form):
+    context = self.get_context_data()
+    version_formset = context['version_formset']
+    if form.is_valid() and version_formset.is_valid():
+      self.object = form.save()
+      version_formset.instance = self.object
+      version_formset.save()
+      return redirect(self.get_success_url())
+    else:
+      return self.render_to_response(self.get_context_data(form=form))
 
   def get_success_url(self):
     return reverse('sectiona2_update', kwargs={'pk': self.kwargs['pk']})

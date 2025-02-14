@@ -1,8 +1,6 @@
 from django.db import models
 from .qapp_models import Qapp
-from .utility_models import (
-  VersionControl, Definition, Participant, QappDocument, EpaBaseModel
-)
+from .utility_models import Definition, Participant, QappDocument, EpaBaseModel
 
 
 class SectionA(EpaBaseModel):
@@ -28,8 +26,11 @@ class SectionA1(EpaBaseModel):
   # Name of the org that developed the QAPP (if different from conducting)
   developing_org_name = models.TextField(blank=False, null=False)
   applicability_period = models.TextField(blank=False, null=False)
+
   # Allow many to many for version control info
-  versions = models.ManyToManyField(VersionControl, blank=True)
+  # NO: Updating to have a one-to-many relationship... FK is in VersionControl
+  # versions = models.ManyToManyField(VersionControl, blank=True)
+
   # TODO: This should probably be selector with option to add new?
   doc_control_identifier = models.TextField(blank=False, null=False)
   # ###########################################################################
@@ -64,6 +65,15 @@ class SectionA1(EpaBaseModel):
     if not self.section_a_id:
       self.section_a = SectionA.objects.create(qapp=self.qapp)
     super(SectionA1, self).save(*args, **kwargs)
+
+
+class VersionControl(EpaBaseModel):
+  """Represents a row in the version control table (TODO what section?)"""
+  section_a1 = models.ForeignKey(SectionA1, on_delete=models.CASCADE)
+  qapp_id = models.TextField(blank=False, null=False)
+  updated_on = models.DateField(blank=False, null=False)
+  authors = models.TextField(blank=False, null=False)
+  description = models.TextField(blank=False, null=False)
 
 
 class SectionA2(EpaBaseModel):

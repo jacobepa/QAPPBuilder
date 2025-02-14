@@ -6,6 +6,33 @@
     {% csrf_token %}
     {{ form.media }}
     {{ form.as_epa }}
-    <button type="submit">Save</button>
+    <h4>Version Control</h4>
+    {{ version_formset.management_form }}
+    {% for v_form in version_formset %}
+      {{ v_form.as_epa }}
+    {% endfor %}
+    {% include 'edit_buttons_partial.html' %}
   </form>
+
+  <h3>Previous Versions</h3>
+  <table class="usa-table">
+    <thead>
+      <th>Updated On</th>
+      <th>Authors</th>
+      <th>Description</th>
+    </thead>
+    <tbody>
+      {% if object.versions.all %}
+      {% for version in object.versions.all %}
+        <tr>
+          <td>{{ version.updated_on }}</td>
+          <td>{{ version.authors }}</td>
+          <td>{{ version.description }}</td>
+        </tr>
+      {% endfor %}
+      {% else %}
+      <tr><td colspan="3">No previous versions...</td></tr>
+      {% endif %}
+    </tbody>
+  </table>
 {% endblock %}
