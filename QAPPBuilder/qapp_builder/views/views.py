@@ -136,6 +136,21 @@ def get_qar5_for_team(team_id, qapp_id=None):
   return Qapp.objects.filter(id__in=include_qapps)
 
 
+# NOTE: Not sure how to get this working, so commenting out for now.
+#       This is more of an optimization design anyway, so not necessary.
+# class EpaNavAbstractView():
+
+#   def get_context_data(self):
+#     context = {}
+#     # Add custom context here
+#     context['title'] = self.title
+#     context['edit_url'] = self.edit_url
+#     # TODO: Figure out where this request came from originally (user or team)
+#     context['previous_url'] = self.previous_url
+#     context['next_url'] = self.next_url
+#     return context
+
+
 class QappCreateView(LoginRequiredMixin, CreateView):
   model = Qapp
   form_class = QappForm
@@ -194,7 +209,6 @@ class QappDetail(LoginRequiredMixin, DetailView):
 
   def get_context_data(self, **kwargs):
     context = super().get_context_data(**kwargs)
-    # Add custom context here
     context['title'] = self.object.title
     context['edit_url'] = f'/qapp/{self.object.id}/edit/'
     # TODO: Figure out where this request came from originally (user or team)

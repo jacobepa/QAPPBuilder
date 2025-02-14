@@ -4,7 +4,8 @@ from django.shortcuts import redirect
 from django.urls import reverse
 from django.views.generic.edit import CreateView, UpdateView
 from django.views.generic import DetailView
-from qapp_builder.models import SectionA1, SectionA2, SectionA, Qapp
+from qapp_builder.models import SectionA1, SectionA2, SectionA, Qapp, \
+  VersionControl
 import qapp_builder.forms.section_a_forms as forms
 
 
@@ -15,23 +16,33 @@ class SectionA1Create(LoginRequiredMixin, CreateView):
   template_name = 'qapp/sectiona/a1_form.html'
 
   def get_context_data(self, **kwargs):
-    data = super().get_context_data(**kwargs)
+    context = super().get_context_data(**kwargs)
+    context['previous_url'] = reverse('qapp_detail', kwargs=self.kwargs)
     if self.request.POST:
-      data['version_formset'] = forms.VersionControlFormSet(self.request.POST)
+      context['version_formset'] = forms.VersionControlFormSet(
+        self.request.POST)
     else:
-      data['version_formset'] = forms.VersionControlFormSet()
-    return data
+      context['version_formset'] = forms.VersionControlFormSet()
+    return context
 
   def form_valid(self, form):
     qapp = Qapp.objects.get(pk=self.kwargs['pk'])
+    # Get corresponding section A or create if it doesn't exist yet.
     section_a, created = SectionA.objects.get_or_create(qapp=qapp)
     form.instance.section_a = section_a
     context = self.get_context_data()
+    # Get the version control formset
     version_formset = context['version_formset']
+    # Check that the SectionA1 and VersionControl forms are valid
     if form.is_valid() and version_formset.is_valid():
       self.object = form.save()
       version_formset.instance = self.object
       version_formset.save()
+      for version in version_formset:
+        if version.is_valid():
+          version.instance.qapp_id = qapp.id
+          version.instance.section_a1 = self.object
+          version.save()
       return redirect(self.get_success_url())
     else:
       return self.render_to_response(self.get_context_data(form=form))
@@ -47,14 +58,15 @@ class SectionA1Update(LoginRequiredMixin, UpdateView):
   template_name = 'qapp/sectiona/a1_form.html'
 
   def get_context_data(self, **kwargs):
-    data = super().get_context_data(**kwargs)
+    context = super().get_context_data(**kwargs)
+    context['previous_url'] = reverse('update_qapp', kwargs=self.kwargs)
     if self.request.POST:
-      data['version_formset'] = forms.VersionControlFormSet(
+      context['version_formset'] = forms.VersionControlFormSet(
         self.request.POST, instance=self.object)
     else:
-      data['version_formset'] = forms.VersionControlFormSet(
+      context['version_formset'] = forms.VersionControlFormSet(
         instance=self.object)
-    return data
+    return context
 
   def form_valid(self, form):
     context = self.get_context_data()
@@ -77,13 +89,25 @@ class SectionA1Detail(LoginRequiredMixin, DetailView):
 
   def get_object(self, queryset=None):
     qapp_id = self.kwargs['pk']
-    return SectionA1.objects.filter(section_a__qapp_id=qapp_id).first() or None
+    obj = SectionA1.objects.filter(section_a__qapp_id=qapp_id).first() or None
+    if obj:
+      obj.versions = VersionControl.objects.filter(qapp_id=qapp_id)
+    return obj
 
-  def get(self, request, *args, **kwargs):
+  def get(self, request, *args, **kwargs):d
     self.object = self.get_object()
     if self.object is None:
       return HttpResponseRedirect(reverse('sectiona1_create', kwargs=kwargs))
     return super().get(request, *args, **kwargs)
+
+  def get_context_data(self, **kwargs):
+    context = super().get_context_data(**kwargs)
+    # context['title'] = self.object.title
+    pk_kwarg = {'pk': self.kwargs['pk']}
+    context['edit_url'] = reverse('sectiona1_update', kwargs=pk_kwarg)
+    context['previous_url'] = reverse('qapp_detail', kwargs=pk_kwarg)
+    context['next_url'] = reverse('sectiona2_detail', kwargs=pk_kwarg)
+    return context
 
 
 class SectionA2Create(LoginRequiredMixin, CreateView):
@@ -129,3 +153,11 @@ class SectionA2Detail(LoginRequiredMixin, DetailView):
     if self.object is None:
       return reverse('sectiona2_create', kwargs={'pk': self.kwargs['pk']})
     return super().get(request, *args, **kwargs)
+
+  def get_context_data(self, **kwargs):
+    context = super().get_context_data(**kwargs)
+    # context['title'] = self.object.title
+    context['edit_url'] = reverse()  # TODO
+    context['previous_url'] = reverse()  # TODO
+    context['next_url'] = reverse()  # TODO
+    return context

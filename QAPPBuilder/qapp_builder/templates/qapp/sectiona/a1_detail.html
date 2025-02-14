@@ -1,20 +1,11 @@
 {% extends 'main/base.html' %}
 
 {% block content %}
-  <h2>{{ view.title }}</h2>
-  <form method="post">
-    {% csrf_token %}
-    {{ form.media }}
-    {{ form.as_epa }}
-    <h4>Version Control</h4>
-    {{ version_formset.management_form }}
-    {% for v_form in version_formset %}
-      {{ v_form.as_epa }}
-    {% endfor %}
-    {% include 'create_buttons_partial.html' %}
-  </form>
+  <h2>{{ title }}</h2>
 
-  <h3>Previous Versions</h3>
+  {{ object.render_details }}
+
+  <h3>Version Control</h3>
   <table class="usa-table">
     <thead>
       <th>Updated On</th>
@@ -22,8 +13,8 @@
       <th>Description</th>
     </thead>
     <tbody>
-      {% if object.versions.all %}
-      {% for version in object.versions.all %}
+      {% if object.versions %}
+      {% for version in object.versions %}
         <tr>
           <td>{{ version.updated_on }}</td>
           <td>{{ version.authors }}</td>
@@ -35,4 +26,5 @@
       {% endif %}
     </tbody>
   </table>
+  {% include 'detail_buttons_partial.html' %}
 {% endblock %}

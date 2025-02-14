@@ -71,7 +71,7 @@ class VersionControl(EpaBaseModel):
   """Represents a row in the version control table (TODO what section?)"""
   section_a1 = models.ForeignKey(SectionA1, on_delete=models.CASCADE)
   qapp_id = models.TextField(blank=False, null=False)
-  updated_on = models.DateField(blank=False, null=False)
+  updated_on = models.DateField(auto_now_add=True)
   authors = models.TextField(blank=False, null=False)
   description = models.TextField(blank=False, null=False)
 

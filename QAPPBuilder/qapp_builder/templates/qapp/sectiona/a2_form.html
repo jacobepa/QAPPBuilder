@@ -5,6 +5,6 @@
   <form method="post">
     {% csrf_token %}
     {{ form.as_epa }}
-    <button type="submit">Save</button>
+    {% include 'create_buttons_partial.html' %}
   </form>
 {% endblock %}

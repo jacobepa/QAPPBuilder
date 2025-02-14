@@ -12,6 +12,10 @@ class SectionA1Form(EpaBaseForm):
     widgets = {
       'version_date': forms.DateInput(
         format='%m/%d/%Y', attrs={'type': 'date', 'class': 'usa-input'}),
+      'mou_date': forms.DateInput(
+        format='%m/%d/%Y', attrs={'type': 'date', 'class': 'usa-input'}),
+      'enf_legal_date': forms.DateInput(
+        format='%m/%d/%Y', attrs={'type': 'date', 'class': 'usa-input'}),
       'definitions': FilteredSelectMultiple("Definitions", is_stacked=False),
     }
 
@@ -24,7 +28,6 @@ class VersionControlForm(EpaBaseForm):
 
   class Meta:
     model = VersionControl
-    # fields = ['authors', 'description']
     exclude = ['qapp_id', 'updated_on', 'section_a']
 
 
