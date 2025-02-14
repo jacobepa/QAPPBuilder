@@ -156,6 +156,11 @@ class QappCreateView(LoginRequiredMixin, CreateView):
   form_class = QappForm
   template_name = 'qapp/qapp_form.html'
 
+  def get_context_data(self, **kwargs):
+    context = super().get_context_data(**kwargs)
+    context['previous_url'] = f'/qapp/list/user/{self.request.user.id}/'
+    return context
+
   def form_valid(self, form):
     form.instance.created_by = self.request.user  # Auto-fill created_by
     self.object = form.save()

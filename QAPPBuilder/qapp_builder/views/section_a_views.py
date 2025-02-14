@@ -57,15 +57,23 @@ class SectionA1Update(LoginRequiredMixin, UpdateView):
   form_class = forms.SectionA1Form
   template_name = 'qapp/sectiona/a1_form.html'
 
+  def get_object(self, queryset=None):
+    qapp_id = self.kwargs['pk']
+    obj = SectionA1.objects.filter(section_a__qapp_id=qapp_id).first() or None
+    if obj:
+      obj.versions = VersionControl.objects.filter(qapp_id=qapp_id)
+    return obj
+
   def get_context_data(self, **kwargs):
     context = super().get_context_data(**kwargs)
-    context['previous_url'] = reverse('update_qapp', kwargs=self.kwargs)
+    context['previous_url'] = reverse('sectiona1_detail', kwargs=self.kwargs)
     if self.request.POST:
       context['version_formset'] = forms.VersionControlFormSet(
-        self.request.POST, instance=self.object)
+        self.request.POST, instance=self.object,
+        queryset=VersionControl.objects.none())
     else:
       context['version_formset'] = forms.VersionControlFormSet(
-        instance=self.object)
+        instance=self.object, queryset=VersionControl.objects.none())
     return context
 
   def form_valid(self, form):
@@ -94,7 +102,7 @@ class SectionA1Detail(LoginRequiredMixin, DetailView):
       obj.versions = VersionControl.objects.filter(qapp_id=qapp_id)
     return obj
 
-  def get(self, request, *args, **kwargs):d
+  def get(self, request, *args, **kwargs):
     self.object = self.get_object()
     if self.object is None:
       return HttpResponseRedirect(reverse('sectiona1_create', kwargs=kwargs))

@@ -11,11 +11,11 @@ class SectionA1Form(EpaBaseForm):
     exclude = ['section_a', 'qapp']
     widgets = {
       'version_date': forms.DateInput(
-        format='%m/%d/%Y', attrs={'type': 'date', 'class': 'usa-input'}),
+        format='%Y-%m-%d', attrs={'type': 'date', 'class': 'usa-input'}),
       'mou_date': forms.DateInput(
-        format='%m/%d/%Y', attrs={'type': 'date', 'class': 'usa-input'}),
+        format='%Y-%m-%d', attrs={'type': 'date', 'class': 'usa-input'}),
       'enf_legal_date': forms.DateInput(
-        format='%m/%d/%Y', attrs={'type': 'date', 'class': 'usa-input'}),
+        format='%Y-%m-%d', attrs={'type': 'date', 'class': 'usa-input'}),
       'definitions': FilteredSelectMultiple("Definitions", is_stacked=False),
     }
 
