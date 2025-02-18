@@ -26,11 +26,16 @@ class EquipmentSection(EpaBaseModel):
 
 
 class FieldLabSection(EpaBaseModel):
+  """
+  Abstract class containing fields that belong to both Field Activities
+  and Laboratory Activities. This class will be inherited by those respective
+  models.
+  """
 
-  # B4.Field/LabActivities (not Env Tech?)
+  # B4.Field/LabActivities
   field_lab_qc_desc = models.TextField()
   # B6: Inspection/Acceptance of Supplies and Services
-  # Lab and Field Supplies -- MOVED TO LAB/FIELD ABSTRACT CLASS
+  # Lab and Field Supplies
   supply_personnel = models.TextField()
   supplies_to_inspect = models.TextField()
   inspection_procedures = models.TextField()
@@ -163,44 +168,203 @@ class LaboratoryActivity(FieldLabSection):
 
 
 class MeasurementMonitoring(EpaBaseModel):
-  """Section B: Measurement and Monitoring specific inputs."""
+  """
+  Section B: Measurement and Monitoring specific inputs.
+
+  2.A Measurement and Monitoring (Field/Lab) Requirements for Section 2
+  of the ORD Discipline Specific QAPP Template
+  """
 
   section_b = models.ForeignKey(SectionB, on_delete=models.CASCADE)
-
-
-class EnvironmentalTechnology(EpaBaseModel):
-  """Section B: Environmental Technology specific inputs."""
-
-  section_b = models.ForeignKey(SectionB, on_delete=models.CASCADE)
-
-
-class ExistingData(EpaBaseModel):
-  """Section B: Existing Data specific inputs."""
-
-  section_b = models.ForeignKey(SectionB, on_delete=models.CASCADE)
-  # TODO: Table B-4. Existing Data for Addressing Research
-  #                  Questions & Data Limitations
-
-
-class ModelApplicationEvaluation(EpaBaseModel):
-  """Section B: Model Application and Evaluation specific inputs."""
-
-  section_b = models.ForeignKey(SectionB, on_delete=models.CASCADE)
-
-
-class CodeBasedModeling(EpaBaseModel):
-  """Section B: Code-Based Modeling specific inputs."""
-
-  section_b = models.ForeignKey(SectionB, on_delete=models.CASCADE)
-
-
-class SoftwareApplicationDevelopment(EpaBaseModel):
-  """Section B: Software and Application Development specific inputs."""
-
-  section_b = models.ForeignKey(SectionB, on_delete=models.CASCADE)
+  # ###########################################################################
+  # 2.A.1 Experimental Process
+  # ----- All Measurement and Monitoring Activities
+  exp_process_1 = models.TextField()
+  exp_process_2 = models.TextField()
+  exp_process_3 = models.TextField()
+  # ----- Analytical Method Development
+  analytical_method_1 = models.TextField()
+  analytical_method_2 = models.TextField()
+  analytical_method_3 = models.TextField()
+  analytical_method_4 = models.TextField()
+  # ----- Use of Animals
+  animals_1 = models.TextField()
+  animals_2 = models.TextField()
+  animals_3 = models.TextField()
+  # ----- Cell Culture
+  cell_1 = models.TextField()
+  cell_2 = models.TextField()
+  # ---------------------------------------------------------------------------
+  # 2.A.2 Sample Collection and Management
+  samples_1 = models.TextField()
+  samples_2 = models.TextField()
+  samples_3 = models.TextField()
+  samples_4 = models.TextField()
+  samples_5 = models.TextField()
+  samples_6 = models.TextField()
+  samples_7 = models.TextField()
+  # ---------------------------------------------------------------------------
+  # 2.A.3 Experimental Procedures
+  exp_procedure_1 = models.TextField()
+  exp_procedure_2 = models.TextField()
+  exp_procedure_3 = models.TextField()
+  exp_procedure_4 = models.TextField()
+  # ---------------------------------------------------------------------------
+  # 2.A.4 Quality Control
+  # ----- All Measurement and Monitoring Activities
+  qc_mm_1 = models.TextField()
+  qc_mm_2 = models.TextField()
+  qc_mm_3 = models.TextField()
+  qc_mm_4 = models.TextField()
+  qc_mm_5 = models.TextField()
+  qc_mm_6 = models.TextField()
+  qc_mm_7 = models.TextField()
+  # ----- Analytical Method Development
+  qc_analyt_1 = models.TextField()
+  # ---------------------------------------------------------------------------
+  # 2.A.5 Data Review
+  data_review_1 = models.TextField()
+  data_review_2 = models.TextField()
+  data_review_3 = models.TextField()
+  data_review_4 = models.TextField()
+  data_review_5 = models.TextField()
+  data_review_6 = models.TextField()
+  # ---------------------------------------------------------------------------
+  # 2.A.6 Data Processing
+  data_processing_1 = models.TextField()
+  data_processing_2 = models.TextField()
+  data_processing_3 = models.TextField()
+  data_processing_4 = models.TextField()
+  data_processing_5 = models.TextField()
+  # ---------------------------------------------------------------------------
+  # 2.A.7 Data Usability
+  data_usability_1 = models.TextField()
+  data_usability_2 = models.TextField()
+  data_usability_3 = models.TextField()
+  # ---------------------------------------------------------------------------
 
 
 class SocialSciences(EpaBaseModel):
-  """Section B: Social Sciences specific inputs."""
+  """
+  Section B: Social Sciences specific inputs.
+
+  2.B Social Sciences (SS) for Section 2 of the ORD Discipline Specific QAPP
+  Template
+  """
+  section_b = models.ForeignKey(SectionB, on_delete=models.CASCADE)
+  # ###########################################################################
+  # 2.B.1 Social Study Design
+  # ---------------------------------------------------------------------------
+  # 2.B.2 Social Sciences Data Collection Methods
+  # ---------------------------------------------------------------------------
+  # 2.B.3 Social Sciences Data Integrity
+  # ---------------------------------------------------------------------------
+  # 2.B.4 Social Sciences Data Analysis
+  # ---------------------------------------------------------------------------
+
+
+class ExistingData(EpaBaseModel):
+  """
+  Section B: Existing Data specific inputs.
+
+  2.C Existing Data (ED) for Section 2 of the ORD Discipline Specific QAPP
+  Template
+  """
 
   section_b = models.ForeignKey(SectionB, on_delete=models.CASCADE)
+  # ###########################################################################
+  # 2.C.1 Methods of Environmental Information
+  # ---------------------------------------------------------------------------
+  # 2.C.2 Environmental Information Quality Control
+  # ---------------------------------------------------------------------------
+  # 2.C.3 Environmental Information Review
+  # ---------------------------------------------------------------------------
+  # 2.C.4 Useability Determination
+  # ---------------------------------------------------------------------------
+  # TODO: Table B-4. Existing Data for Addressing Research
+  #                  Questions & Data Limitations
+  # ---------------------------------------------------------------------------
+
+
+class CodeBasedModeling(EpaBaseModel):
+  """
+  Section B: Code-Based Modeling specific inputs.
+
+  2.D Code-Based Modeling (CBM) for Section 2 of the ORD Discipline Specific
+  QAPP Template
+  """
+
+  section_b = models.ForeignKey(SectionB, on_delete=models.CASCADE)
+  # ###########################################################################
+  # 2.D.1 Requirements and Design
+  # ---------------------------------------------------------------------------
+  # 2.D.2 Coding Processes
+  # ---------------------------------------------------------------------------
+  # 2.D.3 Tool Validation
+  # ---------------------------------------------------------------------------
+  # 2.D.4 Outputs and Results
+  # ---------------------------------------------------------------------------
+
+
+class ModelApplicationEvaluation(EpaBaseModel):
+  """
+  Section B: Model Application and Evaluation specific inputs.
+
+  2.E Model Application and Evaluation (MAE) for Section 2 of the ORD Discipline
+  Specific QAPP Template
+  """
+
+  section_b = models.ForeignKey(SectionB, on_delete=models.CASCADE)
+  # ###########################################################################
+  # 2.E.1 Model Specifications
+  # ---------------------------------------------------------------------------
+  # 2.E.2 Environmental Information Selection and Verification (Input Data)
+  # ---------------------------------------------------------------------------
+  # 2.E.3 Model Performance Assessment and Validation (Output Data)
+  # ---------------------------------------------------------------------------
+  # 2.E.4 Interpretation of Results
+  # ---------------------------------------------------------------------------
+
+
+class SoftwareApplicationDevelopment(EpaBaseModel):
+  """
+  Section B: Software and Application Development specific inputs.
+
+  2.F Software and Application Development (SAD) for Section 2 of the ORD
+  Discipline Specific QAPP Template
+  """
+
+  section_b = models.ForeignKey(SectionB, on_delete=models.CASCADE)
+  # ###########################################################################
+  # 2.F.1 Application User Roles and Responsibilities
+  # ---------------------------------------------------------------------------
+  # 2.F.2 Requirements Collection
+  # ---------------------------------------------------------------------------
+  # 2.F.3 System Design
+  # ---------------------------------------------------------------------------
+  # 2.F.4 Coding and Implementation
+  # ---------------------------------------------------------------------------
+  # 2.F.5 Verification and Validation
+  # ---------------------------------------------------------------------------
+  # 2.F.6 Maintenance and User Support
+  # ---------------------------------------------------------------------------
+
+
+class EnvironmentalTechnology(EpaBaseModel):
+  """
+  Section B: Environmental Technology specific inputs.
+
+  2.G Environmental Technology (ET) for Section 2 of the ORD Discipline Specific
+  QAPP Template
+  """
+
+  section_b = models.ForeignKey(SectionB, on_delete=models.CASCADE)
+  # ###########################################################################
+  # 2.G.1 System Elements
+  # ---------------------------------------------------------------------------
+  # 2.G.2 Process Elements and Quality Criteria
+  # ---------------------------------------------------------------------------
+  # 2.G.3 System Operation, Maintenance, and Training
+  # ---------------------------------------------------------------------------
+  # 2.G.4 Demobilization of Environmental Technology Projects
+  # ---------------------------------------------------------------------------
