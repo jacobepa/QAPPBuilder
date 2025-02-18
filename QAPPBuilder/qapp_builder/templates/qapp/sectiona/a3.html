@@ -1,0 +1,11 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+  <h2>{{ view.title }}</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.media }}
+    {{ form.as_epa }}
+    <button type="submit">Save</button>
+  </form>
+{% endblock %}
