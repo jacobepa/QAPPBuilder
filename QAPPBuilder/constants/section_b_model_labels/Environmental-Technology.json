@@ -1,0 +1,21 @@
+{
+  "system_1": "Listing of inputs including drawings, reports, codes and standards, materials (including considerations for reuse, waste, recycle/recovery, conservation, substitution, and commercially available, etc.), hazard analysis, and failure mode and effects analysis (FMEA).",
+  "system_2": "Listing of documents that will provide design-input specifications that can be verified and validated against design criteria, address acceptance criteria, and identify characteristics of the design that are crucial to the safe and proper function of the technology and its components. Include system operation and maintenance specifications in each phase from planning, design, construction, start-up, operation, and shut down.",
+  "system_3": "Determine process for design change approval.",
+  "system_4": "Schedule design checkpoints that ensure the design team will meet schedule and budget while maintaining quality and safety. Note: Checkpoints should include team members from purchasing and procurement, fabrication and construction, and operations and maintenance to ensure lean and effective teamwork.",
+  "process_1": "Discuss site selection and development criteria.",
+  "process_2": "Discuss contractual and procurement process requirements and associated quality criteria.",
+  "process_3": "Discuss scheduling, tracking, and associated quality and safety criteria checkpoints.",
+  "process_4": "Discuss cost and material management processes and quality criteria.",
+  "process_5": "Discuss inspection, testing, control, and change management processes.",
+  "process_6": "Discuss the process for the certification of completion.",
+  "sysop_maint_train_1": "Discuss system operation and maintenance (O&M) and associated documentation to ensure quality, life-cycle costs, continuity of service, durability, public health and safety, environmental impact, and measurement of alliance with project objectives as a measurement of success.",
+  "sysop_maint_train_2": "Discuss O&M manual expectations and schedule for completion and associated training.",
+  "sysop_maint_train_3": "Discuss O&M considerations during planning.",
+  "sysop_maint_train_4": "Discuss O&M considerations during construction, fabrication, and installation.",
+  "sysop_maint_train_5": "Describe system start-up.",
+  "sysop_maint_train_6": "Describe normal and routine operation processes.",
+  "sysop_maint_train_7": "Describe inspection and testing routine and processes for identification and control of nonconforming items.",
+  "sysop_maint_train_8": "Describe handling, storage, packaging, preservation, and delivery of items.",
+  "demobilization": "Discuss the demobilization of Environmental Technology projects including the design and management of demobilization activities including system shutdown and removal or turnover of equipment and facilities."
+}

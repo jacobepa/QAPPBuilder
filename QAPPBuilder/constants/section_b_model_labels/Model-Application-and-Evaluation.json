@@ -1,0 +1,20 @@
+{
+  "model_specs_1": "If applicable, provide the vendor (i.e., Intel), name, and version of the compiler used.",
+  "model_specs_2": "For projects that involve model integration (e.g., embedding one model within another, tight coupling of two or more models, and/or sequentially linking models) or the use of different model algorithms, provide a written description of the relationships, interactions, or reference existing documentation that provides this information.",
+  "model_specs_3": "If applicable, document the process to estimate output uncertainty or reference existing modeling documentation.",
+  "ei_sel_verification_1": "Identify the sources and types of input data along with units of measurement.",
+  "ei_sel_verification_2": "Identify if data transformation is required (i.e., unit conversion), and specify the digital format (i.e., file type) required for application use.",
+  "ei_sel_verification_3": "Describe the procedures for identifying input data errors and the process(es) for handling outliers and missing data.",
+  "ei_sel_verification_4": "If applicable, identify and justify the selection of non-default model parameters.",
+  "model_performance_1": "Describe the procedures to review and assess the results of the modeling analysis, e.g., through comparisons of the model predictions against observed data collected in field or laboratory studies, output for other models, data from other known datasets, etc.",
+  "model_performance_2": "Describe how the model outputs are post-processed to provide data that can be validated and/or analyzed.",
+  "model_performance_3": "For example, is post-processing required so data can be used in a data analysis tool (i.e., SAS, R, Python, Excel, etc.), or to fit a certain format (i.e., unit or file conversions or data transformation) or for use in another model.",
+  "model_performance_4": "Describe the validation procedures to determine if the model output is appropriate. Examples include weighting functions, optimization of algorithms, etc.",
+  "model_performance_5": "Describe any procedures that will be used to assess whether the results meet the DQOs. States the statistical “goodness-of-fit” criteria for acceptance of the model output.",
+  "model_performance_6": "If applicable, describe and document the procedures used to perform model (output) parameter sensitivity analysis, and/or how the issues of outliers and/or excursions outside expected range values are addressed in the model output (analysis) runs.",
+  "model_performance_7": "If applicable, describe the procedures used to evaluate the impact of model parameter uncertainty on model (output) results and/or what level of uncertainty is acceptable for the model analysis.",
+  "model_performance_8": "If applicable, describe the procedures used to assess the impact of adjusting the values of model variables or spatial/temporal discretization on model results. Example: simulation fails or error alerts.",
+  "model_performance_9": "Describe the data transformations that are applied to the model output for the purpose of comparing to observations (e.g., to adjust for scaling, bias, location, time, etc.).",
+  "results_interp_1": "Describe any procedures that are used to summarize the model output (e.g., statistical analysis, graphical analysis, etc.).",
+  "results_interp_2": "Describe the data transformations that are applied to the model output for the purpose of communicating the results."
+}

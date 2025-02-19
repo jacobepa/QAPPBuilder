@@ -1,0 +1,22 @@
+{
+  "approach": "Describe the approaches or perspectives to be used or assessed in the project including interviews (open, semi-structured, structured), observer or participant observer (overt or covert), focus groups, enabling/elicitation techniques, self-reports (diaries, surveys).",
+  "data_collection_1": "Describe the data collection methods in detail: locations, time of year, responsibilities of participants, interviews, discussion guides, and/or existing information. Be explicit.",
+  "data_collection_2": "Identify and describe any operating procedures and/or best practices used for obtaining observations/data. Include the version/date, responsible party/contact, any planned updates, distribution methods to personnel, etc.",
+  "data_collection_3": "Describe the types of observations/data that will be collected, and the criteria used for categorical observations.",
+  "data_collection_4": "Describe all materials that will be distributed to participants or used for any intervention or interaction techniques throughout the course of the project.",
+  "data_collection_5": "Describe how project materials will be presented (i.e., scripts) and distributed to participants to minimize bias.",
+  "data_collection_6": "Describe the preparation for data collection events and how termination of data collection will be decided (saturation, time limit, resources).",
+  "data_collection_7": "Describe any standard coding that will be used in thematic analysis of responses.",
+  "data_collection_8": "Describe any non-direct measures (literature searches, databases, etc.) that will be utilized including criteria and limitations for use.",
+  "data_collection_9": "Provide functional criteria and checks for any audio and/or visual recording equipment used to document activities or otherwise collect data and steps to be taken if audio equipment fails.",
+  "data_integrity_1": "Describe procedures for documenting and preserving electronic and/or hard copy data to be gathered at an event.",
+  "data_integrity_2": "Describe steps to ensure the integrity of all recordings.",
+  "data_integrity_3": "Describe how the accuracy of any recording transcripts will be verified.",
+  "data_integrity_4": "Describe steps to be taken to address the potential for bias in sampling methods.",
+  "data_integrity_5": "Describe how incomplete data will be evaluated (i.e., participant knows little about topic or incomplete interviews).",
+  "data_analysis_1": "Identify the strategy or criteria to determine the usability/applicability of the collected data. Include any documentation and list the responsible individuals.",
+  "data_analysis_2": "Describe the type of analysis that will be performed (narrative analysis, interpretive phenomenological analysis, thematic analysis, etc.).",
+  "data_analysis_3": "Describe any procedures that will be used to identify outliers, goodness of fit, transformations, etc.",
+  "data_analysis_4": "Describe any quantitative treatments of data, including the mathematical and statistical procedures.",
+  "data_analysis_5": "Describe how any limitations on the use of data will be identified and reported."
+}

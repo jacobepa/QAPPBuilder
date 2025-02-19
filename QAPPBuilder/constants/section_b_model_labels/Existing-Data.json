@@ -1,0 +1,15 @@
+{
+  "methods_ei_1": "Identify the existing data types needed to meet the research objective(s). This includes but not limited to census data, GIS data, models and their outputs, toxicity and exposure data from published studies, environmental fate data, site, and time sampling events (e.g., meteorology, topography).",
+  "methods_ei_2": "Specify requirements related to the type of data. This includes but not limited to data format, the age of data, geographical representation, temporal representation, and technological representation, as applicable. Existing data may be obtained computer databases, programs, literature files, or other historical sources.",
+  "methods_ei_3": "Identify the source(s) for the existing data. This information can be presented as a table that includes the rationale for selecting the source(s) identified. Discuss if the data sources have well-documented QA/QC procedures. If a data set is considered “higher quality” than another, the rationale for this decision should be documented.",
+  "methods_ei_4": "Describe the planning process for data gathering. Systematic review of literature can be employed and described in this section.",
+  "methods_ei_5": "Describe the acceptance criteria process for the selection or omission of data, including documentation supporting the process.",
+  "methods_ei_6": "Describe the processes to clean the data of anomalies (i.e., spelling errors, missing values, improper entries, etc.).",
+  "methods_ei_7": "Describe the process of converting data from one format to another, error checking, and how errors will be minimized.",
+  "ei_qc_1": "Describe the procedures for determining the quality of the existing data and QC activities that will be performed.",
+  "ei_qc_2": "Describe the strategy for verification or validation of the data and where the results will be corrected and documented.",
+  "ei_qc_3": "Describe any mathematical or statistical procedures that will be used to identify data that should be rejected, transformed, or otherwise qualified before use, such as outlier analyses or goodness-of-fit tests.",
+  "ei_review_1": "Describe how useful or applicable the scientific, statistical, or economic theory applied in the study or data set is to the Agency’s intended use of the analysis.",
+  "ei_review_2": "Describe any data validation procedures that will ensure that data are accurate, representative, and fit-for-purpose in addressing the research question.",
+  "useability_constraints": "Identify and describe what constraints are there on the usage of the information or data (e.g., legal, logistical, programmatic, privacy/confidentiality, language barriers, etc.)."
+}
