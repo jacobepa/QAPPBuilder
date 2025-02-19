@@ -254,12 +254,32 @@ class SocialSciences(EpaBaseModel):
   section_b = models.ForeignKey(SectionB, on_delete=models.CASCADE)
   # ###########################################################################
   # 2.B.1 Social Study Design
+  approach = models.TextField()
   # ---------------------------------------------------------------------------
   # 2.B.2 Social Sciences Data Collection Methods
+  data_collection_1 = models.TextField()
+  data_collection_2 = models.TextField()
+  data_collection_3 = models.TextField()
+  data_collection_4 = models.TextField()
+  data_collection_5 = models.TextField()
+  data_collection_6 = models.TextField()
+  data_collection_7 = models.TextField()
+  data_collection_8 = models.TextField()
+  data_collection_9 = models.TextField()
   # ---------------------------------------------------------------------------
   # 2.B.3 Social Sciences Data Integrity
+  data_integrity_1 = models.TextField()
+  data_integrity_2 = models.TextField()
+  data_integrity_3 = models.TextField()
+  data_integrity_4 = models.TextField()
+  data_integrity_5 = models.TextField()
   # ---------------------------------------------------------------------------
   # 2.B.4 Social Sciences Data Analysis
+  data_analysis_1 = models.TextField()
+  data_analysis_2 = models.TextField()
+  data_analysis_3 = models.TextField()
+  data_analysis_4 = models.TextField()
+  data_analysis_5 = models.TextField()
   # ---------------------------------------------------------------------------
 
 
@@ -274,12 +294,25 @@ class ExistingData(EpaBaseModel):
   section_b = models.ForeignKey(SectionB, on_delete=models.CASCADE)
   # ###########################################################################
   # 2.C.1 Methods of Environmental Information
+  methods_ei_1 = models.TextField()
+  methods_ei_2 = models.TextField()
+  methods_ei_3 = models.TextField()
+  methods_ei_4 = models.TextField()
+  methods_ei_5 = models.TextField()
+  methods_ei_6 = models.TextField()
+  methods_ei_7 = models.TextField()
   # ---------------------------------------------------------------------------
   # 2.C.2 Environmental Information Quality Control
+  ei_qc_1 = models.TextField()
+  ei_qc_2 = models.TextField()
+  ei_qc_3 = models.TextField()
   # ---------------------------------------------------------------------------
   # 2.C.3 Environmental Information Review
+  ei_review_1 = models.TextField()
+  ei_review_2 = models.TextField()
   # ---------------------------------------------------------------------------
   # 2.C.4 Useability Determination
+  useability_constraints = models.TextField()
   # ---------------------------------------------------------------------------
   # TODO: Table B-4. Existing Data for Addressing Research
   #                  Questions & Data Limitations
@@ -297,12 +330,37 @@ class CodeBasedModeling(EpaBaseModel):
   section_b = models.ForeignKey(SectionB, on_delete=models.CASCADE)
   # ###########################################################################
   # 2.D.1 Requirements and Design
+  reqs_design_1 = models.TextField()
+  reqs_design_2 = models.TextField()
+  reqs_design_3 = models.TextField()
   # ---------------------------------------------------------------------------
   # 2.D.2 Coding Processes
+  # reqs_design_1 = models.TextField()
+  reqs_design_1_1 = models.TextField()
+  reqs_design_1_2 = models.TextField()
+  reqs_design_1_3 = models.TextField()
+  # reqs_design_2 = models.TextField()
+  reqs_design_2_1 = models.TextField()
+  reqs_design_2_2 = models.TextField()
+  reqs_design_2_3 = models.TextField()
+  reqs_design_2_4 = models.TextField()
+  reqs_design_2_5 = models.TextField()
+  # reqs_design_3 = models.TextField()
+  reqs_design_3_1 = models.TextField()
+  reqs_design_3_2 = models.TextField()
+  reqs_design_3_3 = models.TextField()
+  reqs_design_3_4 = models.TextField()
   # ---------------------------------------------------------------------------
   # 2.D.3 Tool Validation
+  tool_validation_1 = models.TextField()
+  tool_validation_2 = models.TextField()
   # ---------------------------------------------------------------------------
   # 2.D.4 Outputs and Results
+  outputs_results_1 = models.TextField()
+  outputs_results_2 = models.TextField()
+  outputs_results_3 = models.TextField()
+  outputs_results_4 = models.TextField()
+  outputs_results_5 = models.TextField()
   # ---------------------------------------------------------------------------
 
 
@@ -317,12 +375,30 @@ class ModelApplicationEvaluation(EpaBaseModel):
   section_b = models.ForeignKey(SectionB, on_delete=models.CASCADE)
   # ###########################################################################
   # 2.E.1 Model Specifications
+  model_specs_1 = models.TextField()
+  model_specs_2 = models.TextField()
+  model_specs_3 = models.TextField()
   # ---------------------------------------------------------------------------
   # 2.E.2 Environmental Information Selection and Verification (Input Data)
+  ei_sel_verification_1 = models.TextField()
+  ei_sel_verification_2 = models.TextField()
+  ei_sel_verification_3 = models.TextField()
+  ei_sel_verification_4 = models.TextField()
   # ---------------------------------------------------------------------------
   # 2.E.3 Model Performance Assessment and Validation (Output Data)
+  model_performance_1 = models.TextField()
+  model_performance_2 = models.TextField()
+  model_performance_3 = models.TextField()
+  model_performance_4 = models.TextField()
+  model_performance_5 = models.TextField()
+  model_performance_6 = models.TextField()
+  model_performance_7 = models.TextField()
+  model_performance_8 = models.TextField()
+  model_performance_9 = models.TextField()
   # ---------------------------------------------------------------------------
   # 2.E.4 Interpretation of Results
+  results_interp_1 = models.TextField()
+  results_interp_2 = models.TextField()
   # ---------------------------------------------------------------------------
 
 
@@ -337,16 +413,57 @@ class SoftwareApplicationDevelopment(EpaBaseModel):
   section_b = models.ForeignKey(SectionB, on_delete=models.CASCADE)
   # ###########################################################################
   # 2.F.1 Application User Roles and Responsibilities
+  roles_resp_1 = models.TextField()
+  roles_resp_2 = models.TextField()
   # ---------------------------------------------------------------------------
   # 2.F.2 Requirements Collection
+  requirements_1 = models.TextField()
+  requirements_2 = models.TextField()
+  requirements_3 = models.TextField()
+  requirements_4_1 = models.TextField()
+  requirements_4_2 = models.TextField()
+  requirements_4_3 = models.TextField()
+  requirements_4_4 = models.TextField()
   # ---------------------------------------------------------------------------
   # 2.F.3 System Design
+  sys_design_1 = models.TextField()
+  sys_design_2 = models.TextField()
+  sys_design_3 = models.TextField()
   # ---------------------------------------------------------------------------
   # 2.F.4 Coding and Implementation
+  coding_1 = models.TextField()
+  coding_2 = models.TextField()
+  coding_3 = models.TextField()
+  coding_4 = models.TextField()
   # ---------------------------------------------------------------------------
   # 2.F.5 Verification and Validation
+  vv_1 = models.TextField()
+  vv_2 = models.TextField()
+  vv_3 = models.TextField()
+  vv_4_1 = models.TextField()
+  vv_4_2 = models.TextField()
+  vv_4_3 = models.TextField()
+  # NOTE: There are also 3 subsections for vv_4_3, not sure if these should
+  #       also be enumerated.
+  vv_4_4 = models.TextField()
+  vv_4_5 = models.TextField()
+  vv_4_6 = models.TextField()
+  vv_4_7 = models.TextField()
+  vv_5 = models.TextField()
+  # TODO: Table 12. Example of a Testing and Acceptance Criteria Table
+  #       Used for Section 2.5 of Software and Application Development Project.
   # ---------------------------------------------------------------------------
   # 2.F.6 Maintenance and User Support
+  support_1 = models.TextField()
+  support_2 = models.TextField()
+  support_3 = models.TextField()
+  support_4 = models.TextField()
+  support_5 = models.TextField()
+  support_6_1 = models.TextField()
+  support_6_2 = models.TextField()
+  support_7 = models.TextField()
+  support_7_1 = models.TextField()
+  support_7_2 = models.TextField()
   # ---------------------------------------------------------------------------
 
 
@@ -361,10 +478,29 @@ class EnvironmentalTechnology(EpaBaseModel):
   section_b = models.ForeignKey(SectionB, on_delete=models.CASCADE)
   # ###########################################################################
   # 2.G.1 System Elements
+  system_1 = models.TextField()
+  system_2 = models.TextField()
+  system_3 = models.TextField()
+  system_4 = models.TextField()
   # ---------------------------------------------------------------------------
   # 2.G.2 Process Elements and Quality Criteria
+  process_1 = models.TextField()
+  process_2 = models.TextField()
+  process_3 = models.TextField()
+  process_4 = models.TextField()
+  process_5 = models.TextField()
+  process_6 = models.TextField()
   # ---------------------------------------------------------------------------
   # 2.G.3 System Operation, Maintenance, and Training
+  sysop_maint_train_1 = models.TextField()
+  sysop_maint_train_2 = models.TextField()
+  sysop_maint_train_3 = models.TextField()
+  sysop_maint_train_4 = models.TextField()
+  sysop_maint_train_5 = models.TextField()
+  sysop_maint_train_6 = models.TextField()
+  sysop_maint_train_7 = models.TextField()
+  sysop_maint_train_8 = models.TextField()
   # ---------------------------------------------------------------------------
   # 2.G.4 Demobilization of Environmental Technology Projects
+  demobilization = models.TextField()
   # ---------------------------------------------------------------------------
