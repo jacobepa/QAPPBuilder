@@ -6,7 +6,8 @@ from .section_a_models import (
   SectionA9, SectionA10, SectionA11, SectionA12, SectionA, VersionControl
 )
 from .section_b_models import (
-  SectionBStandard, SectionB, SectionBDisciplines, MeasurementMonitoring,
+  SectionB, SectionBDisciplines, MeasurementMonitoring,
   EnvironmentalTechnology, ExistingData, ModelApplicationEvaluation,
-  CodeBasedModeling, SoftwareApplicationDevelopment, SocialSciences
+  CodeBasedModeling, SoftwareApplicationDevelopment, SocialSciences,
+  FieldActivity, LaboratoryActivity
 )

@@ -1,13 +1,7 @@
 from django.db import models
-from constants import section_b_const as con
+from constants import qapp_section_b_const as con
 from .qapp_models import Qapp
 from .utility_models import EpaBaseModel
-
-
-# class SectionBStandard(EpaBaseModel):
-#   """Inputs for a Standard section B, i.e. no discipline(s) selected."""
-
-#   a_field = models.TextField(null=False, blank=False)
 
 
 class EquipmentSection(EpaBaseModel):
@@ -24,8 +18,11 @@ class EquipmentSection(EpaBaseModel):
   # TODO: Table B-8. Example Equipment and Instrument Inspection and
   #                  Calibration Table
 
+  class Meta:
+    abstract = True
 
-class FieldLabSection(EpaBaseModel):
+
+class FieldLabSection(EquipmentSection):
   """
   Abstract class containing fields that belong to both Field Activities
   and Laboratory Activities. This class will be inherited by those respective
@@ -94,7 +91,7 @@ class SectionB(EpaBaseModel):
   # ---------------------------------------------------------------------------
   # B7: Environmental Information Management
   # --- B7.1: Information Handling and Storage
-  env_info_managment_proc = models.TextField()
+  env_info_management_proc = models.TextField()
   doc_procedures = models.TextField()
   info_processing_procedures = models.TextField()
   # --- B7.2: Information Security
@@ -167,9 +164,14 @@ class LaboratoryActivity(FieldLabSection):
   lab_laboratories_accred = models.TextField()
 
 
+# #############################################################################
+# Start Discipline Specific Models ############################################
+# #############################################################################
+
+
 class MeasurementMonitoring(EpaBaseModel):
   """
-  Section B: Measurement and Monitoring specific inputs.
+  Section B: Measurement and Monitoring Discipline Specific inputs.
 
   2.A Measurement and Monitoring (Field/Lab) Requirements for Section 2
   of the ORD Discipline Specific QAPP Template
@@ -246,7 +248,7 @@ class MeasurementMonitoring(EpaBaseModel):
 
 class SocialSciences(EpaBaseModel):
   """
-  Section B: Social Sciences specific inputs.
+  Section B: Social Sciences Discipline Specific inputs.
 
   2.B Social Sciences (SS) for Section 2 of the ORD Discipline Specific QAPP
   Template
@@ -285,7 +287,7 @@ class SocialSciences(EpaBaseModel):
 
 class ExistingData(EpaBaseModel):
   """
-  Section B: Existing Data specific inputs.
+  Section B: Existing Data Discipline Specific inputs.
 
   2.C Existing Data (ED) for Section 2 of the ORD Discipline Specific QAPP
   Template
@@ -321,7 +323,7 @@ class ExistingData(EpaBaseModel):
 
 class CodeBasedModeling(EpaBaseModel):
   """
-  Section B: Code-Based Modeling specific inputs.
+  Section B: Code-Based Modeling Discipline Specific inputs.
 
   2.D Code-Based Modeling (CBM) for Section 2 of the ORD Discipline Specific
   QAPP Template
@@ -366,7 +368,7 @@ class CodeBasedModeling(EpaBaseModel):
 
 class ModelApplicationEvaluation(EpaBaseModel):
   """
-  Section B: Model Application and Evaluation specific inputs.
+  Section B: Model Application and Evaluation Discipline Specific inputs.
 
   2.E Model Application and Evaluation (MAE) for Section 2 of the ORD Discipline
   Specific QAPP Template
@@ -404,7 +406,7 @@ class ModelApplicationEvaluation(EpaBaseModel):
 
 class SoftwareApplicationDevelopment(EpaBaseModel):
   """
-  Section B: Software and Application Development specific inputs.
+  Section B: Software and Application Development Discipline Specific inputs.
 
   2.F Software and Application Development (SAD) for Section 2 of the ORD
   Discipline Specific QAPP Template
@@ -467,9 +469,9 @@ class SoftwareApplicationDevelopment(EpaBaseModel):
   # ---------------------------------------------------------------------------
 
 
-class EnvironmentalTechnology(EpaBaseModel):
+class EnvironmentalTechnology(EquipmentSection):
   """
-  Section B: Environmental Technology specific inputs.
+  Section B: Environmental Technology Discipline Specific inputs.
 
   2.G Environmental Technology (ET) for Section 2 of the ORD Discipline Specific
   QAPP Template
