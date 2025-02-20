@@ -19,15 +19,15 @@ from django.conf import settings
 
 
 def software_info(_request):
-  """
-  Return dictionary containing the app's version, name, and disclaimer.
+    """
+    Return dictionary containing the app's version, name, and disclaimer.
 
-  :param:
-  :request:
-  :request:
-  """
-  return {
-    'APP_VERSION': settings.APP_VERSION,
-    'APP_NAME': settings.APP_NAME,
-    'APP_DISCLAIMER': settings.APP_DISCLAIMER
-  }
+    :param:
+    :request:
+    :request:
+    """
+    return {
+        'APP_VERSION': settings.APP_VERSION,
+        'APP_NAME': settings.APP_NAME,
+        'APP_DISCLAIMER': settings.APP_DISCLAIMER
+    }

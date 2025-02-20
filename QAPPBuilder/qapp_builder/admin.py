@@ -14,7 +14,7 @@ Available functions:
 """
 
 from django.contrib import admin
-from .models import Qapp, SectionA, SectionA1, SectionA2
+from .models import Qapp, Discipline
 
 
 class QappAdmin(admin.ModelAdmin):
@@ -37,6 +37,4 @@ class QappAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Qapp, QappAdmin)
-admin.site.register(SectionA)
-admin.site.register(SectionA1)
-admin.site.register(SectionA2)
+admin.site.register(Discipline)

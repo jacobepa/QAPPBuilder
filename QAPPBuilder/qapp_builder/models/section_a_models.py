@@ -1,256 +1,196 @@
 from django.db import models
 from .qapp_models import Qapp
-from .utility_models import Definition, Participant, QappDocument, EpaBaseModel
+from .utility_models import EpaBaseModel
+from constants.qapp_section_b_const import DISCIPLINE_CHOICES, \
+    DISCIPLINE_MAX_LEN
 
 
-class SectionA(EpaBaseModel):
+class Discipline(EpaBaseModel):
 
-  qapp = models.OneToOneField(
-    Qapp, on_delete=models.CASCADE, related_name='section_a')
+    name = models.CharField(
+        blank=False, null=False, max_length=DISCIPLINE_MAX_LEN,
+        choices=DISCIPLINE_CHOICES)
 
 
 class SectionA1(EpaBaseModel):
-  """Section A1 is the QAPP's Title Page"""
 
-  section_a = models.OneToOneField(
-    SectionA, on_delete=models.CASCADE, related_name='section_a1')
-
-  # ###########################################################################
-  # Required for both EPA and non-EPA orgs:
-  # ---------------------------------------
-  # NOTE: Moved title to the QAPP object instead.
-  # title = models.TextField(blank=False, null=False)
-  version_date = models.DateField(blank=False, null=False)
-  # Name of the org conducting the environmental information operations
-  conducting_org_name = models.TextField(blank=False, null=False)
-  # Name of the org that developed the QAPP (if different from conducting)
-  developing_org_name = models.TextField(blank=False, null=False)
-  applicability_period = models.TextField(blank=False, null=False)
-
-  # Allow many to many for version control info
-  # NO: Updating to have a one-to-many relationship... FK is in VersionControl
-  # versions = models.ManyToManyField(VersionControl, blank=True)
-
-  # TODO: This should probably be selector with option to add new?
-  doc_control_identifier = models.TextField(blank=False, null=False)
-  # ###########################################################################
-  # Non-EPA orgs only:
-  # ------------------
-  # Grant or cooperative agreement number if the work is being performed under
-  # an EPA assistance agreement.
-  agreement_num = models.TextField(blank=True, null=True)
-  # Contract number and Task Order (TO) number if the work is being performed
-  # under an acquisition.
-  con_to_num = models.TextField(blank=True, null=True)
-  # Interagency agreement number if the work is being performed under an
-  # interagency agreement (IA).
-  ia_num = models.TextField(blank=True, null=True)
-  # Title and date of Memorandum of Understanding (MOU)/Agreement
-  mou_title = models.TextField(blank=True, null=True)
-  mou_date = models.DateField(blank=True, null=True)
-  # Citation of the regulatory requirement, if applicable
-  reg_req_cit = models.TextField(blank=True, null=True)
-  # Title and date of the enforcement or legal agreement, if applicable
-  enf_legal_title = models.TextField(blank=True, null=True)
-  enf_legal_date = models.DateField(blank=True, null=True)
-  # ###########################################################################
-  # Additional ORD QAPP Requirements:
-  # ---------------------------------
-  ord_qa_cat = models.TextField(blank=True, null=True)
-  ord_program = models.TextField(blank=True, null=True)
-  definitions = models.ManyToManyField(Definition, blank=True)
-  # ###########################################################################
-
-  def save(self, *args, **kwargs):
-    if not self.section_a_id:
-      self.section_a = SectionA.objects.create(qapp=self.qapp)
-    super(SectionA1, self).save(*args, **kwargs)
+    qapp = models.OneToOneField(
+        Qapp, on_delete=models.CASCADE, related_name='section_a1')
+    ord_center = models.TextField(blank=False, null=False)
+    division = models.TextField(blank=False, null=False)
+    branch = models.TextField(blank=False, null=False)
+    title = models.TextField(blank=False, null=False)
+    ord_national_program = models.TextField(blank=False, null=False)
+    version_date = models.DateField(blank=False, null=False)
+    proj_qapp_id = models.TextField(blank=False, null=False)
+    qa_category = models.CharField(blank=False, null=False, max_length=1)
+    # Intramurally or Extramurally
+    intra_or_extra = models.CharField(blank=False, null=False, max_length=12)
+    # If extramurally:
+    vehicle_num = models.TextField(blank=True, null=True)
+    non_epa_org = models.TextField(blank=True, null=True)
+    period_performance = models.TextField(blank=True, null=True)
+    # Accessibility is "I do NOT want this QAPP internally shared and
+    #                   accessible on the ORD intranet site."
+    accessibility = models.BooleanField(default=False)
+    disciplines = models.ManyToManyField(Discipline, on_delete=models.CASCADE)
+    # TODO: Measurement and Monitoring splits in two sub-options:
+    #       Analytical Methods Development
+    #       Animal/Cell Culture Studies
+    # TODO: The CESER template has an "Other" option with user defined name...
 
 
-class VersionControl(EpaBaseModel):
-  """Represents a row in the version control table (TODO what section?)"""
-  section_a1 = models.ForeignKey(SectionA1, on_delete=models.CASCADE)
-  qapp_id = models.TextField(blank=False, null=False)
-  updated_on = models.DateField(auto_now_add=True)
-  authors = models.TextField(blank=False, null=False)
-  description = models.TextField(blank=False, null=False)
+class AdditionalSignature(EpaBaseModel):
+
+    title = models.TextField(blank=True, null=True)
+    name = models.TextField(blank=True, null=True)
 
 
 class SectionA2(EpaBaseModel):
-  """
-  Section A2 is the QAPP's Approval Page.
 
-  Note that these are all signature inputs, so for the Django app, the user
-  should record the names of those who will eventually sign the document.
-
-  When the QAPP is printed to docx or PDF, we will need insert signature lines
-  above each expected signature in Section A2.
-  """
-
-  section_a = models.OneToOneField(
-    SectionA, on_delete=models.CASCADE, related_name='section_a2')
-
-  # Required for all organizations (EPA and Non-EPA)
-  epa_op_man = models.TextField("Test", blank=False, null=False)
-  epa_qam = models.TextField(blank=False, null=False)
-
-  # Required for non-EPA organizations
-  non_epa_op_man = models.TextField(blank=True, null=True)
-  non_epa_qam = models.TextField(blank=True, null=True)
-
-  # Additional ORD QAPP Requirements
-  supervisor = models.TextField(blank=True, null=True)
-  pqapp_dir = models.TextField(blank=True, null=True)
+    qapp = models.OneToOneField(
+        Qapp, on_delete=models.CASCADE, related_name='section_a2')
+    # Required Signatures:
+    ord_technical_lead = models.TextField(blank=False, null=False)
+    ord_tl_supervisor = models.TextField(blank=False, null=False)
+    ord_qa_manager = models.TextField(blank=False, null=False)
+    # Extramural signatures:
+    extramural_technical_manager = models.TextField(blank=True, null=True)
+    extramural_qa_manager = models.TextField(blank=True, null=True)
+    # Optional additional signatures:
+    additional_signatures = models.ManyToManyField(
+        AdditionalSignature, on_delete=models.CASCADE)
 
 
-# class SectionA3(EpaBaseModel):
-#   """
-#   Section A3 is the QAPP's Table of Contents, Document Format,
-#   and Document Control.
+class SectionA3(EpaBaseModel):
+    """A3: Table of Contents, Document Format, and Document Control"""
 
-#   A3 seems less like a dedicated section and more like guidance for
-#   maintaining the document as a whole...
-#   """
+    qapp = models.OneToOneField(
+        Qapp, on_delete=models.CASCADE, related_name='section_a3')
+    # Revisions one-to-many
+    # Acronyms/Abbreviations/Definitions one-to-many
 
-#   # table_of_contents
-#   # revision_history_page/table
-#   # format complies
-#   # Document control information is included on every page and includes:
-#     # o Title of the document (abbreviations and acronyms are acceptable)
-#     # o Version number of the document (included in the ORD QA Track ID)
-#     # o Date of the version
-#     # o Page number in relation to the total number of pages (i.e., pg X of Y)
+
+class Revision(EpaBaseModel):
+
+    section_a3 = models.ForeignKey(SectionA3, on_delete=models.CASCADE)
+    date = models.DateField(blank=False, null=False)
+    qapp_id = models.TextField(blank=False, null=False)
+    author = models.TextField(blank=False, null=False)
+    description = models.TextField(blank=False, null=False)
+
+
+class AcronymAbbreviation(EpaBaseModel):
+
+    section_a3 = models.ForeignKey(SectionA3, on_delete=models.CASCADE)
+    acronym_abbreviation = models.TextField(blank=False, null=False)
+    definition = models.TextField(blank=False, null=False)
 
 
 class SectionA4(EpaBaseModel):
-  """A4: Project Purpose, Problem Definition and Background"""
 
-  section_a = models.OneToOneField(
-    SectionA, on_delete=models.CASCADE, related_name='section_a4')
-
-  # A4.1: Project Background
-  backgroun_desc = models.TextField()
-  existing_sources = models.TextField()
-  other_docs = models.TextField()
-
-  # A4.2: Project Purpose and Problem Definition
-  eio_purpose = models.TextField()
-  env_decisions = models.TextField()
-  needed_info = models.TextField()
+    qapp = models.OneToOneField(
+        Qapp, on_delete=models.CASCADE, related_name='section_a4')
+    project_background = models.TextField(blank=False, null=False)
+    project_purpose = models.TextField(blank=False, null=False)
 
 
 class SectionA5(EpaBaseModel):
-  """A5: Project Task Description"""
 
-  section_a = models.OneToOneField(
-    SectionA, on_delete=models.CASCADE, related_name='section_a5')
+    qapp = models.OneToOneField(
+        Qapp, on_delete=models.CASCADE, related_name='section_a5')
+    tasks_summary = models.TextField(blank=False, null=False)
+    # Table 1. Project Completion Timeline
+    start_fy = models.CharField(blank=True, null=True, max_length=4)
+    start_q = models.CharField(blank=True, null=True, max_length=2)
 
-  desc = models.TextField()
-  deliverables = models.TextField()
-  tasks_and_sched = models.TextField()
 
-  # Social Sciences only:
-  irb_review = models.TextField()
-  irb_exception = models.TextField()
+class Task(EpaBaseModel):
 
-  # Software and Application Development only:
-  ord_app_inv_entry = models.TextField()
+    section_a5 = models.ForeignKey(SectionA5, on_delete=models.CASCADE)
+    tasks_desc = models.TextField(blank=False, null=False)
+    fy_q_0 = models.TextField(blank=True, null=True)
+    fy_q_1 = models.TextField(blank=True, null=True)
+    fy_q_2 = models.TextField(blank=True, null=True)
+    fy_q_3 = models.TextField(blank=True, null=True)
+    fy_q_4 = models.TextField(blank=True, null=True)
+    fy_q_5 = models.TextField(blank=True, null=True)
+    fy_q_6 = models.TextField(blank=True, null=True)
+    fy_q_7 = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return self.tasks_desc
 
 
 class SectionA6(EpaBaseModel):
-  """
-  A6: Information/Data Quality Objectives and Performance/Acceptance Criteria
-  """
 
-  section_a = models.OneToOneField(
-    SectionA, on_delete=models.CASCADE, related_name='section_a6')
-
-  dqo = models.TextField()
-  criteria = models.TextField()
-  dqi = models.TextField()
+    qapp = models.OneToOneField(
+        Qapp, on_delete=models.CASCADE, related_name='section_a6')
+    information = models.TextField(blank=False, null=False)
 
 
 class SectionA7(EpaBaseModel):
-  """A7: Distribution List"""
+    """Distribution List"""
 
-  section_a = models.OneToOneField(
-    SectionA, on_delete=models.CASCADE, related_name='section_a7')
+    qapp = models.OneToOneField(
+        Qapp, on_delete=models.CASCADE, related_name='section_a4')
+    # Table 2. Distribution List
+    # TODO: When this section is saved, populate some of the table defaults
 
-  distributor = models.TextField()
-  # recipients = models.TextField()
-  distribution_list = models.ManyToManyField(Participant, blank=True)
+
+class Distribution(EpaBaseModel):
+
+    section_a7 = models.ForeignKey(SectionA7, on_delete=models.CASCADE)
+    name_and_org = models.TextField(blank=False, null=False)
+    email = models.TextField(blank=False, null=False)
+    proj_role = models.TextField(blank=False, null=False)
 
 
 class SectionA8(EpaBaseModel):
-  """A8: Project Organization"""
+    """Project Organization"""
 
-  section_a = models.OneToOneField(
-    SectionA, on_delete=models.CASCADE, related_name='section_a8')
-
-  # TODO: The participant list is related to the distribution list above
-  #       I actually think it is the same list, but they want an org chart here
-  # participant_list = models.ManyToManyField(Participant)
-  org_chart = models.ImageField()
-  qam_oversight = models.TextField()
-  qam_authority = models.TextField()
-
-  # Software and Application Development only:
-  a_team_rep = models.TextField()
+    qapp = models.OneToOneField(
+        Qapp, on_delete=models.CASCADE, related_name='section_a4')
+    # Table 3. Environmental Information Roles and Responsibilities
+    # TODO: When this section is saved, populate some of the table defaults
 
 
-class SectionA9(EpaBaseModel):
-  """A9: Project Quality Assurance Manager Independence"""
+class RoleResponsibility(EpaBaseModel):
 
-  section_a = models.OneToOneField(
-    SectionA, on_delete=models.CASCADE, related_name='section_a9')
+    section_a8 = models.ForeignKey(SectionA8, on_delete=models.CASCADE)
+    name_and_org = models.TextField(blank=False, null=False)
+    proj_role = models.TextField(blank=False, null=False)
+    proj_responsibilities = models.TextField(blank=False, null=False)
 
-  desc = models.TextField()
 
+# SectionA9 is static content, no input.
 
-class SectionA10(EpaBaseModel):
-  """A10: Project Organization Chart and Communications"""
-
-  section_a = models.OneToOneField(
-    SectionA, on_delete=models.CASCADE, related_name='section_a10')
-
-  # TODO is project org chart an image or table?
-  proj_org_chart = models.ImageField()
-  comms_desc = models.TextField()
-  comm_procedures = models.TextField()
-
-  # Non-EPA only:
-  non_epa_comms = models.TextField()
+# SectionA10 is an optional(?) org chart
 
 
 class SectionA11(EpaBaseModel):
-  """A11: Personnel Training/Certification"""
 
-  section_a = models.OneToOneField(
-    SectionA, on_delete=models.CASCADE, related_name='section_a11')
-
-  eio_verifier = models.TextField()
-  training_documenter = models.TextField()
-  spec_training_certs = models.TextField()
-  training_eval = models.TextField()
-
-  # Field Activities only:
-  training_reqs = models.TextField()
-
-  # Social Sciences only:
-  citi_personnel = models.TextField()
+    qapp = models.OneToOneField(
+        Qapp, on_delete=models.CASCADE, related_name='section_a4')
+    information = models.TextField(blank=False, null=False)
 
 
 class SectionA12(EpaBaseModel):
-  """A12: Documents and Records"""
+    """Documents and Records"""
 
-  section_a = models.OneToOneField(
-    SectionA, on_delete=models.CASCADE, related_name='section_a12')
+    qapp = models.OneToOneField(
+        Qapp, on_delete=models.CASCADE, related_name='section_a4')
+    # Table 4. Documents and Records
+    # TODO: When this section is saved, populate some of the table defaults
+    # Table 5. Project's Record Schedule
+    # Table 5 is static depending on QA Cat (A or B), I think?
 
-  # TODO: Check format of documents and records
-  docs_records = models.ManyToManyField(QappDocument, blank=True)
-  requirements = models.TextField()
-  record_sched = models.TextField()
 
-  # Field Activities only:
-  dc_rm_reqs = models.TextField()
-  citation = models.TextField()
+class DocumentRecord(EpaBaseModel):
+
+    section_a12 = models.ForeignKey(SectionA12, on_delete=models.CASCADE)
+    record_type = models.TextField(blank=False, null=False)
+    responsible_party = models.TextField(blank=False, null=False)
+    in_proj_file = models.TextField(blank=False, null=False)
+    file_type = models.TextField(blank=False, null=False)
+    special_handling = models.BooleanField(default=False)

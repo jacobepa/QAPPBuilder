@@ -3,11 +3,6 @@ from .utility_models import Definition, Participant, QappDocument
 from .qapp_models import Qapp, QappSharingTeamMap
 from .section_a_models import (
   SectionA1, SectionA2, SectionA4, SectionA5, SectionA6, SectionA7, SectionA8,
-  SectionA9, SectionA10, SectionA11, SectionA12, SectionA, VersionControl
+  SectionA11, SectionA12, Discipline
 )
-from .section_b_models import (
-  SectionB, SectionBDisciplines, MeasurementMonitoring,
-  EnvironmentalTechnology, ExistingData, ModelApplicationEvaluation,
-  CodeBasedModeling, SoftwareApplicationDevelopment, SocialSciences,
-  FieldActivity, LaboratoryActivity
-)
+from .section_b_c_d_models import SectionB, SectionC, SectionD

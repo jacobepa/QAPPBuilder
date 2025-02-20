@@ -36,32 +36,32 @@ ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '.v2626umcth937.rtord.epa.gov',
 # Application references
 # https://docs.djangoproject.com/en/2.1/ref/settings/#std:setting-INSTALLED_APPS
 INSTALLED_APPS = [
-  # Add your apps here to enable them
-  'django.contrib.admin',
-  'django.contrib.auth',
-  'django.contrib.contenttypes',
-  'django.contrib.sessions',
-  'django.contrib.messages',
-  'django.contrib.staticfiles',
-  'django.contrib.humanize',
-  'django_extensions',
-  'accounts',
-  'constants',
-  'qapp_builder',
-  'support',
-  'teams'
+    # Add your apps here to enable them
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'django.contrib.humanize',
+    'django_extensions',
+    'accounts',
+    'constants',
+    'qapp_builder',
+    'support',
+    'teams'
 ]
 
 # Middleware framework
 # https://docs.djangoproject.com/en/2.1/topics/http/middleware/
 MIDDLEWARE = [
-  'django.middleware.security.SecurityMiddleware',
-  'django.contrib.sessions.middleware.SessionMiddleware',
-  'django.middleware.common.CommonMiddleware',
-  'django.middleware.csrf.CsrfViewMiddleware',
-  'django.contrib.auth.middleware.AuthenticationMiddleware',
-  'django.contrib.messages.middleware.MessageMiddleware',
-  'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.security.SecurityMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
 ROOT_URLCONF = 'qapp_builder.urls'
@@ -69,46 +69,46 @@ ROOT_URLCONF = 'qapp_builder.urls'
 # Template configuration
 # https://docs.djangoproject.com/en/2.1/topics/templates/
 TEMPLATES = [
-  {
-    'BACKEND': 'django.template.backends.django.DjangoTemplates',
-    'DIRS': [],
-    'APP_DIRS': True,
-    'OPTIONS': {
-      'context_processors': [
-        'django.template.context_processors.debug',
-        'django.template.context_processors.request',
-        'django.contrib.auth.context_processors.auth',
-        'django.contrib.messages.context_processors.messages',
-      ],
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
     },
-  },
 ]
 
 WSGI_APPLICATION = 'qapp_builder.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 DATABASES = {
-  'default': {
-    'ENGINE': 'django.db.backends.sqlite3',
-    'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-  }
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
 }
 
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
 AUTH_PASSWORD_VALIDATORS = [
-  {
-    'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-  },
-  {
-    'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-  },
-  {
-    'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-  },
-  {
-    'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-  },
+    {
+        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',  # noqa: E501
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',  # noqa: E501
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',  # noqa: E501
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',  # noqa: E501
+    },
 ]
 
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
@@ -147,7 +147,6 @@ APP_DISCLAIMER = 'The information and data presented in this product ' + \
                  'their quality.'
 
 try:
-  from .local_settings import *
-  # py-lint: disable=E0012
+    from .local_settings import *  # noqa: F401
 except ImportError:
-  pass
+    pass
