@@ -25,6 +25,27 @@ urlpatterns = [
     path('dev/', qapp_views.web_dev_tools, name='web_dev_tools'),
     path('dev/clean_qapps/', qapp_views.clean_qapps, name='clean_qapps'),
 
+    # ########################################################################
+    # QAPP URLs --------------------------------------------------------------
+    path('qapp/list/user/<int:pk>/',
+         qapp_views.QappList.as_view(),
+         name='qapp_list'),
+    path('qapp/list/team/<int:pk>/',
+         qapp_views.QappList.as_view(),
+         name='qapp_list'),
+    path('qapp/create/',
+         qapp_views.QappCreateView.as_view(),
+         name='qapp_create'),
+    path('qapp/<int:pk>/detail/',
+         qapp_views.QappDetail.as_view(),
+         name='qapp_detail'),
+    # Section A URLs ---------------------------------------------------------
+    path('qapp/<int:pk>/section-a/create/',
+         section_a_views.SectionA1Create.as_view(),
+         name='sectiona1_create'),
+    # Section B URLs ---------------------------------------------------------
+    # ########################################################################
+
     # Begin other module import URLs.
     path('accounts/', include('accounts.urls')),
     path('support/', include('support.urls')),

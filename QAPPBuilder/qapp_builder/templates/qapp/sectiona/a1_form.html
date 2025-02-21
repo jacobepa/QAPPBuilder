@@ -1,38 +1,37 @@
 {% extends 'main/base.html' %}
+{% load static %}
 
 {% block content %}
-  <h2>{{ view.title }}</h2>
-  <form method="post">
-    {% csrf_token %}
-    {{ form.media }}
-    {{ form.as_epa }}
-    <h4>Version Control</h4>
-    {{ version_formset.management_form }}
-    {% for v_form in version_formset %}
-      {{ v_form.as_epa }}
-    {% endfor %}
-    {% include 'edit_buttons_partial.html' %}
-  </form>
+    {% load custom_filters %}
+    <h2>{{ title }}</h2>
+    <form method="post">
+        {% csrf_token %}
+        <!-- {{ form.as_epa }} -->
 
-  <h3>Previous Versions</h3>
-  <table class="usa-table">
-    <thead>
-      <th>Updated On</th>
-      <th>Authors</th>
-      <th>Description</th>
-    </thead>
-    <tbody>
-      {% if object.versions.all %}
-      {% for version in object.versions.all %}
-        <tr>
-          <td>{{ version.updated_on }}</td>
-          <td>{{ version.authors }}</td>
-          <td>{{ version.description }}</td>
-        </tr>
-      {% endfor %}
-      {% else %}
-      <tr><td colspan="3">No previous versions...</td></tr>
-      {% endif %}
-    </tbody>
-  </table>
+        {{ form.non_field_errors }}
+
+        <!-- Render other fields automatically -->
+        {{ form.ord_center|as_epa }}
+        {{ form.division|as_epa }}
+        {{ form.branch|as_epa }}
+        {{ form.ord_national_program|as_epa }}
+        {{ form.version_date|as_epa }}
+        {{ form.qa_category|as_epa }}
+        {{ form.intra_or_extra|as_epa }}
+
+        <!-- Manually render the accessibility checkbox -->
+        <div class="usa-formgroup">
+          <legend class="usa-legend">Accessibility</legend>
+          <div class="usa-checkbox">
+              {{ form.accessibility }}
+              <label class="usa-checkbox__label" for="accessibility-checkbox">
+                  I do NOT want this QAPP internally shared and accessible on the ORD intranet site.
+              </label>
+          </div>
+      </div>
+
+      {{ form.disciplines|as_epa }}
+
+      {% include 'edit_buttons_partial.html' %}
+    </form>
 {% endblock %}

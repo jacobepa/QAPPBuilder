@@ -2,7 +2,7 @@ from django.db import models
 from .qapp_models import Qapp
 from .utility_models import EpaBaseModel
 from constants.qapp_section_b_const import DISCIPLINE_CHOICES, \
-    DISCIPLINE_MAX_LEN
+    DISCIPLINE_MAX_LEN, INTRA_EXTRA_CHOICES, QA_CATEGORY_OPTIONS
 
 
 class Discipline(EpaBaseModel):
@@ -11,21 +11,30 @@ class Discipline(EpaBaseModel):
         blank=False, null=False, max_length=DISCIPLINE_MAX_LEN,
         choices=DISCIPLINE_CHOICES)
 
+    def __str__(self):
+        return self.name
+
 
 class SectionA1(EpaBaseModel):
 
     qapp = models.OneToOneField(
         Qapp, on_delete=models.CASCADE, related_name='section_a1')
+    # TODO: Choices for Center
     ord_center = models.TextField(blank=False, null=False)
+    # TODO: Choices for Division
     division = models.TextField(blank=False, null=False)
+    # TODO: Choices for Branch
     branch = models.TextField(blank=False, null=False)
     title = models.TextField(blank=False, null=False)
+    # TODO: Choices for National Program?
     ord_national_program = models.TextField(blank=False, null=False)
     version_date = models.DateField(blank=False, null=False)
     proj_qapp_id = models.TextField(blank=False, null=False)
-    qa_category = models.CharField(blank=False, null=False, max_length=1)
+    qa_category = models.CharField(
+        blank=False, null=False, max_length=1, choices=QA_CATEGORY_OPTIONS)
     # Intramurally or Extramurally
-    intra_or_extra = models.CharField(blank=False, null=False, max_length=12)
+    intra_or_extra = models.CharField(
+        blank=False, null=False, max_length=12, choices=INTRA_EXTRA_CHOICES)
     # If extramurally:
     vehicle_num = models.TextField(blank=True, null=True)
     non_epa_org = models.TextField(blank=True, null=True)
@@ -40,12 +49,6 @@ class SectionA1(EpaBaseModel):
     # TODO: The CESER template has an "Other" option with user defined name...
 
 
-class AdditionalSignature(EpaBaseModel):
-
-    title = models.TextField(blank=True, null=True)
-    name = models.TextField(blank=True, null=True)
-
-
 class SectionA2(EpaBaseModel):
 
     qapp = models.OneToOneField(
@@ -58,7 +61,14 @@ class SectionA2(EpaBaseModel):
     extramural_technical_manager = models.TextField(blank=True, null=True)
     extramural_qa_manager = models.TextField(blank=True, null=True)
     # Optional additional signatures:
-    additional_signatures = models.ManyToManyField(AdditionalSignature)
+    # additional_signatures = models.ManyToManyField(AdditionalSignature)
+
+
+class AdditionalSignature(EpaBaseModel):
+
+    section_a2 = models.ForeignKey(SectionA2, on_delete=models.CASCADE)
+    title = models.TextField(blank=True, null=True)
+    name = models.TextField(blank=True, null=True)
 
 
 class SectionA3(EpaBaseModel):

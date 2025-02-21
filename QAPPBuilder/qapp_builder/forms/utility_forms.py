@@ -29,10 +29,13 @@ def render_field(self_form, field):
 
 def assign_epa_css(self_form):
   for field_name, field in self_form.fields.items():
-    if not isinstance(field.widget, forms.SelectMultiple):
+    if not isinstance(field.widget, (forms.SelectMultiple,
+                                     forms.CheckboxInput)):
       field.widget.attrs['class'] = 'usa-input'
-    else:
+    elif not isinstance(field.widget, forms.CheckboxInput):
       field.widget.attrs['class'] = 'usa-select'
+    else:
+      field.widget.attrs['class'] = 'usa-checkbox__input'
 
 
 class EpaBaseForm(forms.ModelForm):
