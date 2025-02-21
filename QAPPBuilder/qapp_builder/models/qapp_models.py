@@ -14,7 +14,7 @@ class Qapp(EpaBaseModel):
 
 
 class QappSharingTeamMap(EpaBaseModel):
-  """Mapping between QAPP and Teams they share."""
+    """Mapping between QAPP and Teams they share."""
 
     added_date = models.DateTimeField(
         auto_now_add=True, blank=False, editable=False)
@@ -22,7 +22,7 @@ class QappSharingTeamMap(EpaBaseModel):
         Qapp, blank=False, related_name='qapp_teams2',
         on_delete=models.CASCADE)
     team = models.ForeignKey(Team, blank=False,
-                                related_name='team_qapp2',
-                                on_delete=models.CASCADE)
+                             related_name='team_qapp2',
+                             on_delete=models.CASCADE)
     # Indicates if the team can edit the project.
     can_edit = models.BooleanField(blank=False, default=True)

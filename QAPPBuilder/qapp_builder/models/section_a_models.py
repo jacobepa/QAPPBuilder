@@ -33,7 +33,7 @@ class SectionA1(EpaBaseModel):
     # Accessibility is "I do NOT want this QAPP internally shared and
     #                   accessible on the ORD intranet site."
     accessibility = models.BooleanField(default=False)
-    disciplines = models.ManyToManyField(Discipline, on_delete=models.CASCADE)
+    disciplines = models.ManyToManyField(Discipline)
     # TODO: Measurement and Monitoring splits in two sub-options:
     #       Analytical Methods Development
     #       Animal/Cell Culture Studies
@@ -58,8 +58,7 @@ class SectionA2(EpaBaseModel):
     extramural_technical_manager = models.TextField(blank=True, null=True)
     extramural_qa_manager = models.TextField(blank=True, null=True)
     # Optional additional signatures:
-    additional_signatures = models.ManyToManyField(
-        AdditionalSignature, on_delete=models.CASCADE)
+    additional_signatures = models.ManyToManyField(AdditionalSignature)
 
 
 class SectionA3(EpaBaseModel):
@@ -133,7 +132,7 @@ class SectionA7(EpaBaseModel):
     """Distribution List"""
 
     qapp = models.OneToOneField(
-        Qapp, on_delete=models.CASCADE, related_name='section_a4')
+        Qapp, on_delete=models.CASCADE, related_name='section_a7')
     # Table 2. Distribution List
     # TODO: When this section is saved, populate some of the table defaults
 
@@ -150,7 +149,7 @@ class SectionA8(EpaBaseModel):
     """Project Organization"""
 
     qapp = models.OneToOneField(
-        Qapp, on_delete=models.CASCADE, related_name='section_a4')
+        Qapp, on_delete=models.CASCADE, related_name='section_a8')
     # Table 3. Environmental Information Roles and Responsibilities
     # TODO: When this section is saved, populate some of the table defaults
 
@@ -171,7 +170,7 @@ class RoleResponsibility(EpaBaseModel):
 class SectionA11(EpaBaseModel):
 
     qapp = models.OneToOneField(
-        Qapp, on_delete=models.CASCADE, related_name='section_a4')
+        Qapp, on_delete=models.CASCADE, related_name='section_a11')
     information = models.TextField(blank=False, null=False)
 
 
@@ -179,7 +178,7 @@ class SectionA12(EpaBaseModel):
     """Documents and Records"""
 
     qapp = models.OneToOneField(
-        Qapp, on_delete=models.CASCADE, related_name='section_a4')
+        Qapp, on_delete=models.CASCADE, related_name='section_a12')
     # Table 4. Documents and Records
     # TODO: When this section is saved, populate some of the table defaults
     # Table 5. Project's Record Schedule

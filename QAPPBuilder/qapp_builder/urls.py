@@ -10,7 +10,7 @@ from django.urls import path
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include
-import qapp_builder.views.views as views
+import qapp_builder.views.qapp_views as qapp_views
 import qapp_builder.views.section_a_views as section_a_views
 from qapp_builder.settings import MEDIA_ROOT, MEDIA_URL
 
@@ -18,12 +18,12 @@ from qapp_builder.settings import MEDIA_ROOT, MEDIA_URL
 urlpatterns = [
     path('admin', admin.site.urls),
 
-    path('', views.QappIndex.as_view(), name='home'),
-    path('dashboard/', views.QappIndex.as_view(), name='dashboard'),
-    path('contact/', views.contact, name='contact'),
+    path('', qapp_views.QappIndex.as_view(), name='home'),
+    path('dashboard/', qapp_views.QappIndex.as_view(), name='dashboard'),
+    path('contact/', qapp_views.contact, name='contact'),
 
-    path('dev/', views.web_dev_tools, name='web_dev_tools'),
-    path('dev/clean_qapps/', views.clean_qapps, name='clean_qapps'),
+    path('dev/', qapp_views.web_dev_tools, name='web_dev_tools'),
+    path('dev/clean_qapps/', qapp_views.clean_qapps, name='clean_qapps'),
 
     # Begin other module import URLs.
     path('accounts/', include('accounts.urls')),

@@ -18,7 +18,7 @@ Available functions:
 - xstr
 """
 
-import json
+# import json
 from io import BytesIO
 from operator import itemgetter
 from os import path
@@ -27,23 +27,23 @@ from django.conf import settings
 from django.core.files.storage import FileSystemStorage
 from django.core.mail import EmailMultiAlternatives
 from django.http import HttpResponse
-from .qapp_section_b_const import MODEL_LABELS_JSON_PATHS
+# from .qapp_section_b_const import MODEL_LABELS_JSON_PATHS
 
 
 upload_storage = FileSystemStorage(location=settings.UPLOAD_ROOT,
                                    base_url='/uploads')
 
 
-def load_model_labels(discipline):
-  """
-  Load a Model Labels JSON file into a Python dictionary.
+# def load_model_labels(discipline):
+#   """
+#   Load a Model Labels JSON file into a Python dictionary.
 
-  :param discipline: The discipline whose labels should be returned.
-  :return: Dictionary containing the labels JSON data.
-  """
-  with open(MODEL_LABELS_JSON_PATHS[discipline], 'r') as file:
-    data = json.load(file)
-  return data
+#   :param discipline: The discipline whose labels should be returned.
+#   :return: Dictionary containing the labels JSON data.
+#   """
+#   with open(MODEL_LABELS_JSON_PATHS[discipline], 'r') as file:
+#     data = json.load(file)
+#   return data
 
 
 # NOTE: This path requires a leading 'uploads'
