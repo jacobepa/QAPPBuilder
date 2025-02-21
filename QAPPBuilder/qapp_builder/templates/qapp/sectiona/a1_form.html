@@ -14,10 +14,25 @@
         {{ form.ord_center|as_epa }}
         {{ form.division|as_epa }}
         {{ form.branch|as_epa }}
+        {{ form.title|as_epa }}
         {{ form.ord_national_program|as_epa }}
         {{ form.version_date|as_epa }}
+        {{ form.proj_qapp_id|as_epa }}
         {{ form.qa_category|as_epa }}
+
         {{ form.intra_or_extra|as_epa }}
+        <!-- IF previous field selection is 'Extramurally' then these
+             should be visible, else hidden:
+             -->
+        <div class="border padding-left-2 margin-top-2 padding-bottom-2">
+            <label class="usa-label">
+                If you chose Extramurally, then Vehicle Number,
+                Non-EPA Organization, and Period of Performance are required.
+            </label>
+            {{ form.vehicle_num|as_epa }}
+            {{ form.non_epa_org|as_epa }}
+            {{ form.period_performance|as_epa }}
+        </div>
 
         <!-- Manually render the accessibility checkbox -->
         <div class="usa-formgroup">
@@ -25,7 +40,8 @@
           <div class="usa-checkbox">
               {{ form.accessibility }}
               <label class="usa-checkbox__label" for="accessibility-checkbox">
-                  I do NOT want this QAPP internally shared and accessible on the ORD intranet site.
+                  I do NOT want this QAPP internally shared and
+                  accessible on the ORD intranet site.
               </label>
           </div>
       </div>

@@ -13,7 +13,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpRequest
 from django.shortcuts import render
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.views.generic import CreateView, DetailView, ListView, \
     TemplateView, UpdateView
 from django.contrib.auth.models import User
@@ -215,10 +215,13 @@ class QappDetail(LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = self.object.title
-        context['edit_url'] = f'/qapp/{self.object.id}/edit/'
+        context['edit_url'] = reverse('qapp_edit',
+                                      kwargs={'pk': self.object.id})
         # TODO: Figure out where this request came from (user or team)
-        context['previous_url'] = f'/qapp/list/user/{self.request.user.id}/'
-        context['next_url'] = f'/qapp/{self.object.id}/sectiona1/detail/'
+        context['previous_url'] = reverse(
+            'qapp_list_user', kwargs={'user_id': self.request.user.id})
+        context['next_url'] = reverse('sectiona1_detail',
+                                      kwargs={'pk': self.object.id})
         return context
 
 

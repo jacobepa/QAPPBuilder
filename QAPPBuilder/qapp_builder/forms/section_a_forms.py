@@ -1,5 +1,5 @@
 from django import forms
-from qapp_builder.models import SectionA1
+from qapp_builder.models import SectionA1, SectionA2
 from .utility_forms import EpaBaseForm
 
 
@@ -31,3 +31,10 @@ class SectionA1Form(EpaBaseForm):
             'class': 'usa-checkbox__input',
             'id': 'accessibility-checkbox'
         })
+
+
+class SectionA2Form(EpaBaseForm):
+
+    class Meta:
+        model = SectionA2
+        exclude = ['section_a', 'qapp']
