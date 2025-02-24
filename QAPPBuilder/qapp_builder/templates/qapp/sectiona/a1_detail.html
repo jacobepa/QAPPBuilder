@@ -1,9 +1,41 @@
 {% extends 'main/base.html' %}
+{% load static %}
 
 {% block content %}
-  <h2>{{ title }}</h2>
+    {% load custom_filters %}
+    <h2>{{ title }}</h2>
+    <form method="post">
+        {% csrf_token %}
+        <!-- Render other fields automatically -->
+        {{ object|render_detail:"ord_center" }}
+        {{ object|render_detail:"division" }}
+        {{ object|render_detail:"branch" }}
+        {{ object|render_detail:"title" }}
+        {{ object|render_detail:"ord_national_program" }}
+        {{ object|render_detail:"version_date" }}
+        {{ object|render_detail:"proj_qapp_id" }}
+        {{ object|render_detail:"qa_category" }}
 
-  {{ object.render_details }}
+        {{ object|render_detail:"intra_or_extra" }}
+        <!-- TODO: IF previous field selection is 'Extramurally' then these
+             should be visible, else hidden:
+             -->
+        <div class="border-left margin-left-2 padding-left-2 margin-top-2 padding-bottom-2">
+            <label class="usa-label">
+                If you chose Extramurally, then Vehicle Number,
+                Non-EPA Organization, and Period of Performance are required.
+            </label>
+            {{ object|render_detail:"vehicle_num" }}
+            {{ object|render_detail:"non_epa_org" }}
+            {{ object|render_detail:"period_performance" }}
+        </div>
 
-  {% include 'detail_buttons_partial.html' %}
+        <!-- Manually render the accessibility checkbox -->
+        {% include 'qapp/sectiona/a1_accessibility_partial.html' %}
+
+      <!-- TODO: Special filter for many-to-many? -->
+      {{ object|render_detail:"disciplines" }}
+
+      {% include 'detail_buttons_partial.html' %}
+    </form>
 {% endblock %}

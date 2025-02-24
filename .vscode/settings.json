@@ -9,5 +9,8 @@
       "--verbose",
       "--max-line-length=80"
     ],
-    "editor.tabSize": 4 // default indentation
+    "editor.tabSize": 4,
+    "cSpell.words": [
+      "Recordkeeping"
+    ] // default indentation
   }

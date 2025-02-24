@@ -1,11 +1,12 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse
-from django.views.generic.edit import CreateView, UpdateView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic import DetailView, TemplateView
 # NOTE: Sections A9 and A10 are static/readonly with boilerplate
 from qapp_builder.models import SectionA1, SectionA2, SectionA3, SectionA4, \
-    SectionA5, SectionA6, SectionA7, SectionA8, SectionA11, SectionA12
+    SectionA5, SectionA6, SectionA7, SectionA8, SectionA11, SectionA12, \
+    AdditionalSignature
 import qapp_builder.forms.section_a_forms as forms
 
 
@@ -14,10 +15,10 @@ class SectionTemplateView(LoginRequiredMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = self.section_title
-        context['previous_url'] = reverse(self.previous_url_name,
-                                          kwargs=self.kwargs)
-        context['next_url'] = reverse(self.next_url_name,
-                                      kwargs=self.kwargs)
+        context['previous_url'] = reverse(
+            self.previous_url_name, kwargs={'qapp_id': self.kwargs['qapp_id']})
+        context['next_url'] = reverse(
+            self.next_url_name, kwargs={'qapp_id': self.kwargs['qapp_id']})
         return context
 
 
@@ -26,26 +27,27 @@ class SectionCreateBase(LoginRequiredMixin, CreateView):
 
     def dispatch(self, request, *args, **kwargs):
         # Check if the object already exists
-        if self.model.objects.filter(qapp_id=self.kwargs['pk']).exists():
+        if self.model.objects.filter(qapp_id=self.kwargs['qapp_id']).exists():
             # Redirect to the detail view if the object exists
             return redirect(reverse(self.detail_url_name,
-                                    kwargs={'pk': self.kwargs['pk']}))
+                                    kwargs={'qapp_id': self.kwargs['qapp_id']}))
         return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = self.section_title
-        context['previous_url'] = reverse(self.previous_url_name,
-                                          kwargs=self.kwargs)
+        context['previous_url'] = reverse(
+            self.previous_url_name, kwargs={'qapp_id': self.kwargs['qapp_id']})
         return context
 
     def form_valid(self, form):
         # Set the qapp field based on the URL path/PK
-        form.instance.qapp_id = self.kwargs['pk']
+        form.instance.qapp_id = self.kwargs['qapp_id']
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse(self.next_url_name, kwargs={'pk': self.object.qapp.pk})
+        return reverse(self.next_url_name,
+                       kwargs={'qapp_id': {'qapp_id': self.kwargs['qapp_id']}})
 
 
 class SectionUpdateBase(LoginRequiredMixin, UpdateView):
@@ -54,12 +56,13 @@ class SectionUpdateBase(LoginRequiredMixin, UpdateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = self.section_title
-        context['previous_url'] = reverse(self.previous_url_name,
-                                          kwargs=self.kwargs)
+        context['previous_url'] = reverse(
+            self.previous_url_name, kwargs={'qapp_id': self.kwargs['qapp_id']})
         return context
 
     def get_success_url(self):
-        return reverse(self.detail_url_name, kwargs={'pk': self.object.qapp.pk})
+        return reverse(self.detail_url_name,
+                       kwargs={'qapp_id': {'qapp_id': self.kwargs['qapp_id']}})
 
 
 class SectionDetailBase(LoginRequiredMixin, DetailView):
@@ -69,25 +72,26 @@ class SectionDetailBase(LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = self.section_title
-        context['previous_url'] = reverse(self.previous_url_name,
-                                          kwargs=self.kwargs)
-        context['next_url'] = reverse(self.next_url_name,
-                                      kwargs=self.kwargs)
-        context['edit_url'] = reverse(self.edit_url_name,
-                                      kwargs=self.kwargs)
+        context['previous_url'] = reverse(
+            self.previous_url_name, kwargs={'qapp_id': self.kwargs['qapp_id']})
+        context['next_url'] = reverse(
+            self.next_url_name, kwargs={'qapp_id': self.kwargs['qapp_id']})
+        context['edit_url'] = reverse(
+            self.edit_url_name, kwargs={'qapp_id': self.kwargs['qapp_id']})
         return context
 
     def dispatch(self, request, *args, **kwargs):
+        qapp_id = self.kwargs['qapp_id']
         # Check if the object already exists
-        if not self.model.objects.filter(qapp_id=self.kwargs['pk']).exists():
+        if not self.model.objects.filter(qapp_id=qapp_id).exists():
             # Redirect to the desired URL if the object exists
             return redirect(reverse(self.create_url_name,
-                                    kwargs={'pk': self.kwargs['pk']}))
+                                    kwargs={'qapp_id': qapp_id}))
         return super().dispatch(request, *args, **kwargs)
 
     def get_object(self):
         # Explicitly retrieve the object based on qapp_id
-        obj = get_object_or_404(self.model, qapp_id=self.kwargs['pk'])
+        obj = get_object_or_404(self.model, qapp_id=self.kwargs['qapp_id'])
         return obj
 
 
@@ -116,6 +120,7 @@ class SectionA1Update(SectionUpdateBase):
 class SectionA1Detail(SectionDetailBase):
 
     model = SectionA1
+    template_name = 'qapp/sectiona/a1_detail.html'
     section_title = 'Section A.1'
     edit_url_name = 'sectiona1_edit'
     create_url_name = 'sectiona1_create'
@@ -147,11 +152,64 @@ class SectionA2Update(SectionUpdateBase):
 class SectionA2Detail(SectionDetailBase):
 
     model = SectionA2
+    template_name = 'qapp/sectiona/a2_detail.html'
     section_title = 'Section A.2'
     edit_url_name = 'sectiona2_edit'
     create_url_name = 'sectiona2_create'
     previous_url_name = 'sectiona1_detail'
     next_url_name = 'sectiona3_detail'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['additional_signatures'] = AdditionalSignature.objects.filter(
+            section_a2_id=self.object.id)
+        return context
+
+
+class AdditionalSignatureBase(LoginRequiredMixin):
+
+    model = AdditionalSignature
+    form_class = forms.AdditionalSignatureForm
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Add an Additional Signee'
+        context['previous_url'] = reverse(
+            'sectiona2_detail', kwargs={'qapp_id': self.kwargs['qapp_id']})
+        return context
+
+    def get_success_url(self):
+        return reverse('sectiona2_detail',
+                       kwargs={'qapp_id': self.kwargs['qapp_id']})
+
+
+class AdditionalSignatureCreate(AdditionalSignatureBase, CreateView):
+
+    template_name = 'qapp/sectiona/a_generic_form.html'
+
+    def form_valid(self, form):
+        qapp_id = self.kwargs['qapp_id']
+        # Set the qapp field based on the URL path/PK
+        form.instance.section_a2_id = SectionA2.objects.get(qapp_id=qapp_id).id
+        return super().form_valid(form)
+
+
+class AdditionalSignatureUpdate(AdditionalSignatureBase, UpdateView):
+
+    template_name = 'qapp/sectiona/a_generic_form.html'
+
+    def get_success_url(self):
+        return reverse('sectiona2_detail',
+                       kwargs={'qapp_id': self.kwargs['qapp_id']})
+
+
+class AdditionalSignatureDelete(AdditionalSignatureBase, DeleteView):
+
+    template_name = 'qapp/confirm_delete.html'
+
+    def get_success_url(self):
+        return reverse('sectiona2_detail',
+                       kwargs={'qapp_id': self.kwargs['qapp_id']})
 
 
 class SectionA3Create(SectionCreateBase):

@@ -66,8 +66,7 @@ class SectionA2(EpaBaseModel):
     # Extramural signatures:
     extramural_technical_manager = models.TextField(blank=True, null=True)
     extramural_qa_manager = models.TextField(blank=True, null=True)
-    # Optional additional signatures:
-    # additional_signatures = models.ManyToManyField(AdditionalSignature)
+    # Optional additional signatures table
 
     @property
     def labels(self):
@@ -86,8 +85,8 @@ class SectionA3(EpaBaseModel):
 
     qapp = models.OneToOneField(
         Qapp, on_delete=models.CASCADE, related_name='section_a3')
-    # Revisions one-to-many
-    # Acronyms/Abbreviations/Definitions one-to-many
+    # Revisions one-to-many table
+    # Acronyms/Abbreviations/Definitions one-to-many table
 
 
 class Revision(EpaBaseModel):

@@ -18,7 +18,7 @@ from django.views.generic import CreateView, DetailView, ListView, \
     TemplateView, UpdateView
 from django.contrib.auth.models import User
 from qapp_builder.forms.qapp_forms import QappForm
-from qapp_builder.models import Qapp, QappSharingTeamMap
+from qapp_builder.models import Qapp, QappSharingTeamMap, SectionA1
 from teams.models import Team, TeamMembership
 
 
@@ -210,11 +210,14 @@ class QappDetail(LoginRequiredMixin, DetailView):
     """Class for viewing an existing QAPP."""
 
     model = Qapp
-    template_name = 'qapp/qapp_detail.html'
+    # template_name = 'qapp/qapp_detail.html'
+    template_name = 'qapp/qapp_overview.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = self.object.title
+        context['sectiona1'] = SectionA1.objects.filter(
+            qapp=self.object).first()
         context['edit_url'] = reverse('qapp_edit',
                                       kwargs={'pk': self.object.id})
         # TODO: Figure out where this request came from (user or team)

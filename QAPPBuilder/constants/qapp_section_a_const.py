@@ -85,7 +85,7 @@ SECTION_A = {
             'intra_or_extra': 'QAPP Developed Intra-or-Extramurally',
             'vehicle_num': 'Vehicle #',
             'non_epa_org': 'Name of Non-EPA Organization',
-            'period_performance': 'Perior of Performance (POP)',
+            'period_performance': 'Period of Performance (POP)',
             'accessibility': 'QAPP Accessibility'
         }
     },

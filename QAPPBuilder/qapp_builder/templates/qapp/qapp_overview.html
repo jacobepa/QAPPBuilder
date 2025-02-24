@@ -1,0 +1,45 @@
+{% extends "main/base.html" %}
+
+{% block content %}
+    <h2>QAPP Section A1 - Title Page</h2>
+    <h2>U.S. Environmental Protection Agency Office of Research and Development</h2>
+    <h3>ORD Center: {{sectiona1.ord_center}}</h3>
+    <h4>Division: {{sectiona1.division}}</h4>
+    <h5>Branch: {{sectiona1.branch}}</h5>
+
+    <h4>{{qapp.title}} Quality Assurance Project Plan (QAPP)</h4>
+    <h5>ORD National Program: {{sectiona1.ord_national_program}}</h5>
+    <h5>Version Date: {{sectiona1.version_date}}</h5>
+    <h5>QA Category: {{sectiona1.qa_category}}</h5>
+    <h5>QAPP Developed: {{sectiona1.intra_or_extra}}</h5>
+    {% if sectiona1.intra_or_extra is "Extramurally" %}
+    <div class="border-left margin-2 padding-left-2">
+        <h6>Vehicle #: {{sectiona1.vehicle_num}}</h6>
+        <h6>Name of Non-EPA Organization: {{sectiona1.non_epa_org}}</h6>
+        <h6>Period of Performance (POP): {{sectiona1.period_performance}}</h6>
+    </div>
+    {% endif %}
+
+    <!-- Manually render the accessibility checkbox -->
+    {% include 'qapp/sectiona/a1_accessibility_partial.html' %}
+
+    <!-- TODO: Render selected Project Discipline Types -->
+
+
+    <div class="usa-button-group margin-top-2">
+        <li class="usa-button-group__item">
+            <a class="usa-button usa-button--accent-cool" href="{{previous_url}}">Export to Word Doc</a>
+        </li>
+        <li class="usa-button-group__item">
+            <a class="usa-button usa-button--accent-cool" href="{{previous_url}}">Export to Word Doc</a>
+        </li>
+        <li class="usa-button-group__item">
+            <a class="usa-button usa-button--secondary" href="{{previous_url}}">Delete QAPP</a>
+        </li>
+    </div>
+
+    <!-- TODO: Tables? -->
+
+    {% include 'detail_buttons_partial.html' %}
+
+{% endblock %}

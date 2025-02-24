@@ -59,54 +59,31 @@ urlpatterns = [
     path('qapp/create/',
          qapp_views.QappCreateView.as_view(),
          name='qapp_create'),
-    path('qapp/<int:pk>/detail/',
+    path('qapp/<int:qapp_id>/detail/',
          qapp_views.QappDetail.as_view(),
          name='qapp_detail'),
-    path('qapp/<int:pk>/edit/',
+    path('qapp/<int:qapp_id>/edit/',
          qapp_views.QappUpdate.as_view(),
          name='qapp_edit'),
     # ###################################################################
     # Section A URLs ----------------------------------------------------
     # NOTE: A9 and A10 are readonly, and so only have a single URL
-    path('qapp/<int:pk>/section-a9/',
+    path('qapp/<int:qapp_id>/section-a9/',
          section_a_views.SectionA9Detail.as_view(),
          name='sectiona9_detail'),
-    path('qapp/<int:pk>/section-a10/',
+    path('qapp/<int:qapp_id>/section-a10/',
          section_a_views.SectionA10Detail.as_view(),
          name='sectiona10_detail'),
-    # # --- Section A1 ----------------------------------------------------
-    # path('qapp/<int:pk>/section-a1/create/',
-    #         section_a_views.SectionA1Create.as_view(),
-    #         name='sectiona1_create'),
-    # path('qapp/<int:pk>/section-a1/edit/',
-    #         section_a_views.SectionA1Update.as_view(),
-    #         name='sectiona1_edit'),
-    # path('qapp/<int:pk>/section-a1/detail/',
-    #         section_a_views.SectionA1Detail.as_view(),
-    #         name='sectiona1_detail'),
-    # # --- Section A2 ----------------------------------------------------
-    # path('qapp/<int:pk>/section-a2/create/',
-    #         section_a_views.SectionA2Create.as_view(),
-    #         name='sectiona2_create'),
-    # path('qapp/<int:pk>/section-a2/edit/',
-    #         section_a_views.SectionA2Update.as_view(),
-    #         name='sectiona2_edit'),
-    # path('qapp/<int:pk>/section-a2/detail/',
-    #         section_a_views.SectionA2Detail.as_view(),
-    #         name='sectiona2_detail'),
-    # # --- Section A3 ----------------------------------------------------
-    # path('qapp/<int:pk>/section-a3/create/',
-    #         section_a_views.SectionA3Create.as_view(),
-    #         name='sectiona3_create'),
-    # path('qapp/<int:pk>/section-a3/edit/',
-    #         section_a_views.SectionA3Update.as_view(),
-    #         name='sectiona3_edit'),
-    # path('qapp/<int:pk>/section-a3/detail/',
-    #         section_a_views.SectionA3Detail.as_view(),
-    #         name='sectiona3_detail'),
-    # --- Section A4 ---------------------------------------------------------
-    # --- Section A5 ---------------------------------------------------------
-    # --- Section A6 ---------------------------------------------------------
+    # Section A2 Signatures ---------------------------------------------
+    path('qapp/<int:qapp_id>/signature/create/',
+         section_a_views.AdditionalSignatureCreate.as_view(),
+         name='signature_create'),
+    path('qapp/<int:qapp_id>/signature/<int:pk>/edit/',
+         section_a_views.AdditionalSignatureUpdate.as_view(),
+         name='signature_create'),
+    path('qapp/<int:qapp_id>/signature/<int:pk>/delete/',
+         section_a_views.AdditionalSignatureDelete.as_view(),
+         name='signature_create'),
     # ########################################################################
     # Section B URLs ---------------------------------------------------------
     # ########################################################################
@@ -121,11 +98,11 @@ urlpatterns = [
 # Loop through the sections to create URL patterns
 for section, create_view, update_view, detail_view in sections_a:
     urlpatterns += [
-        path(f'qapp/<int:pk>/{section}/create/',
+        path(f'qapp/<int:qapp_id>/{section}/create/',
              create_view.as_view(), name=f'{section.replace("-", "")}_create'),
-        path(f'qapp/<int:pk>/{section}/edit/',
+        path(f'qapp/<int:qapp_id>/{section}/edit/',
              update_view.as_view(), name=f'{section.replace("-", "")}_edit'),
-        path(f'qapp/<int:pk>/{section}/detail/',
+        path(f'qapp/<int:qapp_id>/{section}/detail/',
              detail_view.as_view(), name=f'{section.replace("-", "")}_detail'),
     ]
 

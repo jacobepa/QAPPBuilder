@@ -1,0 +1,17 @@
+<!-- Manually render the accessibility checkbox -->
+<div class="usa-formgroup">
+    <legend class="usa-legend">Accessibility</legend>
+    <div class="usa-checkbox">
+        <input readonly="true" type="checkbox" name="accessibility"
+                class="usa-checkbox__input" onclick="return false;"
+                id="accessibility-checkbox"
+                {% if  object.accessibility %}
+                checked
+                {% endif %}
+        />
+        <label class="usa-checkbox__label" for="accessibility-checkbox">
+            I do NOT want this QAPP internally shared and
+            accessible on the ORD intranet site.
+        </label>
+    </div>
+</div>

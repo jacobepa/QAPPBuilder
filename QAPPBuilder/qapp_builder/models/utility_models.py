@@ -40,6 +40,21 @@ class QappDocument(EpaBaseModel):
     special_handling = models.TextField()
 
 
+def render_field(label, value):
+    return f'''
+    <div class="usa-form-group">
+        <label class="usa-label">{label}</label>
+        <div class="usa-input">{value}</div>
+    </div>
+    '''
+
+
+def get_model_custom_label(instance, field_name):
+    # NOTE: Custom code for handling labels in the model rendering
+    if hasattr(instance, 'labels') and field_name in instance.labels:
+        return instance.labels[field_name]
+
+
 def render_model_details(instance):
     """
     Returns the details of a model instance with USWDS styling.
@@ -52,18 +67,8 @@ def render_model_details(instance):
         # TODO Figure out datetime formatting...
         # elif isinstance(value, (models.DateField, models.DateTimeField)):
         #     value = date_format(value, DATETIME_FORMAT)
-        field_label = field.verbose_name.capitalize()
-        # NOTE: Custom code for handling labels in the model rendering
-        if hasattr(instance, 'labels') and field.name in instance.labels:
-          field_label = instance.labels[field.name]
+        field_label = get_model_custom_label(instance, field.name)
+        if not field_label:
+            field_label = field.verbose_name.capitalize()
         output.append(render_field(field_label, value))
     return mark_safe('\n'.join(output))
-
-
-def render_field(label, value):
-    return f'''
-    <div class="usa-form-group">
-        <label class="usa-label">{label}</label>
-        <div class="usa-input">{value}</div>
-    </div>
-    '''
