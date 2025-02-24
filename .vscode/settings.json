@@ -9,5 +9,5 @@
       "--verbose",
       "--max-line-length=80"
     ],
-    "editor.tabSize": 24 // default indentation
+    "editor.tabSize": 4 // default indentation
   }

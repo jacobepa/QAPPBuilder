@@ -12,6 +12,9 @@ class Qapp(EpaBaseModel):
     updated_on = models.DateTimeField(auto_now=True)
     teams = models.ManyToManyField(Team, through='QappSharingTeamMap')
 
+    def __str__(self):
+        return self.title
+
 
 class QappSharingTeamMap(EpaBaseModel):
     """Mapping between QAPP and Teams they share."""
@@ -26,3 +29,6 @@ class QappSharingTeamMap(EpaBaseModel):
                              on_delete=models.CASCADE)
     # Indicates if the team can edit the project.
     can_edit = models.BooleanField(blank=False, default=True)
+
+    def __str__(self):
+        return f'Team "{self.team}" - {self.qapp}'

@@ -46,3 +46,44 @@ FY_QUARTERS = [
     f'FY{CURRENT_FY+1} {QUARTERS[1]}',  # FY26 Q2
     f'FY{CURRENT_FY+1} {QUARTERS[2]}',  # FY26 Q3
 ]
+
+SECTION_B = {
+    'b': {'header': 'B: Implementing Environmental Information Operations'},
+    'b1': {
+        'header': '''B1: Identification of Project Environmental Information
+                     Operations'''
+    },
+    'b2': {'header': 'B2: Methods for Environmental Information Acquisition'},
+    'b3': {'header': 'B3: Integrity of Environmental Information'},
+    'b4': {'header': 'B4: Quality Control'},
+    'b5': {
+        'header': '''B5: Instruments/Equipment Calibration, Testing,
+                     Inspection, and Maintenance'''
+    },
+    'b6': {'header': 'B6: Inspection/Acceptance of Supplies and Services'},
+    'b7': {'header': 'B7: Environmental Information Management'},
+    'b7_1': {'header': 'B7.1: Information Handling and Storage'},
+    'b7_2': {'header': 'B7.2: Information Security'},
+    'b7_3': {
+        'header': 'B7.3: Information Systems',
+        'boilerplate': '''
+            Table 6 below identifies the types of hardware, operating systems
+            (OS), and specialty software that will be used for this project,
+            including any specialized requirements requiring the use of anything
+            other than the standard EPA-issued laptop with Microsoft Windows OS
+            using Microsoft Office Tools.
+        '''
+    },
+    'b7_4': {
+        'header': 'B7.4: Information Accessibility',
+        'boilerplate': '''
+            Data that belong to the Federal government are subject to the
+            Federal Information Security Modernization Act (FISMA). Research
+            data associated with any scientific product, as appropriate, will be
+            shared publicly after clearance and acceptance of the product by a
+            journal, either through Science Hub or another data repository. The
+            metadata of the publicly available data will be recorded in Science
+            Hub which transmits this information to data.gov.
+        '''
+    }
+}
