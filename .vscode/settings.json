@@ -1,4 +1,13 @@
 {
-    "python.linting.pycodestyleEnabled": true,
-    "python.linting.enabled": true
-}
+    "yapf.args": [
+      "--style",
+      "{based_on_style: pep8, indent_width: 4, column_limit: 80}"
+    ],
+    "flake8.args": [
+      "--indent-size=4",
+      "--ignore=F403,F405,E731,E111",
+      "--verbose",
+      "--max-line-length=80"
+    ],
+    "editor.tabSize": 24 // default indentation
+  }
