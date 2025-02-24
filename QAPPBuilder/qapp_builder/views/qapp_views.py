@@ -224,7 +224,7 @@ class QappDetail(LoginRequiredMixin, DetailView):
         context['previous_url'] = reverse(
             'qapp_list_user', kwargs={'user_id': self.request.user.id})
         context['next_url'] = reverse('sectiona1_detail',
-                                      kwargs={'pk': self.object.id})
+                                      kwargs={'qapp_id': self.object.id})
         return context
 
 

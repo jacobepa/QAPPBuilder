@@ -1,0 +1,61 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block extend_js %}
+<!-- NOTE: JQuery is already included inside base.html... -->
+<!-- NOTE: Not sure why, but JQuery won't work unless I include again here. -->
+<script src="https://www.epa.gov/core/assets/vendor/jquery/jquery.min.js?v=3.6.0"></script>
+<script src="{% static 'scripts/app.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+    <h2>{{ title }}</h2>
+
+    <!-- While revisions is technically part of A3, it's better placed on the QAPP details page... -->
+    <!-- <h3>Revisions</h3> -->
+
+    <h3>Acronyms/Abbreviations/Definitions</h3>
+
+    <div class="usa-button-group">
+        <li class="usa-button-group__item">
+            <a class="usa-button" href="/qapp/{{qapp_id}}/definition/create/">Add New Definition</a>
+        </li>
+        <li class="usa-button-group__item">
+            <i class="usa-button usa-button--secondary" onclick="deleteDefinition(this)" aria-disabled="true">
+                Remove Definition
+            </i>
+        </li>
+    </div>
+    <table class="usa-table grid-col">
+        <thead>
+            <tr>
+                <th scope="col">Acronym/Abbreviation</th>
+                <th scope="col">Definition</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if acronym_abbreviations %}
+            {% for definition in acronym_abbreviations %}
+            <tr id="{{definition.id}}" onclick="rowClick('{{definition.id}}')">
+                <th scope="row">{{definition.acronym_abbreviation}}</th>
+                <td>{{definition.definition}}</td>
+            </tr>
+            {% endfor %}
+            {% else %}
+            <tr>
+                <td colspan="2">No Acronyms/Abbreviations added.</td>
+            </tr>
+            {% endif %}
+        </tbody>
+    </table>
+    {% include 'detail_buttons_partial.html' %}
+{% endblock %}
+
+{% block scripts %}
+<script>
+  function deleteDefinition(btn){
+    if ($(btn).attr('disabled')) return;
+    window.location.href = `/qapp/{{qapp_id}}/definition/${$(btn).attr('id')}/delete/`;
+  }
+</script>
+{% endblock %}

@@ -14,6 +14,7 @@ class EpaBaseModel(models.Model):
 
 class Definition(EpaBaseModel):
     """Represents a Definition for an Acronym, Abbreviation, or Term"""
+
     acronym_abbrev = models.TextField(blank=False, null=False)
     definition = models.TextField(blank=False, null=False)
 

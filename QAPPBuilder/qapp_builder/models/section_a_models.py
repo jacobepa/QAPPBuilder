@@ -100,9 +100,13 @@ class Revision(EpaBaseModel):
 
 class AcronymAbbreviation(EpaBaseModel):
 
-    section_a3 = models.ForeignKey(SectionA3, on_delete=models.CASCADE)
+    qapp = models.ForeignKey(Qapp, on_delete=models.CASCADE)
     acronym_abbreviation = models.TextField(blank=False, null=False)
     definition = models.TextField(blank=False, null=False)
+
+    @property
+    def labels(self):
+        return {'acronym_abbreviation': 'Acronym/Abbreviation'}
 
 
 class SectionA4(EpaBaseModel):

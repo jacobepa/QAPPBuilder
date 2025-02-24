@@ -1,7 +1,7 @@
 from django import forms
 from qapp_builder.models import SectionA1, SectionA2, SectionA3, SectionA4, \
     SectionA5, SectionA6, SectionA7, SectionA8, SectionA11, SectionA12, \
-    AdditionalSignature
+    AdditionalSignature, AcronymAbbreviation
 from .utility_forms import EpaBaseForm
 from constants.qapp_section_a_const import SECTION_A
 
@@ -43,7 +43,7 @@ class SectionA2Form(EpaBaseForm):
     class Meta:
         model = SectionA2
         exclude = ['section_a', 'qapp']
-        labels = SECTION_A['a2']['labels']
+        labels = SectionA2().labels
 
 
 class AdditionalSignatureForm(EpaBaseForm):
@@ -53,12 +53,16 @@ class AdditionalSignatureForm(EpaBaseForm):
         exclude = ['section_a2']
 
 
-class SectionA3Form(EpaBaseForm):
+# NOTE: No Section A3 form. Revisions and Acronyms/Abbreviations/Definitions
+# class SectionA3Form(EpaBaseForm):
+
+
+class AcronymAbbreviationForm(EpaBaseForm):
 
     class Meta:
-        model = SectionA3
-        exclude = ['section_a', 'qapp']
-        # labels = SECTION_A['a3']['labels']
+        model = AcronymAbbreviation
+        exclude = ['qapp']
+        labels = AcronymAbbreviation().labels
 
 
 class SectionA4Form(EpaBaseForm):

@@ -1,4 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
@@ -6,8 +7,12 @@ from django.views.generic import DetailView, TemplateView
 # NOTE: Sections A9 and A10 are static/readonly with boilerplate
 from qapp_builder.models import SectionA1, SectionA2, SectionA3, SectionA4, \
     SectionA5, SectionA6, SectionA7, SectionA8, SectionA11, SectionA12, \
-    AdditionalSignature
+    AdditionalSignature, AcronymAbbreviation
 import qapp_builder.forms.section_a_forms as forms
+
+
+GENERIC_FORM_TEMPLATE = 'qapp/sectiona/a_generic_form.html'
+CONFIRM_DELETE_TEMPLATE = 'qapp/confirm_delete.html'
 
 
 class SectionTemplateView(LoginRequiredMixin, TemplateView):
@@ -23,7 +28,7 @@ class SectionTemplateView(LoginRequiredMixin, TemplateView):
 
 
 class SectionCreateBase(LoginRequiredMixin, CreateView):
-    template_name = 'qapp/sectiona/a_generic_form.html'
+    template_name = GENERIC_FORM_TEMPLATE
 
     def dispatch(self, request, *args, **kwargs):
         # Check if the object already exists
@@ -51,7 +56,7 @@ class SectionCreateBase(LoginRequiredMixin, CreateView):
 
 
 class SectionUpdateBase(LoginRequiredMixin, UpdateView):
-    template_name = 'qapp/sectiona/a_generic_form.html'
+    template_name = GENERIC_FORM_TEMPLATE
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -78,6 +83,7 @@ class SectionDetailBase(LoginRequiredMixin, DetailView):
             self.next_url_name, kwargs={'qapp_id': self.kwargs['qapp_id']})
         context['edit_url'] = reverse(
             self.edit_url_name, kwargs={'qapp_id': self.kwargs['qapp_id']})
+        context['qapp_id'] = self.kwargs['qapp_id']
         return context
 
     def dispatch(self, request, *args, **kwargs):
@@ -185,7 +191,7 @@ class AdditionalSignatureBase(LoginRequiredMixin):
 
 class AdditionalSignatureCreate(AdditionalSignatureBase, CreateView):
 
-    template_name = 'qapp/sectiona/a_generic_form.html'
+    template_name = GENERIC_FORM_TEMPLATE
 
     def form_valid(self, form):
         qapp_id = self.kwargs['qapp_id']
@@ -193,51 +199,82 @@ class AdditionalSignatureCreate(AdditionalSignatureBase, CreateView):
         form.instance.section_a2_id = SectionA2.objects.get(qapp_id=qapp_id).id
         return super().form_valid(form)
 
-
-class AdditionalSignatureUpdate(AdditionalSignatureBase, UpdateView):
-
-    template_name = 'qapp/sectiona/a_generic_form.html'
-
     def get_success_url(self):
         return reverse('sectiona2_detail',
                        kwargs={'qapp_id': self.kwargs['qapp_id']})
+
+
+class AdditionalSignatureUpdate(AdditionalSignatureBase, UpdateView):
+
+    template_name = GENERIC_FORM_TEMPLATE
 
 
 class AdditionalSignatureDelete(AdditionalSignatureBase, DeleteView):
 
-    template_name = 'qapp/confirm_delete.html'
-
-    def get_success_url(self):
-        return reverse('sectiona2_detail',
-                       kwargs={'qapp_id': self.kwargs['qapp_id']})
+    template_name = CONFIRM_DELETE_TEMPLATE
 
 
-class SectionA3Create(SectionCreateBase):
-    model = SectionA3
-    form_class = forms.SectionA3Form
-    section_title = 'Section A.3'
-    previous_url_name = 'sectiona2_detail'
-    detail_url_name = 'sectiona3_detail'
-    next_url_name = 'sectiona4_create'
+class SectionA3Detail(LoginRequiredMixin, TemplateView):
 
-
-class SectionA3Update(SectionUpdateBase):
-    model = SectionA3
-    form_class = forms.SectionA3Form
-    template_name = 'qapp/sectiona/a3_form.html'
-    section_title = 'Section A.3'
-    previous_url_name = 'sectiona2_detail'
-    detail_url_name = 'sectiona3_detail'
-    next_url_name = 'sectiona4_create'
-
-
-class SectionA3Detail(SectionDetailBase):
-    model = SectionA3
+    template_name = 'qapp/sectiona/a3_detail.html'
     section_title = 'Section A.3'
     edit_url_name = 'sectiona3_edit'
     create_url_name = 'sectiona3_create'
     previous_url_name = 'sectiona2_detail'
     next_url_name = 'sectiona4_detail'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = self.section_title
+        context['previous_url'] = reverse(
+            self.previous_url_name, kwargs={'qapp_id': self.kwargs['qapp_id']})
+        context['next_url'] = reverse(
+            self.next_url_name, kwargs={'qapp_id': self.kwargs['qapp_id']})
+        context['acronym_abbreviations'] = AcronymAbbreviation.objects.filter(
+            qapp_id=self.kwargs['qapp_id'])
+        context['qapp_id'] = self.kwargs['qapp_id']
+
+        return context
+
+
+class AcronymAbbreviationBase(LoginRequiredMixin):
+
+    model = AcronymAbbreviation
+    form_class = forms.AcronymAbbreviationForm
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Add a Definition for an Acronym or Abbreviation'
+        context['previous_url'] = reverse(
+            'sectiona3_detail', kwargs={'qapp_id': self.kwargs['qapp_id']})
+        return context
+
+    def get_success_url(self):
+        print('*' * 50)
+        print('success url')
+        return reverse('sectiona3_detail',
+                       kwargs={'qapp_id': self.kwargs['qapp_id']})
+
+
+class AcronymAbbreviationCreate(AcronymAbbreviationBase, CreateView):
+
+    template_name = GENERIC_FORM_TEMPLATE
+
+    def form_valid(self, form):
+        form.instance.qapp_id = self.kwargs['qapp_id']
+        return super().form_valid(form)
+
+
+class AcronymAbbreviationDelete(AcronymAbbreviationBase, DeleteView):
+
+    template_name = CONFIRM_DELETE_TEMPLATE
+
+    def post(self, request, *args, **kwargs):
+        print('POST')
+        self.object = self.get_object()
+        success_url = self.get_success_url()
+        self.object.delete()
+        return HttpResponseRedirect(success_url)
 
 
 class SectionA4Create(SectionCreateBase):
