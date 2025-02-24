@@ -42,6 +42,7 @@ PROJ_ROLES_RESPONSIBILITIES = {
 
 SECTION_A = {
     'a1': {
+        'header': 'A1: Title Page',
         'labels': {
             'qapp': 'QAPP',
             'ord_center': 'ORD Center',
@@ -60,6 +61,7 @@ SECTION_A = {
         }
     },
     'a2': {
+        'header': 'A2: Approval Page',
         'labels': {
             'ord_technical_lead': 'ORD Technical Lead (TL)',
             'ord_tl_supervisor': 'ORD Technical Lead\'s Supervisor',
@@ -67,6 +69,9 @@ SECTION_A = {
             'extramural_technical_manager': 'Extramural Technical Manager',
             'extramural_qa_manager': 'Extramural QA Manager'
         }
+    },
+    'a3': {
+        'header': 'A3: Table of Contents, Document Format, and Document Control'
     },
     'a4': {
         'header': 'A4: Project Purpose, Problem Definition, and Background',
