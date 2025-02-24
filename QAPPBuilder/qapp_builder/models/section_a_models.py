@@ -1,8 +1,10 @@
 from django.db import models
 from .qapp_models import Qapp
 from .utility_models import EpaBaseModel
+from constants.qapp_section_a_const import SECTION_A, INTRA_EXTRA_CHOICES, \
+    QA_CATEGORY_OPTIONS
 from constants.qapp_section_b_const import DISCIPLINE_CHOICES, \
-    DISCIPLINE_MAX_LEN, INTRA_EXTRA_CHOICES, QA_CATEGORY_OPTIONS
+    DISCIPLINE_MAX_LEN
 
 
 class Discipline(EpaBaseModel):
@@ -48,6 +50,10 @@ class SectionA1(EpaBaseModel):
     #       Animal/Cell Culture Studies
     # TODO: The CESER template has an "Other" option with user defined name...
 
+    @property
+    def labels(self):
+        return SECTION_A['a1']['labels']
+
 
 class SectionA2(EpaBaseModel):
 
@@ -62,6 +68,10 @@ class SectionA2(EpaBaseModel):
     extramural_qa_manager = models.TextField(blank=True, null=True)
     # Optional additional signatures:
     # additional_signatures = models.ManyToManyField(AdditionalSignature)
+
+    @property
+    def labels(self):
+        return SECTION_A['a2']['labels']
 
 
 class AdditionalSignature(EpaBaseModel):
@@ -102,6 +112,10 @@ class SectionA4(EpaBaseModel):
         Qapp, on_delete=models.CASCADE, related_name='section_a4')
     project_background = models.TextField(blank=False, null=False)
     project_purpose = models.TextField(blank=False, null=False)
+
+    @property
+    def labels(self):
+        return SECTION_A['a4']['labels']
 
 
 class SectionA5(EpaBaseModel):

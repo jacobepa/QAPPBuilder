@@ -26,7 +26,8 @@ class SectionA1Form(EpaBaseForm):
             #     attrs={'class': 'usa-checkbox'}),
             'disciplines': forms.SelectMultiple(attrs={'class': 'usa-select'}),
         }
-        labels = SECTION_A['a1']['labels']
+        # labels = SECTION_A['a1']['labels']
+        labels = SectionA1().labels
 
     def __init__(self, *args, **kwargs):
         super(SectionA1Form, self).__init__(*args, **kwargs)

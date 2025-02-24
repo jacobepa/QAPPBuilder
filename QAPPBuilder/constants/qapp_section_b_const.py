@@ -19,34 +19,6 @@ DISCIPLINE_CHOICES = (
 # Programmatic solution to get max len?
 DISCIPLINE_MAX_LEN = max(len(choice[0]) for choice in DISCIPLINE_CHOICES)
 
-QA_CATEGORY_A = 'A'
-QA_CATEGORY_B = 'B'
-QA_CATEGORY_OPTIONS = (
-    (QA_CATEGORY_A, QA_CATEGORY_A),
-    (QA_CATEGORY_B, QA_CATEGORY_B),
-)
-
-INTRAMURALLY = 'Intramurally'
-EXTRAMURALLY = 'Extramurally'
-INTRA_EXTRA_CHOICES = (
-    (INTRAMURALLY, INTRAMURALLY),
-    (EXTRAMURALLY, EXTRAMURALLY),
-)
-
-CURRENT_FY = 2025
-QUARTERS = ['Q1', 'Q2', 'Q3', 'Q4']
-
-FY_QUARTERS = [
-    f'FY{CURRENT_FY-1} {QUARTERS[3]}',  # FY24 Q4
-    f'FY{CURRENT_FY} {QUARTERS[0]}',    # FY25 Q1
-    f'FY{CURRENT_FY} {QUARTERS[1]}',    # FY25 Q2
-    f'FY{CURRENT_FY} {QUARTERS[2]}',    # FY25 Q3
-    f'FY{CURRENT_FY} {QUARTERS[3]}',    # FY25 Q4
-    f'FY{CURRENT_FY+1} {QUARTERS[0]}',  # FY26 Q1
-    f'FY{CURRENT_FY+1} {QUARTERS[1]}',  # FY26 Q2
-    f'FY{CURRENT_FY+1} {QUARTERS[2]}',  # FY26 Q3
-]
-
 SECTION_B = {
     'b': {'header': 'B: Implementing Environmental Information Operations'},
     'b1': {
