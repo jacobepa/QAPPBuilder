@@ -1,7 +1,7 @@
 from django import forms
 from qapp_builder.models import SectionA1, SectionA2, SectionA4, \
     SectionA5, SectionA6, SectionA7, SectionA8, SectionA11, SectionA12, \
-    AdditionalSignature, AcronymAbbreviation, Distribution
+    AdditionalSignature, AcronymAbbreviation, Distribution, RoleResponsibility
 from .utility_forms import EpaBaseForm
 from constants.qapp_section_a_const import SECTION_A
 
@@ -111,6 +111,14 @@ class SectionA8Form(EpaBaseForm):
         model = SectionA8
         exclude = ['section_a', 'qapp']
         # labels = SECTION_A['a8']['labels']
+
+
+class RoleResponsibilityForm(EpaBaseForm):
+
+    class Meta:
+        model = RoleResponsibility
+        exclude = ['qapp_id', 'qapp']
+        labels = RoleResponsibility().labels
 
 
 class SectionA11Form(EpaBaseForm):

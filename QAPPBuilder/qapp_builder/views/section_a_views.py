@@ -1,13 +1,11 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse
-from django.urls.exceptions import NoReverseMatch
-from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.views.generic.edit import CreateView, UpdateView
 from django.views.generic import DetailView, TemplateView
 # NOTE: Sections A9 and A10 are static/readonly with boilerplate
 from qapp_builder.models import SectionA1, SectionA2, SectionA4, \
-    SectionA5, SectionA6, SectionA8, SectionA11, SectionA12, \
+    SectionA5, SectionA6, SectionA11, SectionA12, RoleResponsibility, \
     AdditionalSignature, AcronymAbbreviation, Distribution
 import qapp_builder.forms.section_a_forms as forms
 from constants.qapp_section_a_const import SECTION_A
@@ -184,48 +182,6 @@ class SectionA2Detail(SectionDetailBase):
         return context
 
 
-class AdditionalSignatureBase(LoginRequiredMixin):
-
-    model = AdditionalSignature
-    form_class = forms.AdditionalSignatureForm
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['title'] = 'Add an Additional Signee'
-        context['previous_url'] = reverse(
-            'sectiona2_detail', kwargs={'qapp_id': self.kwargs['qapp_id']})
-        return context
-
-    def get_success_url(self):
-        return reverse('sectiona2_detail',
-                       kwargs={'qapp_id': self.kwargs['qapp_id']})
-
-
-class AdditionalSignatureCreate(AdditionalSignatureBase, CreateView):
-
-    template_name = GENERIC_FORM_TEMPLATE
-
-    def form_valid(self, form):
-        qapp_id = self.kwargs['qapp_id']
-        # Set the qapp field based on the URL path/PK
-        form.instance.section_a2_id = SectionA2.objects.get(qapp_id=qapp_id).id
-        return super().form_valid(form)
-
-    def get_success_url(self):
-        return reverse('sectiona2_detail',
-                       kwargs={'qapp_id': self.kwargs['qapp_id']})
-
-
-class AdditionalSignatureUpdate(AdditionalSignatureBase, UpdateView):
-
-    template_name = GENERIC_FORM_TEMPLATE
-
-
-class AdditionalSignatureDelete(AdditionalSignatureBase, DeleteView):
-
-    template_name = CONFIRM_DELETE_TEMPLATE
-
-
 class SectionA3Detail(LoginRequiredMixin, TemplateView):
 
     template_name = 'qapp/sectiona/a3_detail.html'
@@ -247,43 +203,6 @@ class SectionA3Detail(LoginRequiredMixin, TemplateView):
         context['qapp_id'] = self.kwargs['qapp_id']
 
         return context
-
-
-class AcronymAbbreviationBase(LoginRequiredMixin):
-
-    model = AcronymAbbreviation
-    form_class = forms.AcronymAbbreviationForm
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['title'] = 'Add a Definition for an Acronym or Abbreviation'
-        context['previous_url'] = reverse(
-            'sectiona3_detail', kwargs={'qapp_id': self.kwargs['qapp_id']})
-        return context
-
-    def get_success_url(self):
-        return reverse('sectiona3_detail',
-                       kwargs={'qapp_id': self.kwargs['qapp_id']})
-
-
-class AcronymAbbreviationCreate(AcronymAbbreviationBase, CreateView):
-
-    template_name = GENERIC_FORM_TEMPLATE
-
-    def form_valid(self, form):
-        form.instance.qapp_id = self.kwargs['qapp_id']
-        return super().form_valid(form)
-
-
-class AcronymAbbreviationDelete(AcronymAbbreviationBase, DeleteView):
-
-    template_name = CONFIRM_DELETE_TEMPLATE
-
-    def post(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        success_url = self.get_success_url()
-        self.object.delete()
-        return HttpResponseRedirect(success_url)
 
 
 class SectionA4Create(SectionCreateBase):
@@ -390,72 +309,27 @@ class SectionA7Detail(LoginRequiredMixin, TemplateView):
         return context
 
 
-class DistributionBase(LoginRequiredMixin):
+class SectionA8Detail(LoginRequiredMixin, TemplateView):
 
-    model = Distribution
-    form_class = forms.DistributionForm
-    template_name = GENERIC_FORM_TEMPLATE
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['title'] = 'QAPP Distribution Recipient'
-        context['previous_url'] = reverse(
-            'sectiona7_detail', kwargs={'qapp_id': self.kwargs['qapp_id']})
-        return context
-
-    def get_success_url(self):
-        return reverse('sectiona7_detail',
-                       kwargs={'qapp_id': self.kwargs['qapp_id']})
-
-
-class DistributionCreate(DistributionBase, CreateView):
-
-    def form_valid(self, form):
-        form.instance.qapp_id = self.kwargs['qapp_id']
-        return super().form_valid(form)
-
-
-class DistributionUpdate(DistributionBase, UpdateView):
-
-    pass
-
-
-class DistributionDelete(DistributionBase, DeleteView):
-
-    template_name = CONFIRM_DELETE_TEMPLATE
-
-    def post(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        success_url = self.get_success_url()
-        self.object.delete()
-        return HttpResponseRedirect(success_url)
-
-
-class SectionA8Create(SectionCreateBase):
-    model = SectionA8
-    form_class = forms.SectionA8Form
-    section_title = SECTION_A['a8']['header']
-    previous_url_name = 'sectiona7_detail'
-    detail_url_name = 'sectiona8_detail'
-    next_url_name = 'sectiona9_detail'
-
-
-class SectionA8Update(SectionUpdateBase):
-    model = SectionA8
-    form_class = forms.SectionA8Form
-    section_title = SECTION_A['a8']['header']
-    previous_url_name = 'sectiona7_detail'
-    detail_url_name = 'sectiona8_detail'
-    next_url_name = 'sectiona9_detail'
-
-
-class SectionA8Detail(SectionDetailBase):
-    model = SectionA8
+    template_name = 'qapp/sectiona/a8_detail.html'
     section_title = SECTION_A['a8']['header']
     edit_url_name = 'sectiona8_edit'
     create_url_name = 'sectiona8_create'
     previous_url_name = 'sectiona7_detail'
-    next_url_name = 'sectiona9_detail'
+    next_url_name = 'sectiona8_detail'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = self.section_title
+        context['previous_url'] = reverse(
+            self.previous_url_name, kwargs={'qapp_id': self.kwargs['qapp_id']})
+        context['next_url'] = reverse(
+            self.next_url_name, kwargs={'qapp_id': self.kwargs['qapp_id']})
+        context['roles_responsibilities'] = RoleResponsibility.objects.filter(
+            qapp_id=self.kwargs['qapp_id'])
+        context['qapp_id'] = self.kwargs['qapp_id']
+
+        return context
 
 
 # NOTE: Section A9 is readonly/boilerplate

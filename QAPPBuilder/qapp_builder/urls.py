@@ -12,6 +12,7 @@ from django.contrib import admin
 from django.urls import include
 import qapp_builder.views.qapp_views as qapp_views
 import qapp_builder.views.section_a_views as section_a_views
+import qapp_builder.views.table_based_model_views as table_views
 from qapp_builder.settings import MEDIA_ROOT, MEDIA_URL
 
 sections_a = [
@@ -25,8 +26,6 @@ sections_a = [
      section_a_views.SectionA5Update, section_a_views.SectionA5Detail),
     ('section-a6', section_a_views.SectionA6Create,
      section_a_views.SectionA6Update, section_a_views.SectionA6Detail),
-    ('section-a8', section_a_views.SectionA8Create,
-     section_a_views.SectionA8Update, section_a_views.SectionA8Detail),
     ('section-a11', section_a_views.SectionA11Create,
      section_a_views.SectionA11Update, section_a_views.SectionA11Detail),
     ('section-a12', section_a_views.SectionA12Create,
@@ -84,13 +83,13 @@ urlpatterns = [
     # Section A URLs ----------------------------------------------------
     # Section A2 Signatures ---------------------------------------------
     path('qapp/<int:qapp_id>/signature/create/',
-         section_a_views.AdditionalSignatureCreate.as_view(),
+         table_views.AdditionalSignatureCreate.as_view(),
          name='signature_create'),
     path('qapp/<int:qapp_id>/signature/<int:pk>/edit/',
-         section_a_views.AdditionalSignatureUpdate.as_view(),
+         table_views.AdditionalSignatureUpdate.as_view(),
          name='signature_update'),
     path('qapp/<int:qapp_id>/signature/<int:pk>/delete/',
-         section_a_views.AdditionalSignatureDelete.as_view(),
+         table_views.AdditionalSignatureDelete.as_view(),
          name='signature_delete'),
     # Section A3  ------------------------------------------------------
     path('qapp/<int:qapp_id>/section-a3/',
@@ -101,12 +100,12 @@ urlpatterns = [
          name='sectiona3_create'),
     # Section A3 Acronyms/Abbreviations --------------------------------
     path('qapp/<int:qapp_id>/definition/create/',
-         section_a_views.AcronymAbbreviationCreate.as_view(),
+         table_views.AcronymAbbreviationCreate.as_view(),
          name='definition_create'),
     path('qapp/<int:qapp_id>/definition/<int:pk>/delete/',
-         section_a_views.AcronymAbbreviationDelete.as_view(),
+         table_views.AcronymAbbreviationDelete.as_view(),
          name='definition_delete'),
-    # Section A7 - ---------------- -----------------------------------
+    # Section A7 -------------------------------------------------------
     path('qapp/<int:qapp_id>/section-a7/',
          section_a_views.SectionA7Detail.as_view(),
          name='sectiona7_detail'),
@@ -115,14 +114,31 @@ urlpatterns = [
          name='sectiona7_create'),
     # Section A7 - Distribution List -----------------------------------
     path('qapp/<int:qapp_id>/distribution/create/',
-         section_a_views.DistributionCreate.as_view(),
+         table_views.DistributionCreate.as_view(),
          name='distribution_create'),
     path('qapp/<int:qapp_id>/distribution/<int:pk>/edit/',
-         section_a_views.DistributionUpdate.as_view(),
+         table_views.DistributionUpdate.as_view(),
          name='distribution_update'),
     path('qapp/<int:qapp_id>/distribution/<int:pk>/delete/',
-         section_a_views.DistributionDelete.as_view(),
+         table_views.DistributionDelete.as_view(),
          name='distribution_delete'),
+    # Section A8 -------------------------------------------------------
+    path('qapp/<int:qapp_id>/section-a8/',
+         section_a_views.SectionA8Detail.as_view(),
+         name='sectiona8_detail'),
+    path('qapp/<int:qapp_id>/section-a8/',
+         section_a_views.SectionA8Detail.as_view(),
+         name='sectiona8_create'),
+    # Section A8 - Project Organization --------------------------------
+    path('qapp/<int:qapp_id>/role-responsibility/create/',
+         table_views.RoleResponsibilityCreate.as_view(),
+         name='role_responsibility_create'),
+    path('qapp/<int:qapp_id>/role-responsibility/<int:pk>/edit/',
+         table_views.RoleResponsibilityUpdate.as_view(),
+         name='role_responsibility_update'),
+    path('qapp/<int:qapp_id>/role-responsibility/<int:pk>/delete/',
+         table_views.RoleResponsibilityDelete.as_view(),
+         name='role_responsibility_delete'),
     # Section A9 and A10 -----------------------------------------------
     # are readonly and so only have a single URL each
     path('qapp/<int:qapp_id>/section-a9/',

@@ -181,10 +181,20 @@ class SectionA8(EpaBaseModel):
 
 class RoleResponsibility(EpaBaseModel):
 
-    section_a8 = models.ForeignKey(SectionA8, on_delete=models.CASCADE)
-    name_and_org = models.TextField(blank=False, null=False)
+    qapp = models.ForeignKey(Qapp, on_delete=models.CASCADE)
+    name = models.TextField(blank=False, null=False)
+    org = models.TextField(blank=False, null=False)
     proj_role = models.TextField(blank=False, null=False)
     proj_responsibilities = models.TextField(blank=False, null=False)
+
+    @property
+    def labels(self):
+        return {
+            'name': 'Name',
+            'org': 'Organization',
+            'proj_role': 'Project Role(s)',
+            'proj_responsibilities': 'Project Responsibilities'
+        }
 
 
 # SectionA9 is static content, no input.
