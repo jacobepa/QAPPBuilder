@@ -69,6 +69,19 @@ urlpatterns = [
     path('qapp/<int:qapp_id>/edit/',
          qapp_views.QappUpdate.as_view(),
          name='qapp_edit'),
+    path('qapp/<int:pk>/delete/',
+         qapp_views.QappDelete.as_view(),
+         name='qapp_delete'),
+    # QAPP Revisions ----------------------------------------------------
+    path('qapp/<int:qapp_id>/revision/create/',
+         qapp_views.RevisionCreate.as_view(),
+         name='revision_edit'),
+    path('qapp/<int:qapp_id>/revision/<int:pk>/edit/',
+         qapp_views.RevisionUpdate.as_view(),
+         name='revision_edit'),
+    path('qapp/<int:qapp_id>/revision/<int:pk>/delete/',
+         qapp_views.RevisionDelete.as_view(),
+         name='revision_delete'),
     # ###################################################################
     # Section A URLs ----------------------------------------------------
     # Section A2 Signatures ---------------------------------------------

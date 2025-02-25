@@ -11,14 +11,14 @@ from datetime import datetime
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import HttpRequest
+from django.http import HttpRequest, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse_lazy, reverse
 from django.views.generic import CreateView, DetailView, ListView, \
-    TemplateView, UpdateView
+    TemplateView, UpdateView, DeleteView
 from django.contrib.auth.models import User
-from qapp_builder.forms.qapp_forms import QappForm
-from qapp_builder.models import Qapp, QappSharingTeamMap, SectionA1
+from qapp_builder.forms.qapp_forms import QappForm, RevisionForm
+from qapp_builder.models import Qapp, QappSharingTeamMap, SectionA1, Revision
 from teams.models import Team, TeamMembership
 
 
@@ -225,6 +225,7 @@ class QappDetail(LoginRequiredMixin, DetailView):
             'qapp_list_user', kwargs={'user_id': self.request.user.id})
         context['next_url'] = reverse('sectiona1_detail',
                                       kwargs={'qapp_id': self.object.id})
+        context['revisions'] = Revision.objects.filter(qapp_id=self.object.id)
         return context
 
 
@@ -244,3 +245,56 @@ class QappUpdate(LoginRequiredMixin, UpdateView):
         context['title'] = 'Edit QAPP'
         context['previous_url'] = f'/qapp/{self.object.id}/detail/'
         return context
+
+
+class QappDelete(LoginRequiredMixin, DeleteView):
+
+    model = Qapp
+    template_name = 'qapp/confirm_delete.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['previous_url'] = reverse(
+            'qapp_detail', kwargs={'pk': self.kwargs['pk']})
+        return context
+
+    def get_success_url(self):
+        # TODO: Figure out where this request came from (user or team)
+        return reverse(
+            'qapp_list_user', kwargs={'user_id': self.request.user.id})
+
+
+class RevisionFormBase(LoginRequiredMixin):
+
+    model = Revision
+    form_class = RevisionForm
+    template_name = 'qapp/generic_form.html'
+
+    def get_success_url(self):
+        return reverse_lazy(
+            'qapp_detail', kwargs={'pk': self.kwargs['qapp_id']})
+
+
+class RevisionCreate(RevisionFormBase, CreateView):
+
+    def form_valid(self, form):
+        form.instance.qapp_id = self.kwargs['qapp_id']
+        self.object = form.save()
+        return super().form_valid(form)
+
+
+class RevisionUpdate(RevisionFormBase, UpdateView):
+
+    pass
+
+
+class RevisionDelete(RevisionFormBase, DeleteView):
+
+    template_name = 'qapp/confirm_delete.html'
+
+    def post(self, request, *args, **kwargs):
+        print('POST')
+        self.object = self.get_object()
+        success_url = self.get_success_url()
+        self.object.delete()
+        return HttpResponseRedirect(success_url)

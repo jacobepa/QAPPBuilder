@@ -11,7 +11,7 @@ from qapp_builder.models import SectionA1, SectionA2, SectionA3, SectionA4, \
 import qapp_builder.forms.section_a_forms as forms
 
 
-GENERIC_FORM_TEMPLATE = 'qapp/sectiona/a_generic_form.html'
+GENERIC_FORM_TEMPLATE = 'qapp/generic_form.html'
 CONFIRM_DELETE_TEMPLATE = 'qapp/confirm_delete.html'
 
 
@@ -72,7 +72,7 @@ class SectionUpdateBase(LoginRequiredMixin, UpdateView):
 
 class SectionDetailBase(LoginRequiredMixin, DetailView):
 
-    template_name = 'qapp/sectiona/a_generic_detail.html'
+    template_name = 'qapp/generic_detail.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -250,8 +250,6 @@ class AcronymAbbreviationBase(LoginRequiredMixin):
         return context
 
     def get_success_url(self):
-        print('*' * 50)
-        print('success url')
         return reverse('sectiona3_detail',
                        kwargs={'qapp_id': self.kwargs['qapp_id']})
 

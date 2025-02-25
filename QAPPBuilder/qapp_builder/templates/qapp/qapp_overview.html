@@ -1,7 +1,28 @@
 {% extends "main/base.html" %}
+{% load static %}
+
+{% block extend_js %}
+<!-- NOTE: JQuery is already included inside base.html... -->
+<!-- NOTE: Not sure why, but JQuery won't work unless I include again here. -->
+<script src="https://www.epa.gov/core/assets/vendor/jquery/jquery.min.js?v=3.6.0"></script>
+<script src="{% static 'scripts/app.js' %}"></script>
+{% endblock %}
 
 {% block content %}
     <h2>QAPP Section A1 - Title Page</h2>
+
+    <div class="usa-button-group margin-top-2">
+        <li class="usa-button-group__item">
+            <a class="usa-button usa-button--accent-cool" href="{{previous_url}}">Export QAPP to Word Doc</a>
+        </li>
+        <!-- <li class="usa-button-group__item">
+            <a class="usa-button usa-button--accent-cool" href="{{previous_url}}">Export to Excel</a>
+        </li> -->
+        <li class="usa-button-group__item">
+            <a class="usa-button usa-button--secondary" href="/qapp/{{qapp.id}}/delete/">Delete QAPP</a>
+        </li>
+    </div>
+
     <h2>U.S. Environmental Protection Agency Office of Research and Development</h2>
     <h3>ORD Center: {{sectiona1.ord_center}}</h3>
     <h4>Division: {{sectiona1.division}}</h4>
@@ -25,21 +46,63 @@
 
     <!-- TODO: Render selected Project Discipline Types -->
 
+    <!-- TODO: Tables? -->
 
-    <div class="usa-button-group margin-top-2">
+    <h3>QAPP Revisions</h3>
+
+    <div class="usa-button-group">
         <li class="usa-button-group__item">
-            <a class="usa-button usa-button--accent-cool" href="{{previous_url}}">Export to Word Doc</a>
+            <a class="usa-button" href="/qapp/{{qapp.id}}/revision/create/">Add New Revision</a>
         </li>
         <li class="usa-button-group__item">
-            <a class="usa-button usa-button--accent-cool" href="{{previous_url}}">Export to Word Doc</a>
+            <i class="usa-button usa-button--accent-warm" onclick="editRevision(this)" aria-disabled="true">
+                Edit Revision
+            </i>
         </li>
         <li class="usa-button-group__item">
-            <a class="usa-button usa-button--secondary" href="{{previous_url}}">Delete QAPP</a>
+            <i class="usa-button usa-button--secondary" onclick="deleteRevision(this)" aria-disabled="true">
+                Remove Revision
+            </i>
         </li>
     </div>
 
-    <!-- TODO: Tables? -->
+    <table class="usa-table grid-col">
+        <thead>
+            <tr>
+                <th scope="col">Date</th>
+                <th scope="col">Author</th>
+                <th scope="col">Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if revisions %}
+            {% for revision in revisions %}
+            <tr id="{{revision.id}}" onclick="rowClick('{{revision.id}}')">
+                <th scope="row">{{revision.date}}</th>
+                <td>{{revision.author}}</td>
+                <td>{{revision.description}}</td>
+            </tr>
+            {% endfor %}
+            {% else %}
+            <tr>
+                <td colspan="3">No Revisions have been made to this QAPP.</td>
+            </tr>
+            {% endif %}
+        </tbody>
+    </table>
 
     {% include 'detail_buttons_partial.html' %}
+{% endblock %}
 
+{% block scripts %}
+<script>
+    function deleteRevision(btn){
+        if ($(btn).attr('disabled')) return;
+        window.location.href = `/qapp/{{qapp.id}}/revision/${$(btn).attr('id')}/delete/`;
+    }
+    function editRevision(btn){
+        if ($(btn).attr('disabled')) return;
+        window.location.href = `/qapp/{{qapp.id}}/revision/${$(btn).attr('id')}/edit/`;
+    }
+</script>
 {% endblock %}

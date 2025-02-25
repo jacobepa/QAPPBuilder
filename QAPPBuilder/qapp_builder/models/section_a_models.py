@@ -89,26 +89,6 @@ class SectionA3(EpaBaseModel):
     # Acronyms/Abbreviations/Definitions one-to-many table
 
 
-class Revision(EpaBaseModel):
-
-    section_a3 = models.ForeignKey(SectionA3, on_delete=models.CASCADE)
-    date = models.DateField(blank=False, null=False)
-    qapp_id = models.TextField(blank=False, null=False)
-    author = models.TextField(blank=False, null=False)
-    description = models.TextField(blank=False, null=False)
-
-
-class AcronymAbbreviation(EpaBaseModel):
-
-    qapp = models.ForeignKey(Qapp, on_delete=models.CASCADE)
-    acronym_abbreviation = models.TextField(blank=False, null=False)
-    definition = models.TextField(blank=False, null=False)
-
-    @property
-    def labels(self):
-        return {'acronym_abbreviation': 'Acronym/Abbreviation'}
-
-
 class SectionA4(EpaBaseModel):
 
     qapp = models.OneToOneField(

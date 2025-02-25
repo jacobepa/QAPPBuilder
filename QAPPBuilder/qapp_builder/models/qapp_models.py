@@ -32,3 +32,22 @@ class QappSharingTeamMap(EpaBaseModel):
 
     def __str__(self):
         return f'Team "{self.team}" - {self.qapp}'
+
+
+class Revision(EpaBaseModel):
+
+    qapp = models.ForeignKey(Qapp, on_delete=models.CASCADE)
+    date = models.DateField(blank=False, null=False)
+    author = models.TextField(blank=False, null=False)
+    description = models.TextField(blank=False, null=False)
+
+
+class AcronymAbbreviation(EpaBaseModel):
+
+    qapp = models.ForeignKey(Qapp, on_delete=models.CASCADE)
+    acronym_abbreviation = models.TextField(blank=False, null=False)
+    definition = models.TextField(blank=False, null=False)
+
+    @property
+    def labels(self):
+        return {'acronym_abbreviation': 'Acronym/Abbreviation'}
