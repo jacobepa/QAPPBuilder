@@ -1,12 +1,13 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse
+from django.utils.safestring import mark_safe
 from django.views.generic.edit import CreateView, UpdateView
 from django.views.generic import DetailView, TemplateView
 # NOTE: Sections A9 and A10 are static/readonly with boilerplate
 from qapp_builder.models import SectionA1, SectionA2, SectionA4, \
-    SectionA5, SectionA6, SectionA11, SectionA12, RoleResponsibility, \
-    AdditionalSignature, AcronymAbbreviation, Distribution
+    SectionA5, SectionA6, SectionA11, DocumentRecord, RoleResponsibility, \
+    AdditionalSignature, AcronymAbbreviation, Distribution, SectionA10
 import qapp_builder.forms.section_a_forms as forms
 from constants.qapp_section_a_const import SECTION_A
 
@@ -44,6 +45,10 @@ class SectionCreateBase(LoginRequiredMixin, CreateView):
         context['title'] = self.section_title
         context['previous_url'] = reverse(
             self.previous_url_name, kwargs={'qapp_id': self.kwargs['qapp_id']})
+        if hasattr(self, 'boilerplate'):
+            context['boilerplate'] = self.boilerplate
+        if hasattr(self, 'boilerplate_list'):
+            context['boilerplate_list'] = self.boilerplate_list
         return context
 
     def form_valid(self, form):
@@ -65,6 +70,10 @@ class SectionUpdateBase(LoginRequiredMixin, UpdateView):
         context['title'] = self.section_title
         context['previous_url'] = reverse(
             self.previous_url_name, kwargs={'qapp_id': self.kwargs['qapp_id']})
+        if hasattr(self, 'boilerplate'):
+            context['boilerplate'] = self.boilerplate
+        if hasattr(self, 'boilerplate_list'):
+            context['boilerplate_list'] = self.boilerplate_list
         return context
 
     def get_success_url(self):
@@ -94,6 +103,10 @@ class SectionDetailBase(LoginRequiredMixin, DetailView):
         context['edit_url'] = reverse(
             self.edit_url_name, kwargs={'qapp_id': self.kwargs['qapp_id']})
         context['qapp_id'] = self.kwargs['qapp_id']
+        if hasattr(self, 'boilerplate'):
+            context['boilerplate'] = self.boilerplate
+        if hasattr(self, 'boilerplate_list'):
+            context['boilerplate_list'] = self.boilerplate_list
         return context
 
     def dispatch(self, request, *args, **kwargs):
@@ -316,7 +329,7 @@ class SectionA8Detail(LoginRequiredMixin, TemplateView):
     edit_url_name = 'sectiona8_edit'
     create_url_name = 'sectiona8_create'
     previous_url_name = 'sectiona7_detail'
-    next_url_name = 'sectiona8_detail'
+    next_url_name = 'sectiona9_detail'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -343,12 +356,34 @@ class SectionA9Detail(SectionTemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['qapp_id'] = self.kwargs['qapp_id']
-        context['content'] = SECTION_A['a9']['boilerplate']
+        context['boilerplate'] = mark_safe(SECTION_A['a9']['boilerplate'])
         return context
 
 
-class SectionA10Detail(SectionTemplateView):
+class SectionA10Create(SectionCreateBase):
+    model = SectionA10
+    form_class = forms.SectionA10Form
     section_title = SECTION_A['a10']['header']
+    previous_url_name = 'sectiona9_detail'
+    detail_url_name = 'sectiona10_detail'
+    next_url_name = 'sectiona11_create'
+    boilerplate = SECTION_A['a10']['boilerplate']
+
+
+class SectionA10Update(SectionUpdateBase):
+    model = SectionA10
+    form_class = forms.SectionA10Form
+    section_title = SECTION_A['a10']['header']
+    previous_url_name = 'sectiona9_detail'
+    detail_url_name = 'sectiona10_detail'
+    next_url_name = 'sectiona11_create'
+
+
+class SectionA10Detail(SectionDetailBase):
+    model = SectionA10
+    section_title = SECTION_A['a10']['header']
+    edit_url_name = 'sectiona10_edit'
+    create_url_name = 'sectiona10_create'
     previous_url_name = 'sectiona9_detail'
     next_url_name = 'sectiona11_detail'
 
@@ -359,7 +394,7 @@ class SectionA11Create(SectionCreateBase):
     section_title = SECTION_A['a11']['header']
     previous_url_name = 'sectiona10_detail'
     detail_url_name = 'sectiona11_detail'
-    next_url_name = 'sectiona12_create'
+    next_url_name = 'sectiona12_detail'
 
 
 class SectionA11Update(SectionUpdateBase):
@@ -368,7 +403,7 @@ class SectionA11Update(SectionUpdateBase):
     section_title = SECTION_A['a11']['header']
     previous_url_name = 'sectiona10_detail'
     detail_url_name = 'sectiona11_detail'
-    next_url_name = 'sectiona12_create'
+    next_url_name = 'sectiona12_detail'
 
 
 class SectionA11Detail(SectionDetailBase):
@@ -380,10 +415,25 @@ class SectionA11Detail(SectionDetailBase):
     next_url_name = 'sectiona12_detail'
 
 
-class SectionA12Detail(SectionDetailBase):
-    model = SectionA12
+class SectionA12Detail(LoginRequiredMixin, TemplateView):
+
+    template_name = 'qapp/sectiona/a12_detail.html'
     section_title = SECTION_A['a12']['header']
-    edit_url_name = 'sectiona12_edit'
-    create_url_name = 'sectiona12_create'
+    create_url_name = 'sectiona12_detail'
     previous_url_name = 'sectiona11_detail'
-    next_url_name = 'qapp_complete'  # Assuming this is the final section
+    next_url_name = 'qapp_detail'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = self.section_title
+        context['previous_url'] = reverse(
+            self.previous_url_name, kwargs={'qapp_id': self.kwargs['qapp_id']})
+        context['next_url'] = reverse(
+            self.next_url_name, kwargs={'qapp_id': self.kwargs['qapp_id']})
+        # TODO: HERE
+        context['distribution_list'] = Distribution.objects.filter(
+            qapp_id=self.kwargs['qapp_id'])
+        context['qapp_id'] = self.kwargs['qapp_id']
+        context['documents_records'] = DocumentRecord.objects.filter(
+            qapp_id=self.kwargs['qapp_id'])
+        return context

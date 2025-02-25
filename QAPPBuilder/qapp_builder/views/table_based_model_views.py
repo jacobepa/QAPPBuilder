@@ -4,7 +4,7 @@ from django.urls import reverse
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 # NOTE: Sections A9 and A10 are static/readonly with boilerplate
 from qapp_builder.models import SectionA2, AdditionalSignature, \
-    AcronymAbbreviation, Distribution, RoleResponsibility
+    AcronymAbbreviation, Distribution, RoleResponsibility, DocumentRecord
 import qapp_builder.forms.section_a_forms as forms
 
 GENERIC_FORM_TEMPLATE = 'qapp/generic_form.html'
@@ -162,6 +162,47 @@ class RoleResponsibilityUpdate(RoleResponsibilityBase, UpdateView):
 
 
 class RoleResponsibilityDelete(RoleResponsibilityBase, DeleteView):
+
+    template_name = CONFIRM_DELETE_TEMPLATE
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        success_url = self.get_success_url()
+        self.object.delete()
+        return HttpResponseRedirect(success_url)
+
+
+class DocumentRecordBase(LoginRequiredMixin):
+
+    model = DocumentRecord
+    form_class = forms.DocumentRecordForm
+    template_name = GENERIC_FORM_TEMPLATE
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'QAPP Documents and Records'
+        context['previous_url'] = reverse(
+            'sectiona12_detail', kwargs={'qapp_id': self.kwargs['qapp_id']})
+        return context
+
+    def get_success_url(self):
+        return reverse('sectiona12_detail',
+                       kwargs={'qapp_id': self.kwargs['qapp_id']})
+
+
+class DocumentRecordCreate(DocumentRecordBase, CreateView):
+
+    def form_valid(self, form):
+        form.instance.qapp_id = self.kwargs['qapp_id']
+        return super().form_valid(form)
+
+
+class DocumentRecordUpdate(DocumentRecordBase, UpdateView):
+
+    pass
+
+
+class DocumentRecordDelete(DocumentRecordBase, DeleteView):
 
     template_name = CONFIRM_DELETE_TEMPLATE
 

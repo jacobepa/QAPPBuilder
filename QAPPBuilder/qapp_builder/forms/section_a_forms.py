@@ -1,7 +1,8 @@
 from django import forms
 from qapp_builder.models import SectionA1, SectionA2, SectionA4, SectionA10, \
     SectionA5, SectionA6, SectionA7, SectionA8, SectionA11, SectionA12, \
-    AdditionalSignature, AcronymAbbreviation, Distribution, RoleResponsibility
+    AdditionalSignature, AcronymAbbreviation, Distribution, \
+    RoleResponsibility, DocumentRecord
 from .utility_forms import EpaBaseForm
 from constants.qapp_section_a_const import SECTION_A
 
@@ -126,7 +127,7 @@ class SectionA10Form(EpaBaseForm):
     class Meta:
         model = SectionA10
         exclude = ['qapp']
-        # labels = SECTION_A['a11']['labels']
+        labels = {'org_chart': 'Organization Chart File Upload'}
 
 
 class SectionA11Form(EpaBaseForm):
@@ -143,3 +144,11 @@ class SectionA12Form(EpaBaseForm):
         model = SectionA12
         exclude = ['qapp']
         # labels = SECTION_A['a12']['labels']
+
+
+class DocumentRecordForm(EpaBaseForm):
+
+    class Meta:
+        model = DocumentRecord
+        exclude = ['qapp_id', 'qapp']
+        labels = DocumentRecord().labels

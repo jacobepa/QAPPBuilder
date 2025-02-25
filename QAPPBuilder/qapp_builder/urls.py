@@ -26,6 +26,8 @@ sections_a = [
      section_a_views.SectionA5Update, section_a_views.SectionA5Detail),
     ('section-a6', section_a_views.SectionA6Create,
      section_a_views.SectionA6Update, section_a_views.SectionA6Detail),
+    ('section-a10', section_a_views.SectionA10Create,
+     section_a_views.SectionA10Update, section_a_views.SectionA10Detail),
     ('section-a11', section_a_views.SectionA11Create,
      section_a_views.SectionA11Update, section_a_views.SectionA11Detail),
 ]
@@ -137,14 +139,28 @@ urlpatterns = [
     path('qapp/<int:qapp_id>/role-responsibility/<int:pk>/delete/',
          table_views.RoleResponsibilityDelete.as_view(),
          name='role_responsibility_delete'),
-    # Section A9 and A10 -----------------------------------------------
-    # are readonly and so only have a single URL each
+    # Section A9 -------------------------------------------------------
     path('qapp/<int:qapp_id>/section-a9/',
          section_a_views.SectionA9Detail.as_view(),
          name='sectiona9_detail'),
+    # Section A10 ------------------------------------------------------
     path('qapp/<int:qapp_id>/section-a10/',
          section_a_views.SectionA10Detail.as_view(),
          name='sectiona10_detail'),
+    # Section A12 - Documents and Records ------------------------------
+    path('qapp/<int:qapp_id>/section-a12/',
+         section_a_views.SectionA12Detail.as_view(),
+         name='sectiona12_detail'),
+    # Documents and Records
+    path('qapp/<int:qapp_id>/document-record/create/',
+         table_views.DocumentRecordCreate.as_view(),
+         name='document_record_create'),
+    path('qapp/<int:qapp_id>/document-record/<int:pk>/edit/',
+         table_views.DocumentRecordUpdate.as_view(),
+         name='document_record_update'),
+    path('qapp/<int:qapp_id>/document-record/<int:pk>/delete/',
+         table_views.DocumentRecordDelete.as_view(),
+         name='document_record_delete'),
     # ########################################################################
     # Section B URLs ---------------------------------------------------------
     # ########################################################################

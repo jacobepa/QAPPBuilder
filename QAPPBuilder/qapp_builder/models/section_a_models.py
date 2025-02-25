@@ -233,9 +233,26 @@ class SectionA12(EpaBaseModel):
 
 class DocumentRecord(EpaBaseModel):
 
-    section_a12 = models.ForeignKey(SectionA12, on_delete=models.CASCADE)
+    qapp = models.ForeignKey(Qapp, on_delete=models.CASCADE)
     record_type = models.TextField(blank=False, null=False)
     responsible_party = models.TextField(blank=False, null=False)
     in_proj_file = models.TextField(blank=False, null=False)
     file_type = models.TextField(blank=False, null=False)
     special_handling = models.BooleanField(default=False)
+
+    @property
+    def labels(self):
+        return {
+            'record_type': 'Record Type',
+            'responsible_party': 'Responsible Party',
+            'in_proj_file': 'Located in Project File (Y/N), '
+            'If No, Specify File Location',
+            'file_type': 'File Type (Format)',
+            'special_handling': 'Special Handling Required?'
+        }
+
+
+# TODO: How to do this? Might just be constant depending on QA Category
+# class RecordSchedule(EpaBaseModel):
+
+#     qapp = models.ForeignKey(Qapp, on_delete=models.CASCADE)

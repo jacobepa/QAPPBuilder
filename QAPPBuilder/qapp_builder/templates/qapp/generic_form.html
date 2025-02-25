@@ -2,6 +2,15 @@
 
 {% block content %}
   <h2>{{ title }}</h2>
+
+  {% if boilerplate_list %}
+  {% for boilerplate in boilerplate_list %}
+  <p>{{ boilerplate|linebreaksbr }}</p>
+  {% endfor %}d
+  {% else %}
+  <p>{{ boilerplate|linebreaksbr }}</p>
+  {% endif %}
+
   <form method="post">
     {% csrf_token %}
     {{ form.as_epa }}

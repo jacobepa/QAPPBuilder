@@ -1,0 +1,71 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block extend_js %}
+<!-- NOTE: JQuery is already included inside base.html... -->
+<!-- NOTE: Not sure why, but JQuery won't work unless I include again here. -->
+<script src="https://www.epa.gov/core/assets/vendor/jquery/jquery.min.js?v=3.6.0"></script>
+<script src="{% static 'scripts/app.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+    <h2>{{ title }}</h2>
+
+    <div class="usa-button-group">
+        <li class="usa-button-group__item">
+            <a class="usa-button" href="/qapp/{{qapp_id}}/document-record/create/">Add New Document/Record</a>
+        </li>
+        <li class="usa-button-group__item">
+            <i class="usa-button usa-button--accent-warm" onclick="editEntry(this)" aria-disabled="true">
+                Edit Document/Record
+            </i>
+        </li>
+        <li class="usa-button-group__item">
+            <i class="usa-button usa-button--secondary" onclick="deleteEntry(this)" aria-disabled="true">
+                Remove Document/Record
+            </i>
+        </li>
+    </div>
+    <table class="usa-table grid-col">
+        <thead>
+            <tr>
+                <th scope="col">Record Type</th>
+                <th scope="col">Responsible Party</th>
+                <th scope="col">Located in Project File or Location</th>
+                <th scope="col">File Type (Format)</th>
+                <th scope="col">Special Handling Required?</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if documents_records %}
+            {% for doc in documents_records %}
+            <tr id="{{doc.id}}" onclick="rowClick('{{doc.id}}')">
+                <th scope="row">{{doc.record_type}}</th>
+                <td>{{doc.responsible_party}}</td>
+                <td>{{doc.in_proj_file}}</td>
+                <td>{{doc.file_type}}</td>
+                <td>{{doc.special_handling}}</td>
+            </tr>
+            {% endfor %}
+            {% else %}
+            <tr>
+                <td colspan="5">No Documents/Records have been added to this QAPP.</td>
+            </tr>
+            {% endif %}
+        </tbody>
+    </table>
+    {% include 'prev_next_buttons_partial.html' %}
+{% endblock %}
+
+{% block scripts %}
+<script>
+    function deleteEntry(btn){
+        if ($(btn).attr('disabled')) return;
+        window.location.href = `/qapp/{{qapp_id}}/document-record/${$(btn).attr('id')}/delete/`;
+    }
+    function editEntry(btn){
+        if ($(btn).attr('disabled')) return;
+        window.location.href = `/qapp/{{qapp_id}}/document-record/${$(btn).attr('id')}/edit/`;
+    }
+</script>
+{% endblock %}
