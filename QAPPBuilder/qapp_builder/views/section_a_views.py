@@ -280,7 +280,6 @@ class AcronymAbbreviationDelete(AcronymAbbreviationBase, DeleteView):
     template_name = CONFIRM_DELETE_TEMPLATE
 
     def post(self, request, *args, **kwargs):
-        print('POST')
         self.object = self.get_object()
         success_url = self.get_success_url()
         self.object.delete()
@@ -389,6 +388,47 @@ class SectionA7Detail(LoginRequiredMixin, TemplateView):
         context['qapp_id'] = self.kwargs['qapp_id']
 
         return context
+
+
+class DistributionBase(LoginRequiredMixin):
+
+    model = Distribution
+    form_class = forms.DistributionForm
+    template_name = GENERIC_FORM_TEMPLATE
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'QAPP Distribution Recipient'
+        context['previous_url'] = reverse(
+            'sectiona7_detail', kwargs={'qapp_id': self.kwargs['qapp_id']})
+        return context
+
+    def get_success_url(self):
+        return reverse('sectiona7_detail',
+                       kwargs={'qapp_id': self.kwargs['qapp_id']})
+
+
+class DistributionCreate(DistributionBase, CreateView):
+
+    def form_valid(self, form):
+        form.instance.qapp_id = self.kwargs['qapp_id']
+        return super().form_valid(form)
+
+
+class DistributionUpdate(DistributionBase, UpdateView):
+
+    pass
+
+
+class DistributionDelete(DistributionBase, DeleteView):
+
+    template_name = CONFIRM_DELETE_TEMPLATE
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        success_url = self.get_success_url()
+        self.object.delete()
+        return HttpResponseRedirect(success_url)
 
 
 class SectionA8Create(SectionCreateBase):

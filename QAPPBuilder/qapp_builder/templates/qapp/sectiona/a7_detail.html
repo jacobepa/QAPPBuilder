@@ -13,7 +13,12 @@
 
     <div class="usa-button-group">
         <li class="usa-button-group__item">
-            <a class="usa-button" href="/qapp/{{qapp_id}}/entry/create/">Add New Entry</a>
+            <a class="usa-button" href="/qapp/{{qapp_id}}/distribution/create/">Add New Entry</a>
+        </li>
+        <li class="usa-button-group__item">
+            <i class="usa-button usa-button--accent-warm" onclick="editEntry(this)" aria-disabled="true">
+                Edit Entry
+            </i>
         </li>
         <li class="usa-button-group__item">
             <i class="usa-button usa-button--secondary" onclick="deleteEntry(this)" aria-disabled="true">
@@ -52,9 +57,13 @@
 
 {% block scripts %}
 <script>
-  function deleteEntry(btn){
-    if ($(btn).attr('disabled')) return;
-    window.location.href = `/qapp/{{qapp_id}}/entry/${$(btn).attr('id')}/delete/`;
-  }
+    function deleteEntry(btn){
+        if ($(btn).attr('disabled')) return;
+        window.location.href = `/qapp/{{qapp_id}}/distribution/${$(btn).attr('id')}/delete/`;
+    }
+    function editEntry(btn){
+        if ($(btn).attr('disabled')) return;
+        window.location.href = `/qapp/{{qapp_id}}/distribution/${$(btn).attr('id')}/edit/`;
+    }
 </script>
 {% endblock %}

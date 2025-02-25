@@ -114,7 +114,15 @@ urlpatterns = [
          section_a_views.SectionA7Detail.as_view(),
          name='sectiona7_create'),
     # Section A7 - Distribution List -----------------------------------
-    # TODO
+    path('qapp/<int:qapp_id>/distribution/create/',
+         section_a_views.DistributionCreate.as_view(),
+         name='distribution_create'),
+    path('qapp/<int:qapp_id>/distribution/<int:pk>/edit/',
+         section_a_views.DistributionUpdate.as_view(),
+         name='distribution_update'),
+    path('qapp/<int:qapp_id>/distribution/<int:pk>/delete/',
+         section_a_views.DistributionDelete.as_view(),
+         name='distribution_delete'),
     # Section A9 and A10 -----------------------------------------------
     # are readonly and so only have a single URL each
     path('qapp/<int:qapp_id>/section-a9/',

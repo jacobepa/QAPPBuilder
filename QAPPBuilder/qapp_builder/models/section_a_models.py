@@ -166,7 +166,7 @@ class Distribution(EpaBaseModel):
             'name': 'Name',
             'org': 'Organization',
             'email': 'Contact Information (e-mail)',
-            'proj_role': 'Project ROle(s)'
+            'proj_role': 'Project Role(s)'
         }
 
 
