@@ -4,8 +4,10 @@ from django.urls import reverse
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 # NOTE: Sections A9 and A10 are static/readonly with boilerplate
 from qapp_builder.models import SectionA2, AdditionalSignature, \
-    AcronymAbbreviation, Distribution, RoleResponsibility, DocumentRecord
+    AcronymAbbreviation, Distribution, RoleResponsibility, DocumentRecord, \
+    HardwareSoftware
 import qapp_builder.forms.section_a_forms as forms
+from qapp_builder.forms.section_b_forms import HardwareSoftwareForm
 
 GENERIC_FORM_TEMPLATE = 'qapp/generic_form.html'
 CONFIRM_DELETE_TEMPLATE = 'qapp/confirm_delete.html'
@@ -203,6 +205,56 @@ class DocumentRecordUpdate(DocumentRecordBase, UpdateView):
 
 
 class DocumentRecordDelete(DocumentRecordBase, DeleteView):
+
+    template_name = CONFIRM_DELETE_TEMPLATE
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        success_url = self.get_success_url()
+        self.object.delete()
+        return HttpResponseRedirect(success_url)
+
+
+# ########################################################################
+# ########################################################################
+# ########################################################################
+# ########################################################################
+# ########################################################################
+# ########################################################################
+# class HardwareSoftwareCreate
+
+
+class HardwareSoftwareBase(LoginRequiredMixin):
+
+    model = HardwareSoftware
+    form_class = HardwareSoftwareForm
+    template_name = GENERIC_FORM_TEMPLATE
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'QAPP Documents and Records'
+        context['previous_url'] = reverse(
+            'sectionb7_detail', kwargs={'qapp_id': self.kwargs['qapp_id']})
+        return context
+
+    def get_success_url(self):
+        return reverse('sectionb7_detail',
+                       kwargs={'qapp_id': self.kwargs['qapp_id']})
+
+
+class HardwareSoftwareCreate(HardwareSoftwareBase, CreateView):
+
+    def form_valid(self, form):
+        form.instance.qapp_id = self.kwargs['qapp_id']
+        return super().form_valid(form)
+
+
+class HardwareSoftwareUpdate(HardwareSoftwareBase, UpdateView):
+
+    pass
+
+
+class HardwareSoftwareDelete(HardwareSoftwareBase, DeleteView):
 
     template_name = CONFIRM_DELETE_TEMPLATE
 

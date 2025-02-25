@@ -34,9 +34,9 @@ SECTION_B = {
     },
     'b6': {'header': 'B6: Inspection/Acceptance of Supplies and Services'},
     'b7': {'header': 'B7: Environmental Information Management'},
-    'b7_1': {'header': 'B7.1: Information Handling and Storage'},
-    'b7_2': {'header': 'B7.2: Information Security'},
-    'b7_3': {
+    'b71': {'header': 'B7.1: Information Handling and Storage'},
+    'b72': {'header': 'B7.2: Information Security'},
+    'b73': {
         'header': 'B7.3: Information Systems',
         'boilerplate': '''
             Table 6 below identifies the types of hardware, operating systems
@@ -46,7 +46,7 @@ SECTION_B = {
             using Microsoft Office Tools.
         '''
     },
-    'b7_4': {
+    'b74': {
         'header': 'B7.4: Information Accessibility',
         'boilerplate': '''
             Data that belong to the Federal government are subject to the

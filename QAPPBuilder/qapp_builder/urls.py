@@ -12,10 +12,11 @@ from django.contrib import admin
 from django.urls import include
 import qapp_builder.views.qapp_views as qapp_views
 import qapp_builder.views.section_a_views as section_a_views
+import qapp_builder.views.section_b_views as section_b_views
 import qapp_builder.views.table_based_model_views as table_views
 from qapp_builder.settings import MEDIA_ROOT, MEDIA_URL
 
-sections_a = [
+sections_a_b = [
     ('section-a1', section_a_views.SectionA1Create,
      section_a_views.SectionA1Update, section_a_views.SectionA1Detail),
     ('section-a2', section_a_views.SectionA2Create,
@@ -30,11 +31,15 @@ sections_a = [
      section_a_views.SectionA10Update, section_a_views.SectionA10Detail),
     ('section-a11', section_a_views.SectionA11Create,
      section_a_views.SectionA11Update, section_a_views.SectionA11Detail),
+    ('section-b', section_b_views.SectionBCreate,
+     section_b_views.SectionBUpdate, section_b_views.SectionBDetail),
+    ('section-b7', section_b_views.SectionB7Create,
+     section_b_views.SectionB7Update, section_b_views.SectionB7Detail),
 ]
 
 
 urlpatterns = [
-    path('admin', admin.site.urls),
+    path('admin/', admin.site.urls),
 
     path('', qapp_views.QappIndex.as_view(), name='home'),
     path('dashboard/', qapp_views.QappIndex.as_view(), name='dashboard'),
@@ -87,7 +92,7 @@ urlpatterns = [
          name='signature_create'),
     path('qapp/<int:qapp_id>/signature/<int:pk>/edit/',
          table_views.AdditionalSignatureUpdate.as_view(),
-         name='signature_update'),
+         name='signature_edit'),
     path('qapp/<int:qapp_id>/signature/<int:pk>/delete/',
          table_views.AdditionalSignatureDelete.as_view(),
          name='signature_delete'),
@@ -118,7 +123,7 @@ urlpatterns = [
          name='distribution_create'),
     path('qapp/<int:qapp_id>/distribution/<int:pk>/edit/',
          table_views.DistributionUpdate.as_view(),
-         name='distribution_update'),
+         name='distribution_edit'),
     path('qapp/<int:qapp_id>/distribution/<int:pk>/delete/',
          table_views.DistributionDelete.as_view(),
          name='distribution_delete'),
@@ -135,7 +140,7 @@ urlpatterns = [
          name='role_responsibility_create'),
     path('qapp/<int:qapp_id>/role-responsibility/<int:pk>/edit/',
          table_views.RoleResponsibilityUpdate.as_view(),
-         name='role_responsibility_update'),
+         name='role_responsibility_edit'),
     path('qapp/<int:qapp_id>/role-responsibility/<int:pk>/delete/',
          table_views.RoleResponsibilityDelete.as_view(),
          name='role_responsibility_delete'),
@@ -157,14 +162,27 @@ urlpatterns = [
          name='document_record_create'),
     path('qapp/<int:qapp_id>/document-record/<int:pk>/edit/',
          table_views.DocumentRecordUpdate.as_view(),
-         name='document_record_update'),
+         name='document_record_edit'),
     path('qapp/<int:qapp_id>/document-record/<int:pk>/delete/',
          table_views.DocumentRecordDelete.as_view(),
          name='document_record_delete'),
     # ########################################################################
     # Section B URLs ---------------------------------------------------------
+    path('qapp/<int:qapp_id>/hardware-software/create/',
+         table_views.HardwareSoftwareCreate.as_view(),
+         name='hardware_software_create'),
+    path('qapp/<int:qapp_id>/hardware-software/<int:pk>/edit/',
+         table_views.HardwareSoftwareUpdate.as_view(),
+         name='hardware_software_edit'),
+    path('qapp/<int:qapp_id>/hardware-software/<int:pk>/delete/',
+         table_views.HardwareSoftwareDelete.as_view(),
+         name='hardware_software_delete'),
     # ########################################################################
-
+    # Section C and D URLs ---------------------------------------------------
+    path('qapp/<int:qapp_id>/section-c/',
+         section_b_views.SectionB7Detail.as_view(),
+         name='sectionc_detail'),
+    # ########################################################################
     # Begin other module import URLs.
     path('accounts/', include('accounts.urls')),
     path('support/', include('support.urls')),
@@ -173,7 +191,7 @@ urlpatterns = [
 
 
 # Loop through the sections to create URL patterns
-for section, create_view, update_view, detail_view in sections_a:
+for section, create_view, update_view, detail_view in sections_a_b:
     urlpatterns += [
         path(f'qapp/<int:qapp_id>/{section}/create/',
              create_view.as_view(), name=f'{section.replace("-", "")}_create'),

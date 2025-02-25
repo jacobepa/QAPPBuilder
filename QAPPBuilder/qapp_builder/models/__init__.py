@@ -6,4 +6,5 @@ from .section_a_models import (
     SectionA8, SectionA11, SectionA12, Discipline, AdditionalSignature,
     Distribution, RoleResponsibility, SectionA10, DocumentRecord
 )
-from .section_b_c_d_models import SectionB, SectionC, SectionD
+from .section_b_c_d_models import SectionB, SectionB7, \
+    SectionC, SectionD, HardwareSoftware
