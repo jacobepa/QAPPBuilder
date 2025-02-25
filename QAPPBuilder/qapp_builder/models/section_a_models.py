@@ -110,6 +110,10 @@ class SectionA5(EpaBaseModel):
     start_fy = models.CharField(blank=True, null=True, max_length=4)
     start_q = models.CharField(blank=True, null=True, max_length=2)
 
+    @property
+    def labels(self):
+        return SECTION_A['a5']['labels']
+
 
 class Task(EpaBaseModel):
 
@@ -134,6 +138,10 @@ class SectionA6(EpaBaseModel):
         Qapp, on_delete=models.CASCADE, related_name='section_a6')
     information = models.TextField(blank=False, null=False)
 
+    @property
+    def labels(self):
+        return SECTION_A['a6']['labels']
+
 
 class SectionA7(EpaBaseModel):
     """Distribution List"""
@@ -146,10 +154,20 @@ class SectionA7(EpaBaseModel):
 
 class Distribution(EpaBaseModel):
 
-    section_a7 = models.ForeignKey(SectionA7, on_delete=models.CASCADE)
-    name_and_org = models.TextField(blank=False, null=False)
+    qapp = models.ForeignKey(Qapp, on_delete=models.CASCADE)
+    name = models.TextField(blank=False, null=False)
+    org = models.TextField(blank=False, null=False)
     email = models.TextField(blank=False, null=False)
     proj_role = models.TextField(blank=False, null=False)
+
+    @property
+    def labels(self):
+        return {
+            'name': 'Name',
+            'org': 'Organization',
+            'email': 'Contact Information (e-mail)',
+            'proj_role': 'Project ROle(s)'
+        }
 
 
 class SectionA8(EpaBaseModel):
@@ -179,6 +197,10 @@ class SectionA11(EpaBaseModel):
     qapp = models.OneToOneField(
         Qapp, on_delete=models.CASCADE, related_name='section_a11')
     information = models.TextField(blank=False, null=False)
+
+    @property
+    def labels(self):
+        return SECTION_A['a11']['labels']
 
 
 class SectionA12(EpaBaseModel):

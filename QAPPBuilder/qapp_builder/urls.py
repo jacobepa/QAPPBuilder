@@ -25,8 +25,6 @@ sections_a = [
      section_a_views.SectionA5Update, section_a_views.SectionA5Detail),
     ('section-a6', section_a_views.SectionA6Create,
      section_a_views.SectionA6Update, section_a_views.SectionA6Detail),
-    ('section-a7', section_a_views.SectionA7Create,
-     section_a_views.SectionA7Update, section_a_views.SectionA7Detail),
     ('section-a8', section_a_views.SectionA8Create,
      section_a_views.SectionA8Update, section_a_views.SectionA8Detail),
     ('section-a11', section_a_views.SectionA11Create,
@@ -108,7 +106,16 @@ urlpatterns = [
     path('qapp/<int:qapp_id>/definition/<int:pk>/delete/',
          section_a_views.AcronymAbbreviationDelete.as_view(),
          name='definition_delete'),
-    # Section A9 and A10  ----------------------------------------------
+    # Section A7 - ---------------- -----------------------------------
+    path('qapp/<int:qapp_id>/section-a7/',
+         section_a_views.SectionA7Detail.as_view(),
+         name='sectiona7_detail'),
+    path('qapp/<int:qapp_id>/section-a7/',
+         section_a_views.SectionA7Detail.as_view(),
+         name='sectiona7_create'),
+    # Section A7 - Distribution List -----------------------------------
+    # TODO
+    # Section A9 and A10 -----------------------------------------------
     # are readonly and so only have a single URL each
     path('qapp/<int:qapp_id>/section-a9/',
          section_a_views.SectionA9Detail.as_view(),

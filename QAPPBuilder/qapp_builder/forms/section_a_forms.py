@@ -78,7 +78,7 @@ class SectionA5Form(EpaBaseForm):
     class Meta:
         model = SectionA5
         exclude = ['section_a', 'qapp']
-        # labels = SECTION_A['a5']['labels']
+        labels = SECTION_A['a5']['labels']
 
 
 class SectionA6Form(EpaBaseForm):
@@ -86,7 +86,7 @@ class SectionA6Form(EpaBaseForm):
     class Meta:
         model = SectionA6
         exclude = ['section_a', 'qapp']
-        # labels = SECTION_A['a6']['labels']
+        labels = SECTION_A['a6']['labels']
 
 
 class SectionA7Form(EpaBaseForm):

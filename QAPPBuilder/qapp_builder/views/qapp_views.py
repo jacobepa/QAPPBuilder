@@ -167,7 +167,8 @@ class QappCreateView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse_lazy('sectiona1_create', kwargs={'pk': self.object.id})
+        return reverse_lazy('sectiona1_create',
+                            kwargs={'qapp_id': self.object.id})
 
 
 class QappList(LoginRequiredMixin, ListView):

@@ -69,6 +69,14 @@ PROJ_ROLES_RESPONSIBILITIES = {
     ],
 }
 
+# Create a copy of the dictionary without the "Division Director" role
+# This is for distribution defaults, which are almost the same as above...
+DISTRIBUTION_LIST_DEFAULT_ROLES = {
+    key: value for key, value
+    in PROJ_ROLES_RESPONSIBILITIES.items()
+    if key != 'Division Director'
+}
+
 SECTION_A = {
     'a1': {
         'header': 'A1: Title Page',
@@ -109,28 +117,35 @@ SECTION_A = {
             Quality Assurance Project Plan (QAPP) will adhere to the
             requirements specified in the Office of Research and Development
             (ORD) Quality Management Plan (QMP).
-        '''
-    },
-    'a4_1': {
-        'header': 'A4.1: Project Background'
-    },
-    'a4_2': {
-        'header': 'A4.2: Project Purpose and Problem Definition'
+        ''',
+        'labels': {
+            'project_background': 'A4.1: Project Background',
+            'project_purpose': 'A4.2: Project Purpose and Problem Definition'
+        }
     },
     'a5': {
-        'header': 'Project Task Description',
+        'header': 'A5: Project Task Description',
         'boilerplate': '''
             The Table below lists expected tasks and products for this project
             in relation to their anticipated start and projected end dates by
             Fiscal Year (FY).
-        '''
+        ''',
+        'labels': {
+            'tasks_summary': 'Tasks Summary',
+            'start_fy': 'Starting Fiscal Year (FY)',
+            'start_q': 'Starting Quarter'
+        }
     },
     'a6': {
-        'header': '''Information/Data Quality Objectives and
-                     Performance/Acceptance Criteria'''
+        'header': '''A6: Information/Data Quality Objectives and
+                     Performance/Acceptance Criteria''',
+        'labels': {
+            'information': '''A6: Information/Data Quality Objectives and
+                              Performance/Acceptance Criteria'''
+        }
     },
     'a7': {
-        'header': 'Distribution List',
+        'header': 'A7: Distribution List',
         'boilerplate': '''
             The EPA Technical Lead (TL) is responsible for maintaining a copy
             of the original approved QAPP and all approved subsequent revisions

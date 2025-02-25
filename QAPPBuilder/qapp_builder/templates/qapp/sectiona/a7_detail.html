@@ -1,0 +1,60 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block extend_js %}
+<!-- NOTE: JQuery is already included inside base.html... -->
+<!-- NOTE: Not sure why, but JQuery won't work unless I include again here. -->
+<script src="https://www.epa.gov/core/assets/vendor/jquery/jquery.min.js?v=3.6.0"></script>
+<script src="{% static 'scripts/app.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+    <h2>{{ title }}</h2>
+
+    <div class="usa-button-group">
+        <li class="usa-button-group__item">
+            <a class="usa-button" href="/qapp/{{qapp_id}}/entry/create/">Add New Entry</a>
+        </li>
+        <li class="usa-button-group__item">
+            <i class="usa-button usa-button--secondary" onclick="deleteEntry(this)" aria-disabled="true">
+                Remove Entry
+            </i>
+        </li>
+    </div>
+    <table class="usa-table grid-col">
+        <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Organization</th>
+                <th scope="col">Email</th>
+                <th scope="col">Project Role</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if distribution_list %}
+            {% for entry in distribution_list %}
+            <tr id="{{entry.id}}" onclick="rowClick('{{entry.id}}')">
+                <th scope="row">{{entry.name}}</th>
+                <td>{{entry.org}}</td>
+                <td>{{entry.email}}</td>
+                <td>{{entry.proj_role}}</td>
+            </tr>
+            {% endfor %}
+            {% else %}
+            <tr>
+                <td colspan="4">No recipients have been added to the Distribution List.</td>
+            </tr>
+            {% endif %}
+        </tbody>
+    </table>
+    {% include 'detail_buttons_partial.html' %}
+{% endblock %}
+
+{% block scripts %}
+<script>
+  function deleteEntry(btn){
+    if ($(btn).attr('disabled')) return;
+    window.location.href = `/qapp/{{qapp_id}}/entry/${$(btn).attr('id')}/delete/`;
+  }
+</script>
+{% endblock %}
