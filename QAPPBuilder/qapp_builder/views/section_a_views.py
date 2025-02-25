@@ -338,6 +338,13 @@ class SectionA9Detail(SectionTemplateView):
     section_title = SECTION_A['a9']['header']
     previous_url_name = 'sectiona8_detail'
     next_url_name = 'sectiona10_detail'
+    template_name = 'qapp/section_boilerplate.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['qapp_id'] = self.kwargs['qapp_id']
+        context['content'] = SECTION_A['a9']['boilerplate']
+        return context
 
 
 class SectionA10Detail(SectionTemplateView):
@@ -371,24 +378,6 @@ class SectionA11Detail(SectionDetailBase):
     create_url_name = 'sectiona11_create'
     previous_url_name = 'sectiona10_detail'
     next_url_name = 'sectiona12_detail'
-
-
-class SectionA12Create(SectionCreateBase):
-    model = SectionA12
-    form_class = forms.SectionA12Form
-    section_title = SECTION_A['a12']['header']
-    previous_url_name = 'sectiona11_detail'
-    detail_url_name = 'sectiona12_detail'
-    next_url_name = 'qapp_complete'  # Assuming this is the final section
-
-
-class SectionA12Update(SectionUpdateBase):
-    model = SectionA12
-    form_class = forms.SectionA12Form
-    section_title = SECTION_A['a12']['header']
-    previous_url_name = 'sectiona11_detail'
-    detail_url_name = 'sectiona12_detail'
-    next_url_name = 'qapp_complete'  # Assuming this is the final section
 
 
 class SectionA12Detail(SectionDetailBase):

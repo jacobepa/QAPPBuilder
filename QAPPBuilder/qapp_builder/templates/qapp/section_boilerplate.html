@@ -1,0 +1,13 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+    <h2>{{ title }}</h2>
+    {% if content_list %}
+    {% for content in content_list %}
+    <p>{{ content }}</p>
+    {% endfor %}d
+    {% else %}
+    <p>{{ content }}</p>
+    {% endif %}
+    {% include 'static_buttons_partial.html' %}
+{% endblock %}

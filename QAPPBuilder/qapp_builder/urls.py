@@ -28,8 +28,6 @@ sections_a = [
      section_a_views.SectionA6Update, section_a_views.SectionA6Detail),
     ('section-a11', section_a_views.SectionA11Create,
      section_a_views.SectionA11Update, section_a_views.SectionA11Detail),
-    ('section-a12', section_a_views.SectionA12Create,
-     section_a_views.SectionA12Update, section_a_views.SectionA12Detail),
 ]
 
 

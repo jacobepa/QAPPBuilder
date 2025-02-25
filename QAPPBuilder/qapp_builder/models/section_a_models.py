@@ -1,6 +1,7 @@
 from django.db import models
 from .qapp_models import Qapp
 from .utility_models import EpaBaseModel
+from constants.utils import get_attachment_storage_path
 from constants.qapp_section_a_const import SECTION_A, INTRA_EXTRA_CHOICES, \
     QA_CATEGORY_OPTIONS
 from constants.qapp_section_b_const import DISCIPLINE_CHOICES, \
@@ -200,6 +201,12 @@ class RoleResponsibility(EpaBaseModel):
 # SectionA9 is static content, no input.
 
 # SectionA10 is an optional(?) org chart
+class SectionA10(EpaBaseModel):
+
+    qapp = models.OneToOneField(
+        Qapp, on_delete=models.CASCADE, related_name='section_a10')
+    org_chart = models.FileField(null=True, blank=True,
+                                 upload_to=get_attachment_storage_path)
 
 
 class SectionA11(EpaBaseModel):

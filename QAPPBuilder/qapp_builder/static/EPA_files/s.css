@@ -2769,8 +2769,9 @@ label.option {
     color: #fff;
 }
 
+/* TODO BROKEN SITE RE-ENABLE THIS 02252025 */
 .region-footer {
-    background: url(https://www.epa.gov/sites/all/themes/epa/img/svg/epa-seal.svg) 50% 100% no-repeat;
+    /* background: url(https://www.epa.gov/sites/all/themes/epa/img/svg/epa-seal.svg) 50% 100% no-repeat; */
     background-position: 0 0;
     background-size: 5.8824em 5.8824em; /* 100px */
     font-family: "Merriweather", "Georgia", "Cambria", "Times New Roman", "Times", serif;
