@@ -2,6 +2,7 @@ from django.db import models
 from .qapp_models import Qapp
 from .utility_models import EpaBaseModel
 from constants.qapp_section_b_const import SECTION_B
+from constants.qapp_section_c_d_const import SECTION_C, SECTION_D
 
 
 class SectionB(EpaBaseModel):
@@ -73,8 +74,12 @@ class SectionC(EpaBaseModel):
 
     qapp = models.OneToOneField(
         Qapp, on_delete=models.CASCADE, related_name='section_c')
-    # Section C1, C1.1, C1.2 are all readonly
+    # Section C1.1 and C1.2 are readonly
     c2 = models.TextField(blank=False, null=False)
+
+    @property
+    def labels(self):
+        return {'c2': SECTION_C['c2']['header']}
 
 
 class SectionD(EpaBaseModel):
@@ -83,3 +88,8 @@ class SectionD(EpaBaseModel):
         Qapp, on_delete=models.CASCADE, related_name='section_d')
     d1 = models.TextField(blank=False, null=False)
     d2 = models.TextField(blank=False, null=False)
+
+    @property
+    def labels(self):
+        return {'d1': SECTION_D['d1']['header'],
+                'd2': SECTION_D['d2']['header']}

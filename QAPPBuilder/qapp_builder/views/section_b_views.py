@@ -51,8 +51,6 @@ class SectionBDetail(SectionDetailBase):
     next_url_name = 'sectionb7_detail'
 
 
-# TODO: Split B7 out of SectionB and put it in dedicated model/form/template
-
 class SectionB7Create(SectionCreateBase):
 
     model = SectionB7

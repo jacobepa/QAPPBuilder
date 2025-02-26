@@ -13,6 +13,7 @@ from django.urls import include
 import qapp_builder.views.qapp_views as qapp_views
 import qapp_builder.views.section_a_views as section_a_views
 import qapp_builder.views.section_b_views as section_b_views
+import qapp_builder.views.section_c_d_views as section_c_d_views
 import qapp_builder.views.table_based_model_views as table_views
 from qapp_builder.settings import MEDIA_ROOT, MEDIA_URL
 
@@ -35,6 +36,10 @@ sections_a_b = [
      section_b_views.SectionBUpdate, section_b_views.SectionBDetail),
     ('section-b7', section_b_views.SectionB7Create,
      section_b_views.SectionB7Update, section_b_views.SectionB7Detail),
+    ('section-c', section_c_d_views.SectionCCreate,
+     section_c_d_views.SectionCUpdate, section_c_d_views.SectionCDetail),
+    ('section-d', section_c_d_views.SectionDCreate,
+     section_c_d_views.SectionDUpdate, section_c_d_views.SectionDDetail),
 ]
 
 
@@ -180,7 +185,7 @@ urlpatterns = [
     # ########################################################################
     # Section C and D URLs ---------------------------------------------------
     path('qapp/<int:qapp_id>/section-c/',
-         section_b_views.SectionB7Detail.as_view(),
+         section_c_d_views.SectionCDetail.as_view(),
          name='sectionc_detail'),
     # ########################################################################
     # Begin other module import URLs.

@@ -1,0 +1,17 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+    <h2>{{ title }}</h2>
+    <h3>{{ c1_label }}</h3>
+
+    <h4>{{ c11_label }}</h4>
+    <p>{{ c11_boilerplate }}</p>
+
+    <h4>{{ c12_label }}</h4>
+    <p>{{ c12_boilerplate }}</p>
+
+    <h3>{{ c2_label }}</h3>
+    {{ object.render_details }}
+
+    {% include 'detail_buttons_partial.html' %}
+{% endblock %}
