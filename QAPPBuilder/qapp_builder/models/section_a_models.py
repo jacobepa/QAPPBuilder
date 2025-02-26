@@ -28,7 +28,9 @@ class SectionA1(EpaBaseModel):
     division = models.TextField(blank=False, null=False)
     # TODO: Choices for Branch
     branch = models.TextField(blank=False, null=False)
-    title = models.TextField(blank=False, null=False)
+    # NOTE: While title is under Section A1 in the actual QAPPs themselves,
+    # it makes more sense to put it under the QAPP model.
+    # title = models.TextField(blank=False, null=False)
     # TODO: Choices for National Program?
     ord_national_program = models.TextField(blank=False, null=False)
     version_date = models.DateField(blank=False, null=False)

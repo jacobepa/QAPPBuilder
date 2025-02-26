@@ -1,6 +1,8 @@
+# NOTE: This will also house constants for the Qapp model
+#       as well as shared constants across sections.
 QAPP_TITLE_HEADER = 'U.S. Environmental Protection Agency ' + \
     'Office of Research and Development'
-
+QAPP_STR = 'Quality Assurance Project Plan (QAPP)'
 
 QA_CATEGORY_A = 'A'
 QA_CATEGORY_B = 'B'

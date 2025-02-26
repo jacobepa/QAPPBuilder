@@ -79,6 +79,8 @@ urlpatterns = [
     path('qapp/<int:pk>/delete/',
          qapp_views.QappDelete.as_view(),
          name='qapp_delete'),
+    # QAPP Exports ------------------------------------------------------
+    path('qapp/<int:pk>/export/', qapp_views.export_qapp, name='qapp_export'),
     # QAPP Revisions ----------------------------------------------------
     path('qapp/<int:qapp_id>/revision/create/',
          qapp_views.RevisionCreate.as_view(),
