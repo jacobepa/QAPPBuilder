@@ -137,15 +137,6 @@ class SectionA6(EpaBaseModel):
         return SECTION_A['a6']['labels']
 
 
-class SectionA7(EpaBaseModel):
-    """Distribution List"""
-
-    qapp = models.OneToOneField(
-        Qapp, on_delete=models.CASCADE, related_name='section_a7')
-    # Table 2. Distribution List
-    # TODO: When this section is saved, populate some of the table defaults
-
-
 class Distribution(EpaBaseModel):
 
     qapp = models.ForeignKey(Qapp, on_delete=models.CASCADE)
@@ -164,13 +155,9 @@ class Distribution(EpaBaseModel):
         }
 
 
-class SectionA8(EpaBaseModel):
-    """Project Organization"""
+# SectionA7 has no input except tables
 
-    qapp = models.OneToOneField(
-        Qapp, on_delete=models.CASCADE, related_name='section_a8')
-    # Table 3. Environmental Information Roles and Responsibilities
-    # TODO: When this section is saved, populate some of the table defaults
+# SectionA8 has no input except tables
 
 
 class RoleResponsibility(EpaBaseModel):
@@ -213,15 +200,7 @@ class SectionA11(EpaBaseModel):
         return SECTION_A['a11']['labels']
 
 
-class SectionA12(EpaBaseModel):
-    """Documents and Records"""
-
-    qapp = models.OneToOneField(
-        Qapp, on_delete=models.CASCADE, related_name='section_a12')
-    # Table 4. Documents and Records
-    # TODO: When this section is saved, populate some of the table defaults
-    # Table 5. Project's Record Schedule
-    # Table 5 is static depending on QA Cat (A or B), I think?
+# SectionA12 has no input except tables
 
 
 class DocumentRecord(EpaBaseModel):

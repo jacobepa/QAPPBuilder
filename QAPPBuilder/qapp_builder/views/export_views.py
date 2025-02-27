@@ -42,6 +42,18 @@ def add_paragraph(doc, text, name='Calibri (Body)', size=11, bold=False,
     return p
 
 
+def add_heading(doc, text, level):
+    doc.add_heading(text, level=level)
+
+
+def set_cell_shading(cell, color):
+    """Set cell shading (background color)."""
+    cell_properties = cell._element.get_or_add_tcPr()
+    shading = OxmlElement('w:shd')
+    shading.set(qn('w:fill'), color)
+    cell_properties.append(shading)
+
+
 @login_required
 def export_qapp_docx(request, qapp_id):
     qapp = Qapp.objects.get(id=qapp_id)
@@ -49,6 +61,7 @@ def export_qapp_docx(request, qapp_id):
 
     # Create the empty document
     doc = Document()
+    # Write the Sections A:
     write_section_a1(qapp, doc)
     write_section_a2(qapp, doc)
     write_section_a3(qapp, doc)
@@ -61,6 +74,7 @@ def export_qapp_docx(request, qapp_id):
     write_section_a10(qapp, doc)
     write_section_a11(qapp, doc)
     write_section_a12(qapp, doc)
+    # Write the Sections B, C, D:
 
     # Save the document to a BytesIO object
     file_stream = BytesIO()
@@ -75,18 +89,6 @@ def export_qapp_docx(request, qapp_id):
     response['Content-Disposition'] = f'attachment; filename="{file_name}"'
 
     return response
-
-
-def add_heading(doc, text, level):
-    doc.add_heading(text, level=level)
-
-
-def set_cell_shading(cell, color):
-    """Set cell shading (background color)."""
-    cell_properties = cell._element.get_or_add_tcPr()
-    shading = OxmlElement('w:shd')
-    shading.set(qn('w:fill'), color)
-    cell_properties.append(shading)
 
 
 def write_section_a1(qapp, doc):
@@ -489,7 +491,7 @@ def write_section_a8(qapp, doc):
         responsibilities = role.proj_responsibilities.split('\n')
         p = row_cells[2].paragraphs[0]
         for responsibility in responsibilities:
-            p.add_run(f'• {responsibility}\n')
+            p.add_run(f'• {responsibility}')
 
     # Add an extra empty row at the end
     table.add_row()
@@ -573,9 +575,9 @@ def write_section_a12(qapp, doc):
 
     # Set column widths
     table.columns[0].width = Inches(2)
-    table.columns[1].width = Inches(2.5)
+    table.columns[1].width = Inches(5 / 2)
     table.columns[2].width = Inches(1)
-    table.columns[3].width = Inches(0.5)
+    table.columns[3].width = Inches(1 / 2)
 
     # Header row
     hdr_cells = table.rows[0].cells

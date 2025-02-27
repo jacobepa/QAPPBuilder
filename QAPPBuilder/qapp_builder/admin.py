@@ -14,7 +14,10 @@ Available functions:
 """
 
 from django.contrib import admin
-from .models import Qapp, Discipline
+from .models import SectionA1, SectionA2, SectionA4, SectionA5, SectionA6, \
+    SectionA10, SectionA11, SectionB, SectionB7, SectionC, SectionD, \
+    Qapp, Discipline, AdditionalSignature, Distribution, RoleResponsibility, \
+    DocumentRecord
 
 
 class QappAdmin(admin.ModelAdmin):
@@ -38,3 +41,18 @@ class QappAdmin(admin.ModelAdmin):
 
 admin.site.register(Qapp, QappAdmin)
 admin.site.register(Discipline)
+admin.site.register(SectionA1)
+admin.site.register(SectionA2)
+admin.site.register(SectionA4)
+admin.site.register(SectionA5)
+admin.site.register(SectionA6)
+admin.site.register(SectionA10)
+admin.site.register(SectionA11)
+admin.site.register(SectionB)
+admin.site.register(SectionB7)
+admin.site.register(SectionC)
+admin.site.register(SectionD)
+admin.site.register(AdditionalSignature)
+admin.site.register(Distribution)
+admin.site.register(RoleResponsibility)
+admin.site.register(DocumentRecord)

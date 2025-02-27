@@ -1,6 +1,6 @@
 from django import forms
 from qapp_builder.models import SectionA1, SectionA2, SectionA4, SectionA10, \
-    SectionA5, SectionA6, SectionA7, SectionA8, SectionA11, SectionA12, \
+    SectionA5, SectionA6, SectionA11, \
     AdditionalSignature, AcronymAbbreviation, Distribution, \
     RoleResponsibility, DocumentRecord
 from .utility_forms import EpaBaseForm
@@ -90,28 +90,12 @@ class SectionA6Form(EpaBaseForm):
         labels = SECTION_A['a6']['labels']
 
 
-class SectionA7Form(EpaBaseForm):
-
-    class Meta:
-        model = SectionA7
-        exclude = ['qapp']
-        # labels = SECTION_A['a7']['labels']
-
-
 class DistributionForm(EpaBaseForm):
 
     class Meta:
         model = Distribution
         exclude = ['qapp_id', 'qapp']
         labels = Distribution().labels
-
-
-class SectionA8Form(EpaBaseForm):
-
-    class Meta:
-        model = SectionA8
-        exclude = ['qapp']
-        # labels = SECTION_A['a8']['labels']
 
 
 class RoleResponsibilityForm(EpaBaseForm):
@@ -136,14 +120,6 @@ class SectionA11Form(EpaBaseForm):
         model = SectionA11
         exclude = ['qapp']
         # labels = SECTION_A['a11']['labels']
-
-
-class SectionA12Form(EpaBaseForm):
-
-    class Meta:
-        model = SectionA12
-        exclude = ['qapp']
-        # labels = SECTION_A['a12']['labels']
 
 
 class DocumentRecordForm(EpaBaseForm):
