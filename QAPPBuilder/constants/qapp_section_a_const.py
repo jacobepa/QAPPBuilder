@@ -44,39 +44,39 @@ FY_QUARTERS = [
 PROJ_ROLES_RESPONSIBILITIES = {
     'QA Manager': [
         'Provides QA training/review on the ORD QA Program.',
-        '''Assists the ORD TL in ensuring that quality requirements are
-           identified for the project.''',
+        'Assists the ORD TL in ensuring that quality requirements are '
+        'identified for the project.',
         'Reviews and approves QAPP.',
-        '''Reviews and approves ORD sub-products and products developed under
-           the project QAPP.''',
-        '''Reports quality related issues to the TL's supervisor and
-           organization's senior manager.'''
+        'Reviews and approves ORD sub-products and products developed under '
+        'the project QAPP.',
+        'Reports quality related issues to the TL\'s supervisor and '
+        'organization\'s senior manager.'
     ],
     'Branch Chief': [
         'Consults with TL and QAM on QA category designation.',
         'Reviews and approves QAPP.',
-        '''Communicates regularly with project TL to ensure that QA requirements
-           are met.''',
-        '''Evaluates and seeks to provide the necessary resources to accomplish
-           the work described in the QAPP.''',
+        'Communicates regularly with project TL to ensure that QA requirements '
+        'are met.',
+        'Evaluates and seeks to provide the necessary resources to accomplish '
+        'the work described in the QAPP.',
         'Ensures that no EIO begins until the QA documentation is approved.'
     ],
     'Division Director': [
-        '''Provides the necessary resources (personnel, funding, materials,
-           supplies, and time) to accomplish the work described in the project
-           QAPP.''',
-        '''Ensures the roles and responsibilities of division personnel meet
-           project specific and organizational specific requirements as
-           specified in QAPPs and the ORD QMP'''
+        'Provides the necessary resources (personnel, funding, materials, '
+        'supplies, and time) to accomplish the work described in the project '
+        'QAPP.',
+        'Ensures the roles and responsibilities of division personnel meet '
+        'project specific and organizational specific requirements as '
+        'specified in QAPPs and the ORD QMP'
     ],
     'Technical Lead': [
-        '''Maintains and distributes the official, approved copy of this QAPP
-           to project EIO participants.''',
-        '''Reviews project QAPP annually for consistency with the current EIO
-           of the project and updates the QAPP to match the current EIO of
-           the project as necessary.''',
-        '''Notifies their QAM in writing of any quality related issue or
-           deviation from QA documentation.''',
+        'Maintains and distributes the official, approved copy of this QAPP '
+        'to project EIO participants.',
+        'Reviews project QAPP annually for consistency with the current EIO '
+        'of the project and updates the QAPP to match the current EIO of '
+        'the project as necessary.',
+        'Notifies their QAM in writing of any quality related issue or '
+        'deviation from QA documentation.',
     ],
 }
 
@@ -146,11 +146,11 @@ SECTION_A = {
         }
     },
     'a6': {
-        'header': '''A6: Information/Data Quality Objectives and
-                     Performance/Acceptance Criteria''',
+        'header': 'A6: Information/Data Quality Objectives and '
+        'Performance/Acceptance Criteria',
         'labels': {
-            'information': '''A6: Information/Data Quality Objectives and
-                              Performance/Acceptance Criteria'''
+            'information': 'A6: Information/Data Quality Objectives and '
+            'Performance/Acceptance Criteria'
         }
     },
     'a7': {

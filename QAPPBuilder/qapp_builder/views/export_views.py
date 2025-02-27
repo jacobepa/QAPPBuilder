@@ -10,6 +10,7 @@
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from io import BytesIO
+from os.path import exists
 import constants.qapp_section_a_const as constants_a
 import constants.qapp_section_b_const as constants_b
 from qapp_builder.models import Qapp, SectionA1, Revision, \
@@ -284,10 +285,10 @@ def write_section_a3(qapp, doc):
     table.style = 'Table Grid'
 
     # Set column widths
-    table.columns[0].width = Inches(1)  # 1/6 of 6 inches
-    table.columns[1].width = Inches(1)  # 1/6 of 6 inches
-    table.columns[2].width = Inches(2)  # 2/6 of 6 inches
-    table.columns[3].width = Inches(2)  # 2/6 of 6 inches
+    table.columns[0].width = Inches(0.75)
+    table.columns[1].width = Inches(0.75)
+    table.columns[2].width = Inches(2)
+    table.columns[3].width = Inches(2.5)
 
     hdr_cells = table.rows[0].cells
     hdr_cells[0].text = 'Date'
@@ -296,7 +297,7 @@ def write_section_a3(qapp, doc):
     hdr_cells[3].text = 'Description of Revision'
 
     for cell in hdr_cells:
-        set_font(cell.paragraphs[0].runs[0], size=12, bold=True)
+        set_font(cell.paragraphs[0].runs[0], size=11, bold=True)
         set_cell_shading(cell, "D3D3D3")  # Light gray background for header
 
     revisions = Revision.objects.filter(qapp_id=qapp.id)
@@ -315,13 +316,15 @@ def write_section_a3(qapp, doc):
     # Write a bordered table with header row striped for acronyms
     table = doc.add_table(rows=1, cols=2)
     table.style = 'Table Grid'
+    table.columns[0].width = Inches(2.5)
+    table.columns[1].width = Inches(3.5)
 
     hdr_cells = table.rows[0].cells
     hdr_cells[0].text = 'Acronym/Abbreviation'
     hdr_cells[1].text = 'Definition'
 
     for cell in hdr_cells:
-        set_font(cell.paragraphs[0].runs[0], size=12, bold=True)
+        set_font(cell.paragraphs[0].runs[0], size=11, bold=True)
         set_cell_shading(cell, "D3D3D3")  # Light gray background for header row
 
     acronyms = AcronymAbbreviation.objects.filter(qapp_id=qapp.id)
@@ -376,13 +379,13 @@ def write_section_a5(qapp, doc):
     add_paragraph(doc, section_a5.tasks_summary, size=11)
 
     # Create a table with 10 columns
-    table = doc.add_table(rows=2, cols=10)
+    table = doc.add_table(rows=9, cols=10)
     table.style = 'Table Grid'
 
     # Set column widths
-    table.columns[0].width = Inches(2)  # 2/6 of available width
+    table.columns[0].width = Inches(3)  # 3/6 of available width
     for i in range(1, 10):
-        table.columns[i].width = Inches(4 / 9)  # 1/9 of remaining 4/6 width
+        table.columns[i].width = Inches(3 / 9)  # 1/9 of remaining 3/6 width
 
     # Header row one
     hdr_cells = table.rows[0].cells
@@ -393,7 +396,7 @@ def write_section_a5(qapp, doc):
 
     # Apply light grey shading to the first header row
     for cell in hdr_cells:
-        set_font(cell.paragraphs[0].runs[0], size=12, bold=True)
+        set_font(cell.paragraphs[0].runs[0], size=11, bold=True)
         set_cell_shading(cell, "D3D3D3")  # Light grey background for header row
 
     # Header row two
@@ -406,7 +409,7 @@ def write_section_a5(qapp, doc):
 
     # Apply lighter grey shading to the second header row
     for cell in hdr_cells:
-        set_font(cell.paragraphs[0].runs[0], size=12, bold=True)
+        set_font(cell.paragraphs[0].runs[0], size=11, bold=True)
         set_cell_shading(cell, "E6E6E6")  # Lighter grey for second header row
 
     # TODO Label the table as "Table 1. Project Completion Timeline"
@@ -414,111 +417,184 @@ def write_section_a5(qapp, doc):
 
 def write_section_a6(qapp, doc):
     section_a6 = SectionA6.objects.get(qapp_id=qapp.id)
-    # #####################################################################
-    # * Write Heading 2: constants_a.SECTION_A['a6']['header']
-    # * Write body text (Calibri body 11pt left aligned):
-    #   section_a6.information
-    return
+
+    # Write Heading 2
+    add_heading(doc, constants_a.SECTION_A['a6']['header'], level=2)
+
+    # Write body text (Calibri body 11pt left aligned)
+    add_paragraph(doc, section_a6.information, size=11)
 
 
 def write_section_a7(qapp, doc):
-    # #####################################################################
-    # * Write Heading 2: constants_a.SECTION_A['a7']['header']
-    # * Write body text (Calibri body 11pt left aligned):
-    #   constants_a.SECTION_A['a7']['boilerplate']
-    # TABLE TIME!!
-    distribution_list = Distribution.objects.filter(qapp_id=qapp.id)
-    # * Create a table with 3 columns. The header row is:
-    #   - Name & Organization, Contact Information (e-mail), Project Role(s)
-    #   - for recipient in distribution_list:
-    #     * write into the table the following col entries:
-    #       [f'{recipient.name}\n{recipient.org}', recipient.email,
-    #        recipient.proj_role]
-    #   - And make sure there's an extra empty row at the end.
+    # Write Heading 2
+    add_heading(doc, constants_a.SECTION_A['a7']['header'], level=2)
 
-    return
+    # Write body text (Calibri body 11pt left aligned)
+    add_paragraph(doc, constants_a.SECTION_A['a7']['boilerplate'], size=11)
+
+    # Create a table with 3 columns
+    table = doc.add_table(rows=1, cols=3)
+    table.style = 'Table Grid'
+
+    # Header row
+    hdr_cells = table.rows[0].cells
+    hdr_cells[0].text = 'Name & Organization'
+    hdr_cells[1].text = 'Contact Information (e-mail)'
+    hdr_cells[2].text = 'Project Role(s)'
+
+    for cell in hdr_cells:
+        set_font(cell.paragraphs[0].runs[0], size=11, bold=True)
+        set_cell_shading(cell, "D3D3D3")  # Light gray background for header
+
+    distribution_list = Distribution.objects.filter(qapp_id=qapp.id)
+    for recipient in distribution_list:
+        row_cells = table.add_row().cells
+        row_cells[0].text = f'{recipient.name}\n{recipient.org}'
+        row_cells[1].text = recipient.email
+        row_cells[2].text = recipient.proj_role
+
+    # Add an extra empty row at the end
+    table.add_row()
 
 
 def write_section_a8(qapp, doc):
-    # #####################################################################
-    # * Write Heading 2: constants_a.SECTION_A['a8']['header']
-    # * Write body text (Calibri body 11pt left aligned):
-    #   constants_a.SECTION_A['a8']['boilerplate']
-    # TABLE TIME!!
-    roles = RoleResponsibility.objects.filter(qapp_id=qapp.id)
-    # * Create a table with 3 columns. The header row is:
-    #   - Name & Organization, Project Role(s), Project Responsibilities
-    #   - for role in roles:
-    #     * write into the table the following col entries:
-    #       [f'{role.name}\n{role.org}', role.proj_role,
-    #        role.proj_responsibilities]
-    #       NOTE: proj_responsibilities should be written as bullet points.
-    #             There should be linebreaks \n characters in the string.
-    #   - And make sure there's an extra empty row at the end.
+    # Write Heading 2
+    add_heading(doc, constants_a.SECTION_A['a8']['header'], level=2)
 
-    return
+    # Write body text (Calibri body 11pt left aligned)
+    add_paragraph(doc, constants_a.SECTION_A['a8']['boilerplate'], size=11)
+
+    # Create a table with 3 columns
+    table = doc.add_table(rows=1, cols=3)
+    table.style = 'Table Grid'
+    table.columns[0].width = Inches(1)
+    table.columns[1].width = Inches(1)
+    table.columns[2].width = Inches(4)
+
+    # Header row
+    hdr_cells = table.rows[0].cells
+    hdr_cells[0].text = 'Name & Organization'
+    hdr_cells[1].text = 'Project Role(s)'
+    hdr_cells[2].text = 'Project Responsibilities'
+
+    for cell in hdr_cells:
+        set_font(cell.paragraphs[0].runs[0], size=11, bold=True)
+        set_cell_shading(cell, "D3D3D3")  # Light gray background for header
+
+    roles = RoleResponsibility.objects.filter(qapp_id=qapp.id)
+    for role in roles:
+        row_cells = table.add_row().cells
+        row_cells[0].text = f'{role.name}\n{role.org}'
+        row_cells[1].text = role.proj_role
+        responsibilities = role.proj_responsibilities.split('\n')
+        p = row_cells[2].paragraphs[0]
+        for responsibility in responsibilities:
+            p.add_run(f'• {responsibility}\n')
+
+    # Add an extra empty row at the end
+    table.add_row()
 
 
 def write_section_a9(qapp, doc):
-    # #####################################################################
-    # * Write Heading 2: constants_a.SECTION_A['a9']['header']
-    # * Write body text (Calibri body 11pt left aligned):
-    #   constants_a.SECTION_A['a9']['boilerplate']
+    # Write Heading 2
+    add_heading(doc, constants_a.SECTION_A['a9']['header'], level=2)
 
-    return
+    # Write body text (Calibri body 11pt left aligned)
+    add_paragraph(doc, constants_a.SECTION_A['a9']['boilerplate'], size=11)
 
 
 def write_section_a10(qapp, doc):
-    section_a10 = SectionA10.objects.filter(qapp_id=qapp.id)
-    # #####################################################################
-    # * Write Heading 2: constants_a.SECTION_A['a10']['header']
-    # * Write body text (Calibri body 11pt left aligned):
-    #   constants_a.SECTION_A['a10']['boilerplate']
-    # * section_a10.org_chart might contain a file path to a stored file.
-    #   Check if that file path contains an image and if it does, insert
-    #   the image into the word doc here.
+    section_a10 = SectionA10.objects.get(qapp_id=qapp.id)
 
-    return
+    # Write Heading 2
+    add_heading(doc, constants_a.SECTION_A['a10']['header'], level=2)
+
+    # Write body text (Calibri body 11pt left aligned)
+    add_paragraph(doc, constants_a.SECTION_A['a10']['boilerplate'], size=11)
+
+    # Insert organization chart image if available
+    if section_a10.org_chart and exists(section_a10.org_chart):
+        doc.add_picture(section_a10.org_chart)
 
 
 def write_section_a11(qapp, doc):
-    section_a11 = SectionA11.objects.filter(qapp_id=qapp.id)
-    # #####################################################################
-    # * Write Heading 2: constants_a.SECTION_A['a11']['header']
-    # * Write body text (Calibri body 11pt left aligned):section_a11.information
+    section_a11 = SectionA11.objects.get(qapp_id=qapp.id)
 
-    return
+    # Write Heading 2
+    add_heading(doc, constants_a.SECTION_A['a11']['header'], level=2)
+
+    # Write body text (Calibri body 11pt left aligned)
+    add_paragraph(doc, section_a11.information, size=11)
 
 
 def write_section_a12(qapp, doc):
-    # #####################################################################
-    # * Write Heading 2: constants_a.SECTION_A['a12']['header']
-    # * Write body text (Calibri body 11pt left aligned):
-    #   constants_a.SECTION_A['a12']['boilerplate']
-    #   AND Make sure that linebreaks are inserted for any newline \n chars
-    # TABLE TIME!!
+    # Write Heading 2
+    add_heading(doc, constants_a.SECTION_A['a12']['header'], level=2)
+
+    # Write body text (Calibri body 11pt left aligned)
+    boilerplate = constants_a.SECTION_A['a12']['boilerplate']
+    add_paragraph(doc, boilerplate, size=11)
+
+    # Create a table with 5 columns
+    table = doc.add_table(rows=1, cols=5)
+    table.style = 'Table Grid'
+
+    # Header row
+    hdr_cells = table.rows[0].cells
+    hdr_cells[0].text = 'Record Type'
+    hdr_cells[1].text = 'Responsible Party'
+    hdr_cells[2].text = 'Located in Project File (Y/N) If No, Add File ' + \
+        'Location Below'
+    hdr_cells[3].text = 'File Type (Format)'
+    hdr_cells[4].text = 'Special Handling Required (Y/N)'
+
+    for cell in hdr_cells:
+        set_font(cell.paragraphs[0].runs[0], size=11, bold=True)
+        set_cell_shading(cell, "D3D3D3")  # Light grey background for header row
+
     records = DocumentRecord.objects.filter(qapp_id=qapp.id)
-    # * Create a table with 5 columns. The header row is:
-    #   - [Record Type, Responsible Party, Located in Project File (Y/N)
-    #      If No, Add File Location Below, File Type (Format),
-    #      Special Handling Required (Y/N)]
-    #   - for record in records:
-    #     * write into the table the following col entries:
-    #       [record.record_type, record.responsible_party, record.in_proj_file,
-    #        record.file_type, record.special_handling]
-    #        NOTE that Special Handling is a boolean field, but we should print
-    #             Y or N depending on the bool value.
-    #   - And make sure there's an extra empty row at the end.
-    # #####################################################################
-    # TODO: There's another table, "Record Schedule", but this is static
-    # TABLE_5_BOILERPLATE
-    # * Create a table with 4 columns. The header row is defined by an array
-    #   constants_a.TABLE_5_BOILERPLATE['col_headers']
+    for record in records:
+        row_cells = table.add_row().cells
+        row_cells[0].text = record.record_type
+        row_cells[1].text = record.responsible_party
+        row_cells[2].text = record.in_proj_file
+        row_cells[3].text = record.file_type
+        row_cells[4].text = 'Y' if record.special_handling else 'N'
+
+    # Add an extra empty row at the end
+    table.add_row()
+
+    # Add a paragraph to create space between the tables
+    doc.add_paragraph()
+
+    # Create the "Record Schedule" table
+    table = doc.add_table(rows=1, cols=4)
+    table.style = 'Table Grid'
+
+    # Set column widths
+    table.columns[0].width = Inches(2)
+    table.columns[1].width = Inches(2.5)
+    table.columns[2].width = Inches(1)
+    table.columns[3].width = Inches(0.5)
+
+    # Header row
+    hdr_cells = table.rows[0].cells
+    for i, header in enumerate(constants_a.TABLE_5_BOILERPLATE['col_headers']):
+        hdr_cells[i].text = header
+
+    for cell in hdr_cells:
+        set_font(cell.paragraphs[0].runs[0], size=11, bold=True)
+        set_cell_shading(cell, "D3D3D3")  # Light grey background for header row
+
+    # Category row
     section_a1 = SectionA1.objects.get(qapp_id=qapp.id)
     cat_row = constants_a.TABLE_5_BOILERPLATE['qa_category_a']
     if section_a1.qa_category == constants_a.QA_CATEGORY_B:
         cat_row = constants_a.TABLE_5_BOILERPLATE['qa_category_b']
-    # * There's only one other row with each cell in the array cat_row
+
+    row_cells = table.add_row().cells
+    for i, cell_text in enumerate(cat_row):
+        row_cells[i].text = cell_text
 
 
 def export_qapp_pdf(request, qapp_id):
