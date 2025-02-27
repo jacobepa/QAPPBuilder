@@ -18,6 +18,15 @@ INTRA_EXTRA_CHOICES = (
     (EXTRAMURALLY, EXTRAMURALLY),
 )
 
+INTRAMURAL_TEXT = 'Period of Applicability for intramural QAPPs starts on ' + \
+    'the date of QAPP approval and ends five years after QAPP approval ' + \
+    'date or until a new version of the QAPP is approved, whichever is sooner.'
+
+EXTRAMURAL_TEXT = 'Period of Applicability for extramural QAPPs starts on ' + \
+    'the date of QAPP approval and ends on the last day of the POP or ' + \
+    'until a new version of the QAPP is approved, whichever is sooner, and ' + \
+    'not to exceed 5 years.'
+
 CURRENT_FY = 2025
 QUARTERS = ['Q1', 'Q2', 'Q3', 'Q4']
 
@@ -80,6 +89,8 @@ DISTRIBUTION_LIST_DEFAULT_ROLES = {
 }
 
 SECTION_A = {
+    'a': {'header': 'A: Project Management and Information/Data '
+          'Quality Objectives'},
     'a1': {
         'header': 'A1: Title Page',
         'labels': {

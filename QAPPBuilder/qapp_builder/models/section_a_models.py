@@ -83,15 +83,6 @@ class AdditionalSignature(EpaBaseModel):
     name = models.TextField(blank=True, null=True)
 
 
-class SectionA3(EpaBaseModel):
-    """A3: Table of Contents, Document Format, and Document Control"""
-
-    qapp = models.OneToOneField(
-        Qapp, on_delete=models.CASCADE, related_name='section_a3')
-    # Revisions one-to-many table
-    # Acronyms/Abbreviations/Definitions one-to-many table
-
-
 class SectionA4(EpaBaseModel):
 
     qapp = models.OneToOneField(

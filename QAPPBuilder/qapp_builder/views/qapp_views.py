@@ -17,9 +17,9 @@ from django.urls import reverse_lazy, reverse
 from django.views.generic import CreateView, DetailView, ListView, \
     TemplateView, UpdateView, DeleteView
 from django.contrib.auth.models import User
-import constants.qapp_section_a_const as constants
 from qapp_builder.forms.qapp_forms import QappForm, RevisionForm
 from qapp_builder.models import Qapp, QappSharingTeamMap, SectionA1, Revision
+from qapp_builder.views.export_views import export_qapp_docx, export_qapp_pdf
 from teams.models import Team, TeamMembership
 
 
@@ -309,15 +309,3 @@ def export_qapp(request, *args, **kwargs):
     if str.lower(file_format) == 'pdf':
         return export_qapp_pdf(request, kwargs['pk'])
     return export_qapp_docx(request, kwargs['pk'])
-
-
-def export_qapp_pdf(request, qapp_id):
-
-    return
-
-
-def export_qapp_docx(request, qapp_id):
-
-    qapp = Qapp.objects.get(id=qapp_id)
-    file_name = f'{qapp.title} - {constants.QAPP_STR}.docx'
-    return
