@@ -215,3 +215,33 @@ SECTION_A = {
         'in Table 5.'
     }
 }
+
+TABLE_5_BOILERPLATE = {
+    'col_headers': [
+        'EPA Records No. and Series Title', 'Brief Description',
+        'Final Disposition', 'QA Category'
+    ],
+    'qa_category_a': [
+        '1035(a): Historically significant environmental programs and project '
+        'records',
+        'Applied and directed scientific research project files for projects '
+        'conducted by EPA personnel in the Office of Research and Development '
+        '(ORD) laboratories that directly support rulemaking, enforcement, '
+        'regulatory, or policy decisions, research of high programmatic '
+        'relevance, and research of significant national interest (e.g., '
+        'technology transfer projects which may be critical to the award of a '
+        'patent or other important commercial or legal decision), consisting '
+        'of research plans, research methodology, questionnaires, quality '
+        'assurance project plans, raw data, laboratory notebooks, correspondence'
+        ', reports, peer reviews, quality assurance assessments, and related '
+        'records.',
+        'Permanent', 'Cat A'
+    ],
+    'qa_category_b': [
+        '1035(b): Long-term environmental program and project records',
+        'Includes records that are not required for documenting the history of '
+        'the program or project, but which have operational value to EPA '
+        'throughout the life of the program or project.',
+        '20 Years', 'Cat B'
+    ]
+}
