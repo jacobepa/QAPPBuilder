@@ -15,7 +15,7 @@ import qapp_builder.views.section_a_views as section_a_views
 import qapp_builder.views.section_b_views as section_b_views
 import qapp_builder.views.section_c_d_views as section_c_d_views
 import qapp_builder.views.table_based_model_views as table_views
-from qapp_builder.settings import MEDIA_ROOT, MEDIA_URL
+from qapp_builder.settings import MEDIA_ROOT, MEDIA_URL, USE_SSO_AUTH
 
 sections_a_b = [
     ('section-a1', section_a_views.SectionA1Create,
@@ -206,6 +206,33 @@ for section, create_view, update_view, detail_view in sections_a_b:
              update_view.as_view(), name=f'{section.replace("-", "")}_edit'),
         path(f'qapp/<int:qapp_id>/{section}/detail/',
              detail_view.as_view(), name=f'{section.replace("-", "")}_detail'),
+    ]
+
+if USE_SSO_AUTH:
+    import django_saml2_auth.views
+    urlpatterns += [
+        # #################################################################
+        # Auth SAML
+        # #################################################################
+        # SAML2 related URLs. You can change "^saml2_auth/" regex to
+        # any path you want, like "^sso/", "^sso_auth/", "^sso_login/",
+        # etc. (required)
+        path('sso/', include('django_saml2_auth.urls')),
+
+        # The following will replace default user login with SAML2 (optional)
+        # If you want to specify the after-login-redirect-URL,
+        # use parameter "?next=/the/path/you/want" with this view.
+        path('accounts/login/',
+             django_saml2_auth.views.signin,
+             name='login'),
+
+        # The following line will replace admin login with SAML2 (optional)
+        # If you want to specific the after-login-redirect-URL, use parameter
+        # "?next=/the/path/you/want" with this view.
+        # re_path(r'^admin/login/$', django_saml2_auth.views.signin),
+        # ##################################################################
+        # END Auth SAML
+        # ##################################################################
     ]
 
 urlpatterns += static(MEDIA_URL, document_root=MEDIA_ROOT)

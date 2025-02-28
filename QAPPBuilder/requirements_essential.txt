@@ -33,3 +33,6 @@ pycodestyle>=2.10.0               # Tool to check your Python code against some 
 pydocstyle>=6.3.0                 # Static analysis tool for checking compliance with Python docstring conventions in PEP 257.
 pylint-django>=2.5.3
 django_extensions>=3.2.3
+# SSO Auth
+grafana-django-saml2-auth>=3.10.0
+werkzeug
