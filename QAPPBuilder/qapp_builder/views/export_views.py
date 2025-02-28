@@ -13,10 +13,11 @@ from io import BytesIO
 from os.path import exists
 import constants.qapp_section_a_const as constants_a
 import constants.qapp_section_b_const as constants_b
+import constants.qapp_section_c_d_const as constants_c_d
 from qapp_builder.models import Qapp, SectionA1, Revision, \
     SectionA2, AdditionalSignature, AcronymAbbreviation, SectionA4, SectionA5, \
     SectionA6, Distribution, RoleResponsibility, SectionA10, SectionA11, \
-    DocumentRecord
+    DocumentRecord, SectionB, SectionB7, HardwareSoftware, SectionC, SectionD
 from docx import Document
 from docx.shared import Inches, Pt
 from docx.enum.text import WD_ALIGN_PARAGRAPH
@@ -75,6 +76,10 @@ def export_qapp_docx(request, qapp_id):
     write_section_a11(qapp, doc)
     write_section_a12(qapp, doc)
     # Write the Sections B, C, D:
+    write_section_b(qapp, doc)
+    write_section_b7(qapp, doc)
+    write_section_c(qapp, doc)
+    write_section_d(qapp, doc)
 
     # Save the document to a BytesIO object
     file_stream = BytesIO()
@@ -280,7 +285,7 @@ def write_section_a3(qapp, doc):
 
     # Write "Revision History" as a fake-heading 1
     p = add_paragraph(doc, "Revision History", size=14, bold=True)
-    p.style = 'Heading 1'
+    p.style = 'Intense Emphasis'
 
     # Write a bordered table with header row striped for revisions
     table = doc.add_table(rows=1, cols=4)
@@ -313,7 +318,7 @@ def write_section_a3(qapp, doc):
     # Write "Acronyms/Abbreviations/Definitions" as a fake-heading 1
     p = add_paragraph(doc, "Acronyms/Abbreviations/Definitions", size=14,
                       bold=True)
-    p.style = 'Heading 1'
+    p.style = 'Intense Emphasis'
 
     # Write a bordered table with header row striped for acronyms
     table = doc.add_table(rows=1, cols=2)
@@ -597,6 +602,100 @@ def write_section_a12(qapp, doc):
     row_cells = table.add_row().cells
     for i, cell_text in enumerate(cat_row):
         row_cells[i].text = cell_text
+
+
+def write_section_b(qapp, doc):
+    section_b = SectionB.objects.get(qapp_id=qapp.id)
+
+    # Write Heading 1
+    add_heading(doc, constants_b.SECTION_B['b']['header'], level=1)
+
+    sections_to_write = ['b1', 'b2', 'b3', 'b4', 'b5', 'b6']
+    for section in sections_to_write:
+        add_heading(doc, constants_b.SECTION_B[section]['header'], level=2)
+        add_paragraph(doc, getattr(section_b, section), size=11)
+
+    write_section_b7(qapp, doc)
+
+
+def write_section_b7(qapp, doc):
+    section_b7 = SectionB7.objects.get(qapp_id=qapp.id)
+
+    # Write Heading 2
+    add_heading(doc, constants_b.SECTION_B['b7']['header'], level=2)
+
+    # Write Heading 3 and body text for b71
+    add_heading(doc, constants_b.SECTION_B['b71']['header'], level=3)
+    add_paragraph(doc, section_b7.b71, size=11)
+
+    # Write Heading 3 and body text for b72
+    add_heading(doc, constants_b.SECTION_B['b72']['header'], level=3)
+    add_paragraph(doc, section_b7.b72, size=11)
+
+    # Write Heading 3 and body text for b73
+    add_heading(doc, constants_b.SECTION_B['b73']['header'], level=3)
+    add_paragraph(doc, constants_b.SECTION_B['b73']['boilerplate'], size=11)
+
+    # Create a table with 3 columns
+    hdw_sfw = HardwareSoftware.objects.filter(qapp_id=qapp.id)
+    table = doc.add_table(rows=1, cols=3)
+    table.style = 'Table Grid'
+
+    # Header row
+    hdr_cells = table.rows[0].cells
+    hdr_cells[0].text = 'Hardware'
+    hdr_cells[1].text = 'Operating System'
+    hdr_cells[2].text = 'Non-Microsoft Office Software and Version/Special ' + \
+        'Performance Requirements/Use'
+
+    for cell in hdr_cells:
+        set_font(cell.paragraphs[0].runs[0], size=11, bold=True)
+        set_cell_shading(cell, "D3D3D3")  # Light grey background for header row
+
+    # Add rows for each hardware/software entry
+    for row in hdw_sfw:
+        row_cells = table.add_row().cells
+        row_cells[0].text = row.hardware
+        row_cells[1].text = row.os
+        row_cells[2].text = row.details
+
+    # Add an extra empty row at the end
+    table.add_row()
+
+    # Write Heading 3 and body text for b74
+    add_heading(doc, constants_b.SECTION_B['b74']['header'], level=3)
+    add_paragraph(doc, constants_b.SECTION_B['b74']['boilerplate'], size=11)
+
+
+def write_section_c(qapp, doc):
+    section_c = SectionC.objects.get(qapp_id=qapp.id)
+    section_a1 = SectionA1.objects.get(qapp_id=qapp.id)
+    # Write C Heading 1
+    add_heading(doc, constants_c_d.SECTION_C['c']['header'], level=1)
+    # Write C1 Heading 2
+    add_heading(doc, constants_c_d.SECTION_C['c1']['header'], level=2)
+    # Write C1.1 Heading 3 and body text (boilerplate)
+    add_heading(doc, constants_c_d.SECTION_C['c11']['header'], level=3)
+    # Text is one of two options depending on qa_category
+    c11_boilerplate = constants_c_d.SECTION_C['c11']['boilerplate_a']
+    if section_a1.qa_category == constants_a.QA_CATEGORY_B:
+        c11_boilerplate = constants_c_d.SECTION_C['c11']['boilerplate_b']
+    add_paragraph(doc, c11_boilerplate, size=11)
+    # Write C1.2 Heading 3 and body text (boilerplate)
+    add_heading(doc, constants_c_d.SECTION_C['c12']['header'], level=3)
+    add_paragraph(doc, constants_c_d.SECTION_C['c12']['boilerplate'], size=11)
+    # Write C2
+    add_heading(doc, constants_c_d.SECTION_C['c2']['header'], level=2)
+    add_paragraph(doc, section_c.c2, size=11)
+
+
+def write_section_d(qapp, doc):
+    section_d = SectionD.objects.get(qapp_id=qapp.id)
+    add_heading(doc, constants_b.SECTION_B['d']['header'], level=1)
+    sections_to_write = ['d1', 'd2']
+    for section in sections_to_write:
+        add_heading(doc, constants_c_d.SECTION_D[section]['header'], level=2)
+        add_paragraph(doc, getattr(section_d, section), size=11)
 
 
 def export_qapp_pdf(request, qapp_id):
