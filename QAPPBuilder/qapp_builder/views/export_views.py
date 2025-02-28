@@ -19,7 +19,7 @@ from qapp_builder.models import Qapp, SectionA1, Revision, \
     SectionA6, Distribution, RoleResponsibility, SectionA10, SectionA11, \
     DocumentRecord, SectionB, SectionB7, HardwareSoftware, SectionC, SectionD
 from docx import Document
-from docx.shared import Inches, Pt
+from docx.shared import Inches, Pt, RGBColor
 from docx.enum.text import WD_ALIGN_PARAGRAPH
 from docx.oxml.ns import qn
 from docx.oxml import OxmlElement
@@ -53,6 +53,47 @@ def set_cell_shading(cell, color):
     shading = OxmlElement('w:shd')
     shading.set(qn('w:fill'), color)
     cell_properties.append(shading)
+
+
+def set_fake_header_style(paragraph):
+    font_name = 'Calibri Light (Heading)'
+    font_size = 16
+    bold = True
+    color = '2F5496'
+
+    run = paragraph.add_run()
+    font = run.font
+    font.name = font_name
+    font.size = Pt(font_size)
+    font.bold = bold
+    font.color.rgb = RGBColor.from_string(color)
+
+    # Set paragraph properties
+    p = paragraph._element
+    pPr = p.get_or_add_pPr()
+
+    # Create and append rPr element
+    rPr = OxmlElement('w:rPr')
+
+    # Set custom style properties
+    rFonts = OxmlElement('w:rFonts')
+    rFonts.set(qn('w:ascii'), font_name)
+    rFonts.set(qn('w:hAnsi'), font_name)
+    rPr.append(rFonts)
+
+    sz = OxmlElement('w:sz')
+    sz.set(qn('w:val'), str(font_size * 2))  # font size in half-points
+    rPr.append(sz)
+
+    b = OxmlElement('w:b')
+    b.set(qn('w:val'), 'true' if bold else 'false')
+    rPr.append(b)
+
+    color_elem = OxmlElement('w:color')
+    color_elem.set(qn('w:val'), color)
+    rPr.append(color_elem)
+
+    pPr.append(rPr)
 
 
 @login_required
@@ -284,8 +325,8 @@ def write_section_a3(qapp, doc):
     create_toc(doc)
 
     # Write "Revision History" as a fake-heading 1
-    p = add_paragraph(doc, "Revision History", size=14, bold=True)
-    p.style = 'Intense Emphasis'
+    p = add_paragraph(doc, "Revision History")
+    set_fake_header_style(p)
 
     # Write a bordered table with header row striped for revisions
     table = doc.add_table(rows=1, cols=4)
@@ -316,9 +357,8 @@ def write_section_a3(qapp, doc):
         row_cells[3].text = revision.description
 
     # Write "Acronyms/Abbreviations/Definitions" as a fake-heading 1
-    p = add_paragraph(doc, "Acronyms/Abbreviations/Definitions", size=14,
-                      bold=True)
-    p.style = 'Intense Emphasis'
+    p = add_paragraph(doc, "Acronyms/Abbreviations/Definitions")
+    set_fake_header_style(p)
 
     # Write a bordered table with header row striped for acronyms
     table = doc.add_table(rows=1, cols=2)
@@ -691,7 +731,7 @@ def write_section_c(qapp, doc):
 
 def write_section_d(qapp, doc):
     section_d = SectionD.objects.get(qapp_id=qapp.id)
-    add_heading(doc, constants_b.SECTION_B['d']['header'], level=1)
+    add_heading(doc, constants_c_d.SECTION_D['d']['header'], level=1)
     sections_to_write = ['d1', 'd2']
     for section in sections_to_write:
         add_heading(doc, constants_c_d.SECTION_D[section]['header'], level=2)

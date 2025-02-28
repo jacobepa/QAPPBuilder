@@ -27,6 +27,18 @@ EXTRAMURAL_TEXT = 'Period of Applicability for extramural QAPPs starts on ' + \
     'until a new version of the QAPP is approved, whichever is sooner, and ' + \
     'not to exceed 5 years.'
 
+CCTE = 'Center for Computational Toxicology & Exposure'
+CEMM = 'Center for Environmental Measurement and Modeling'
+CESER = 'Center for Environmental Solutions & Emergency Response'
+CPHEA = 'Center for Public Health and Environmental Assessments'
+ORM = 'Office of Resource Management'
+OSAPE = 'Office of Science Advisor, Policy & Engagement'
+
+ORD_CENTER_OPTIONS = (
+    (CCTE, CCTE), (CEMM, CEMM), (CESER, CESER),
+    (CPHEA, CPHEA), (ORM, ORM), (OSAPE, OSAPE)
+)
+
 CURRENT_FY = 2025
 QUARTERS = ['Q1', 'Q2', 'Q3', 'Q4']
 

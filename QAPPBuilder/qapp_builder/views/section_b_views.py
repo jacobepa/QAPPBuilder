@@ -18,7 +18,7 @@ class SectionBCreate(SectionCreateBase):
     section_title = SECTION_B['b']['header']
     previous_url_name = 'sectiona12_detail'
     detail_url_name = 'sectionb_detail'
-    next_url_name = 'sectionb73_detail'
+    next_url_name = 'sectionb7_detail'
 
     def form_valid(self, form):
         # Set the qapp field based on the URL path/PK
@@ -33,7 +33,7 @@ class SectionBUpdate(SectionUpdateBase):
     section_title = SECTION_B['b']['header']
     previous_url_name = 'sectionb_detail'
     detail_url_name = 'sectionb_detail'
-    next_url_name = 'sectionb73_detail'
+    next_url_name = 'sectionb7_detail'
 
     def get_success_url(self):
         return reverse(

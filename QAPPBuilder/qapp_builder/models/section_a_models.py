@@ -3,7 +3,7 @@ from .qapp_models import Qapp
 from .utility_models import EpaBaseModel
 from constants.utils import get_attachment_storage_path
 from constants.qapp_section_a_const import SECTION_A, INTRA_EXTRA_CHOICES, \
-    QA_CATEGORY_OPTIONS
+    QA_CATEGORY_OPTIONS, ORD_CENTER_OPTIONS
 from constants.qapp_section_b_const import DISCIPLINE_CHOICES, \
     DISCIPLINE_MAX_LEN
 
@@ -22,11 +22,11 @@ class SectionA1(EpaBaseModel):
 
     qapp = models.OneToOneField(
         Qapp, on_delete=models.CASCADE, related_name='section_a1')
-    # TODO: Choices for Center
-    ord_center = models.TextField(blank=False, null=False)
-    # TODO: Choices for Division
+    ord_center = models.CharField(blank=False, null=False, max_length=55,
+                                  choices=ORD_CENTER_OPTIONS)
+    # TODO: Choices for Division?
     division = models.TextField(blank=False, null=False)
-    # TODO: Choices for Branch
+    # TODO: Choices for Branch?
     branch = models.TextField(blank=False, null=False)
     # NOTE: While title is under Section A1 in the actual QAPPs themselves,
     # it makes more sense to put it under the QAPP model.
