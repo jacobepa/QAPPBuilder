@@ -59,7 +59,7 @@
 {% block scripts %}
     <script>
         function viewEditTeam(btn, method) {
-            if ($(btn).attr('disabled')) return;
+            if ($(btn).attr('disabled') || $(btn).attr('id') === undefined) return;
             window.location.href = '/teams/team/' + $(btn).attr('id') + '/' + method;
         }
     </script>

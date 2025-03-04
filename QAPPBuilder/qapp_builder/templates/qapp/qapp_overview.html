@@ -97,11 +97,11 @@
 {% block scripts %}
 <script>
     function deleteRevision(btn){
-        if ($(btn).attr('disabled')) return;
+        if ($(btn).attr('disabled') || $(btn).attr('id') === undefined) return;
         window.location.href = `/qapp/{{qapp.id}}/revision/${$(btn).attr('id')}/delete/`;
     }
     function editRevision(btn){
-        if ($(btn).attr('disabled')) return;
+        if ($(btn).attr('disabled') || $(btn).attr('id') === undefined) return;
         window.location.href = `/qapp/{{qapp.id}}/revision/${$(btn).attr('id')}/edit/`;
     }
 </script>

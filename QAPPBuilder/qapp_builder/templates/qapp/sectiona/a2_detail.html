@@ -57,11 +57,11 @@
 {% block scripts %}
 <script>
   function viewEditSignature(btn) {
-    if ($(btn).attr('disabled')) return;
+    if ($(btn).attr('disabled') || $(btn).attr('id') === undefined) return;
     window.location.href = `/qapp/{{object.qapp_id}}/signature/${$(btn).attr('id')}/edit/`;
   }
   function deleteSignee(btn){
-    if ($(btn).attr('disabled')) return;
+    if ($(btn).attr('disabled') || $(btn).attr('id') === undefined) return;
     window.location.href = `/qapp/{{object.qapp_id}}/signature/${$(btn).attr('id')}/delete/`;
   }
 </script>

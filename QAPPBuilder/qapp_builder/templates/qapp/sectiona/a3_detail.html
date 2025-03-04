@@ -54,7 +54,7 @@
 {% block scripts %}
 <script>
   function deleteDefinition(btn){
-    if ($(btn).attr('disabled')) return;
+    if ($(btn).attr('disabled') || $(btn).attr('id') === undefined) return;
     window.location.href = `/qapp/{{qapp_id}}/definition/${$(btn).attr('id')}/delete/`;
   }
 </script>

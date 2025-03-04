@@ -63,11 +63,11 @@
 {% block scripts %}
 <script>
   function viewEditEntry(btn) {
-    if ($(btn).attr('disabled')) return;
+    if ($(btn).attr('disabled') || $(btn).attr('id') === undefined) return;
     window.location.href = `/qapp/{{object.qapp_id}}/hardware-software/${$(btn).attr('id')}/edit/`;
   }
   function deleteEntry(btn){
-    if ($(btn).attr('disabled')) return;
+    if ($(btn).attr('disabled') || $(btn).attr('id') === undefined) return;
     window.location.href = `/qapp/{{object.qapp_id}}/hardware-software/${$(btn).attr('id')}/delete/`;
   }
 </script>
