@@ -42,10 +42,13 @@ class QappDocument(EpaBaseModel):
 
 
 def render_field(label, value):
+    extra_class = 'long-text'
+    if len(str(value)) > 100:
+        extra_class = 'long-text-12'
     return f'''
     <div class="usa-form-group">
         <label class="usa-label">{label}</label>
-        <div class="usa-input">{value}</div>
+        <div class="usa-input {extra_class}">{value}</div>
     </div>
     '''
 

@@ -1,3 +1,19 @@
+.usa-input.long-text {
+  height: 6em; /* Start with a height of 6 lines */
+  overflow-y: auto; /* Make overflow scrollable */
+  white-space: pre-wrap; /* Preserve whitespace and wrap text */
+  word-wrap: break-word; /* Break long words */
+  width: 100% !important;
+}
+
+.usa-input.long-text-12 {
+  height: 12em; /* Start with a height of 6 lines */
+  overflow-y: auto; /* Make overflow scrollable */
+  white-space: pre-wrap; /* Preserve whitespace and wrap text */
+  word-wrap: break-word; /* Break long words */
+  width: 100% !important;
+}
+
 /* Custom CSS for active rows */
 .table-row-active {
   /* background-color: #e1f3ff; */
