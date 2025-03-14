@@ -1,9 +1,12 @@
 from django.db import models
 from django.utils.safestring import mark_safe
+from simple_history.models import HistoricalRecords
 
 
 class EpaBaseModel(models.Model):
     """Abstract class to be inherited by all EPA/QAPP Models."""
+
+    history = HistoricalRecords(inherit=True)
 
     def render_details(self):
         return render_model_details(self)
