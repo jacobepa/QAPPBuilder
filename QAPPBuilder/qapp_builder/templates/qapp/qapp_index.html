@@ -48,7 +48,7 @@
                     <select id="teamSelect" class="usa-select" onchange="window.location.href=this.value">
                         <option value="#">View QAPPs by Team</option>
                         {% for team in teams %}
-                        <option value="/list/team/{{team.id}}">
+                        <option value="/qapp/list/team/{{team.id}}">
                             {{team.name}}
                         </option>
                         {% endfor %}
