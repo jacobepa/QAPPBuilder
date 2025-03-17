@@ -7,7 +7,7 @@ from django.views.generic import DetailView, TemplateView
 import qapp_builder.forms.section_b_forms as forms
 from qapp_builder.models import SectionB, SectionB7, HardwareSoftware
 from qapp_builder.views.inheritable_views import SectionCreateBase, \
-    SectionDetailBase, SectionTemplateView, SectionUpdateBase
+    SectionDetailBase, SectionUpdateBase, QAPP_PAGE_INDEX
 from constants.qapp_section_b_const import SECTION_B
 
 
@@ -19,6 +19,7 @@ class SectionBCreate(SectionCreateBase):
     previous_url_name = 'sectiona12_detail'
     detail_url_name = 'sectionb_detail'
     next_url_name = 'sectionb7_detail'
+    current_page = QAPP_PAGE_INDEX['section-b']
 
     def form_valid(self, form):
         # Set the qapp field based on the URL path/PK
@@ -34,6 +35,7 @@ class SectionBUpdate(SectionUpdateBase):
     previous_url_name = 'sectionb_detail'
     detail_url_name = 'sectionb_detail'
     next_url_name = 'sectionb7_detail'
+    current_page = QAPP_PAGE_INDEX['section-b']
 
     def get_success_url(self):
         return reverse(
@@ -49,6 +51,7 @@ class SectionBDetail(SectionDetailBase):
     edit_url_name = 'sectionb_edit'
     create_url_name = 'sectionb_create'
     next_url_name = 'sectionb7_detail'
+    current_page = QAPP_PAGE_INDEX['section-b']
 
 
 class SectionB7Create(SectionCreateBase):
@@ -59,6 +62,7 @@ class SectionB7Create(SectionCreateBase):
     previous_url_name = 'sectionb_detail'
     detail_url_name = 'sectionb7_detail'
     next_url_name = 'sectionb7_detail'
+    current_page = QAPP_PAGE_INDEX['section-b7']
 
     def form_valid(self, form):
         # Set the qapp field based on the URL path/PK
@@ -76,6 +80,7 @@ class SectionB7Detail(SectionDetailBase):
     previous_url_name = 'sectionb_detail'
     create_url_name = 'sectionb7_create'
     next_url_name = 'sectionc_detail'
+    current_page = QAPP_PAGE_INDEX['section-b7']
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -98,3 +103,4 @@ class SectionB7Update(SectionUpdateBase):
     previous_url_name = 'sectionb7_detail'
     detail_url_name = 'sectionb7_detail'
     next_url_name = 'sectionb7_detail'
+    current_page = QAPP_PAGE_INDEX['section-b7']

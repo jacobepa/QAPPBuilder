@@ -7,6 +7,48 @@ from django.views.generic import DetailView, TemplateView
 GENERIC_FORM_TEMPLATE = 'qapp/generic_form.html'
 CONFIRM_DELETE_TEMPLATE = 'qapp/confirm_delete.html'
 
+QAPP_PAGE_INDEX = {
+    'qapp': 0,
+    'section-a1': 1,
+    'section-a2': 2,
+    'section-a3': 3,
+    'section-a4': 4,
+    'section-a5': 5,
+    'section-a6': 6,
+    'section-a7': 7,
+    'section-a8': 8,
+    'section-a9': 9,
+    'section-a10': 10,
+    'section-a11': 11,
+    'section-a12': 12,
+    'section-b': 13,
+    'section-b7': 14,
+    'section-c': 15,
+    'section-d': 16
+}
+
+
+def get_qapp_page_list():
+    return [
+        {'tail_path': '/detail/', 'label': 'QAPP Details'},
+        {'tail_path': '/section-a1/detail/', 'label': 'Section A1'},
+        {'tail_path': '/section-a2/detail/', 'label': 'Section A2'},
+        {'tail_path': '/section-a3/detail/', 'label': 'Section A3'},
+        {'tail_path': '/section-a4/detail/', 'label': 'Section A4'},
+        {'tail_path': '/section-a5/detail/', 'label': 'Section A5'},
+        {'tail_path': '/section-a6/detail/', 'label': 'Section A6'},
+        {'tail_path': '/section-a7/', 'label': 'Section A7'},
+        {'tail_path': '/section-a8/', 'label': 'Section A8'},
+        {'tail_path': '/section-a9/', 'label': 'Section A9'},
+        {'tail_path': '/section-a10/detail/', 'label': 'Section A10'},
+        {'tail_path': '/section-a11/detail/', 'label': 'Section A11'},
+        {'tail_path': '/section-a12/', 'label': 'Section A12'},
+        {'tail_path': '/section-b/detail/', 'label': 'Section B'},
+        {'tail_path': '/section-b7/detail/', 'label': 'Section B7'},
+        {'tail_path': '/section-c/detail/', 'label': 'Section C'},
+        {'tail_path': '/section-d/detail/', 'label': 'Section D'}
+    ]
+
 
 class SectionTemplateView(LoginRequiredMixin, TemplateView):
 
@@ -17,6 +59,9 @@ class SectionTemplateView(LoginRequiredMixin, TemplateView):
             self.previous_url_name, kwargs={'qapp_id': self.kwargs['qapp_id']})
         context['next_url'] = reverse(
             self.next_url_name, kwargs={'qapp_id': self.kwargs['qapp_id']})
+        context['qapp_id'] = self.kwargs['qapp_id']
+        context['page_list'] = get_qapp_page_list()
+        context['current_page'] = self.current_page
         return context
 
 
@@ -41,6 +86,9 @@ class SectionCreateBase(LoginRequiredMixin, CreateView):
             context['boilerplate'] = self.boilerplate
         if hasattr(self, 'boilerplate_list'):
             context['boilerplate_list'] = self.boilerplate_list
+        context['qapp_id'] = self.kwargs['qapp_id']
+        context['page_list'] = get_qapp_page_list()
+        context['current_page'] = self.current_page
         return context
 
     def form_valid(self, form):
@@ -66,6 +114,9 @@ class SectionUpdateBase(LoginRequiredMixin, UpdateView):
             context['boilerplate'] = self.boilerplate
         if hasattr(self, 'boilerplate_list'):
             context['boilerplate_list'] = self.boilerplate_list
+        context['qapp_id'] = self.kwargs['qapp_id']
+        context['page_list'] = get_qapp_page_list()
+        context['current_page'] = self.current_page
         return context
 
     def get_success_url(self):
@@ -99,6 +150,8 @@ class SectionDetailBase(LoginRequiredMixin, DetailView):
             context['boilerplate'] = self.boilerplate
         if hasattr(self, 'boilerplate_list'):
             context['boilerplate_list'] = self.boilerplate_list
+        context['page_list'] = get_qapp_page_list()
+        context['current_page'] = self.current_page
         return context
 
     def dispatch(self, request, *args, **kwargs):

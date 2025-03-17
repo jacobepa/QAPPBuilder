@@ -8,7 +8,7 @@ from qapp_builder.models import SectionA1, SectionA2, SectionA4, \
     AdditionalSignature, AcronymAbbreviation, Distribution, SectionA10
 import qapp_builder.forms.section_a_forms as forms
 from qapp_builder.views.inheritable_views import SectionCreateBase, \
-    SectionDetailBase, SectionTemplateView, SectionUpdateBase
+    SectionDetailBase, SectionTemplateView, SectionUpdateBase, QAPP_PAGE_INDEX
 from constants.qapp_section_a_const import SECTION_A
 
 
@@ -25,6 +25,7 @@ class SectionA1Create(SectionCreateBase):
     previous_url_name = 'qapp_detail'
     detail_url_name = 'sectiona1_detail'
     next_url_name = 'sectiona2_create'
+    current_page = QAPP_PAGE_INDEX['section-a1']
 
 
 class SectionA1Update(SectionUpdateBase):
@@ -36,6 +37,7 @@ class SectionA1Update(SectionUpdateBase):
     previous_url_name = 'qapp_detail'
     detail_url_name = 'sectiona1_detail'
     next_url_name = 'sectiona2_create'
+    current_page = QAPP_PAGE_INDEX['section-a1']
 
 
 class SectionA1Detail(SectionDetailBase):
@@ -47,6 +49,7 @@ class SectionA1Detail(SectionDetailBase):
     create_url_name = 'sectiona1_create'
     previous_url_name = 'qapp_detail'
     next_url_name = 'sectiona2_detail'
+    current_page = QAPP_PAGE_INDEX['section-a1']
 
 
 class SectionA2Create(SectionCreateBase):
@@ -57,6 +60,7 @@ class SectionA2Create(SectionCreateBase):
     previous_url_name = 'sectiona1_detail'
     detail_url_name = 'sectiona2_detail'
     next_url_name = 'sectiona3_create'
+    current_page = QAPP_PAGE_INDEX['section-a2']
 
 
 class SectionA2Update(SectionUpdateBase):
@@ -68,6 +72,7 @@ class SectionA2Update(SectionUpdateBase):
     previous_url_name = 'sectiona1_detail'
     detail_url_name = 'sectiona2_detail'
     next_url_name = 'sectiona3_create'
+    current_page = QAPP_PAGE_INDEX['section-a2']
 
 
 class SectionA2Detail(SectionDetailBase):
@@ -79,6 +84,7 @@ class SectionA2Detail(SectionDetailBase):
     create_url_name = 'sectiona2_create'
     previous_url_name = 'sectiona1_detail'
     next_url_name = 'sectiona3_detail'
+    current_page = QAPP_PAGE_INDEX['section-a2']
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -95,6 +101,7 @@ class SectionA3Detail(LoginRequiredMixin, TemplateView):
     create_url_name = 'sectiona3_create'
     previous_url_name = 'sectiona2_detail'
     next_url_name = 'sectiona4_detail'
+    current_page = QAPP_PAGE_INDEX['section-a3']
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -117,6 +124,7 @@ class SectionA4Create(SectionCreateBase):
     previous_url_name = 'sectiona3_detail'
     detail_url_name = 'sectiona4_detail'
     next_url_name = 'sectiona5_create'
+    current_page = QAPP_PAGE_INDEX['section-a4']
 
 
 class SectionA4Update(SectionUpdateBase):
@@ -126,6 +134,7 @@ class SectionA4Update(SectionUpdateBase):
     previous_url_name = 'sectiona3_detail'
     detail_url_name = 'sectiona4_detail'
     next_url_name = 'sectiona5_create'
+    current_page = QAPP_PAGE_INDEX['section-a4']
 
 
 class SectionA4Detail(SectionDetailBase):
@@ -135,6 +144,7 @@ class SectionA4Detail(SectionDetailBase):
     create_url_name = 'sectiona4_create'
     previous_url_name = 'sectiona3_detail'
     next_url_name = 'sectiona5_detail'
+    current_page = QAPP_PAGE_INDEX['section-a4']
 
 
 class SectionA5Create(SectionCreateBase):
@@ -144,6 +154,7 @@ class SectionA5Create(SectionCreateBase):
     previous_url_name = 'sectiona4_detail'
     detail_url_name = 'sectiona5_detail'
     next_url_name = 'sectiona6_create'
+    current_page = QAPP_PAGE_INDEX['section-a5']
 
 
 class SectionA5Update(SectionUpdateBase):
@@ -153,6 +164,7 @@ class SectionA5Update(SectionUpdateBase):
     previous_url_name = 'sectiona4_detail'
     detail_url_name = 'sectiona5_detail'
     next_url_name = 'sectiona6_create'
+    current_page = QAPP_PAGE_INDEX['section-a5']
 
 
 class SectionA5Detail(SectionDetailBase):
@@ -162,6 +174,7 @@ class SectionA5Detail(SectionDetailBase):
     create_url_name = 'sectiona5_create'
     previous_url_name = 'sectiona4_detail'
     next_url_name = 'sectiona6_detail'
+    current_page = QAPP_PAGE_INDEX['section-a5']
 
 
 class SectionA6Create(SectionCreateBase):
@@ -171,6 +184,7 @@ class SectionA6Create(SectionCreateBase):
     previous_url_name = 'sectiona5_detail'
     detail_url_name = 'sectiona6_detail'
     next_url_name = 'sectiona7_create'
+    current_page = QAPP_PAGE_INDEX['section-a6']
 
 
 class SectionA6Update(SectionUpdateBase):
@@ -180,6 +194,7 @@ class SectionA6Update(SectionUpdateBase):
     previous_url_name = 'sectiona5_detail'
     detail_url_name = 'sectiona6_detail'
     next_url_name = 'sectiona7_create'
+    current_page = QAPP_PAGE_INDEX['section-a6']
 
 
 class SectionA6Detail(SectionDetailBase):
@@ -189,6 +204,7 @@ class SectionA6Detail(SectionDetailBase):
     create_url_name = 'sectiona6_create'
     previous_url_name = 'sectiona5_detail'
     next_url_name = 'sectiona7_detail'
+    current_page = QAPP_PAGE_INDEX['section-a6']
 
 
 class SectionA7Detail(LoginRequiredMixin, TemplateView):
@@ -199,6 +215,7 @@ class SectionA7Detail(LoginRequiredMixin, TemplateView):
     create_url_name = 'sectiona7_create'
     previous_url_name = 'sectiona6_detail'
     next_url_name = 'sectiona8_detail'
+    current_page = QAPP_PAGE_INDEX['section-a7']
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -222,6 +239,7 @@ class SectionA8Detail(LoginRequiredMixin, TemplateView):
     create_url_name = 'sectiona8_create'
     previous_url_name = 'sectiona7_detail'
     next_url_name = 'sectiona9_detail'
+    current_page = QAPP_PAGE_INDEX['section-a8']
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -244,6 +262,7 @@ class SectionA9Detail(SectionTemplateView):
     previous_url_name = 'sectiona8_detail'
     next_url_name = 'sectiona10_detail'
     template_name = 'qapp/section_boilerplate.html'
+    current_page = QAPP_PAGE_INDEX['section-a9']
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -260,6 +279,7 @@ class SectionA10Create(SectionCreateBase):
     detail_url_name = 'sectiona10_detail'
     next_url_name = 'sectiona11_create'
     boilerplate = SECTION_A['a10']['boilerplate']
+    current_page = QAPP_PAGE_INDEX['section-a10']
 
 
 class SectionA10Update(SectionUpdateBase):
@@ -269,6 +289,7 @@ class SectionA10Update(SectionUpdateBase):
     previous_url_name = 'sectiona9_detail'
     detail_url_name = 'sectiona10_detail'
     next_url_name = 'sectiona11_create'
+    current_page = QAPP_PAGE_INDEX['section-a10']
 
 
 class SectionA10Detail(SectionDetailBase):
@@ -278,6 +299,7 @@ class SectionA10Detail(SectionDetailBase):
     create_url_name = 'sectiona10_create'
     previous_url_name = 'sectiona9_detail'
     next_url_name = 'sectiona11_detail'
+    current_page = QAPP_PAGE_INDEX['section-a10']
 
 
 class SectionA11Create(SectionCreateBase):
@@ -287,6 +309,7 @@ class SectionA11Create(SectionCreateBase):
     previous_url_name = 'sectiona10_detail'
     detail_url_name = 'sectiona11_detail'
     next_url_name = 'sectiona12_detail'
+    current_page = QAPP_PAGE_INDEX['section-a11']
 
 
 class SectionA11Update(SectionUpdateBase):
@@ -296,6 +319,7 @@ class SectionA11Update(SectionUpdateBase):
     previous_url_name = 'sectiona10_detail'
     detail_url_name = 'sectiona11_detail'
     next_url_name = 'sectiona12_detail'
+    current_page = QAPP_PAGE_INDEX['section-a11']
 
 
 class SectionA11Detail(SectionDetailBase):
@@ -305,6 +329,7 @@ class SectionA11Detail(SectionDetailBase):
     create_url_name = 'sectiona11_create'
     previous_url_name = 'sectiona10_detail'
     next_url_name = 'sectiona12_detail'
+    current_page = QAPP_PAGE_INDEX['section-a11']
 
 
 class SectionA12Detail(LoginRequiredMixin, TemplateView):
@@ -314,6 +339,7 @@ class SectionA12Detail(LoginRequiredMixin, TemplateView):
     create_url_name = 'sectiona12_detail'
     previous_url_name = 'sectiona11_detail'
     next_url_name = 'sectionb_detail'
+    current_page = QAPP_PAGE_INDEX['section-a12']
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

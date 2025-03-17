@@ -22,6 +22,8 @@ from qapp_builder.models import Qapp, QappSharingTeamMap, SectionA1, Revision, \
     SectionA2, SectionA4, SectionA5, SectionA6, SectionA10, SectionA11, \
     SectionB, SectionB7, SectionC, SectionD
 from qapp_builder.views.export_views import export_qapp_docx, export_qapp_pdf
+from qapp_builder.views.inheritable_views import QAPP_PAGE_INDEX, \
+    get_qapp_page_list
 from teams.models import Team, TeamMembership
 
 
@@ -139,21 +141,6 @@ def get_qar5_for_team(team_id, qapp_id=None):
     return Qapp.objects.filter(id__in=include_qapps)
 
 
-# NOTE: Not sure how to get this working, so commenting out for now.
-#       This is more of an optimization design anyway, so not necessary.
-# class EpaNavAbstractView():
-
-#   def get_context_data(self):
-#     context = {}
-#     # Add custom context here
-#     context['title'] = self.title
-#     context['edit_url'] = self.edit_url
-#     # TODO: Figure out where this request came from originally (user or team)
-#     context['previous_url'] = self.previous_url
-#     context['next_url'] = self.next_url
-#     return context
-
-
 class QappCreateView(LoginRequiredMixin, CreateView):
     model = Qapp
     form_class = QappForm
@@ -162,6 +149,8 @@ class QappCreateView(LoginRequiredMixin, CreateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['previous_url'] = f'/qapp/list/user/{self.request.user.id}/'
+        context['page_list'] = get_qapp_page_list()
+        context['current_page'] = QAPP_PAGE_INDEX['qapp']
         return context
 
     def form_valid(self, form):
@@ -230,6 +219,8 @@ class QappDetail(LoginRequiredMixin, DetailView):
         context['next_url'] = reverse('sectiona1_detail',
                                       kwargs={'qapp_id': self.object.id})
         context['revisions'] = Revision.objects.filter(qapp_id=self.object.id)
+        context['page_list'] = get_qapp_page_list()
+        context['current_page'] = QAPP_PAGE_INDEX['qapp']
         return context
 
 
