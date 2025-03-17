@@ -33,7 +33,7 @@ def get_qapp_page_list():
         {'tail_path': '/detail/', 'label': 'QAPP Details'},
         {'tail_path': '/section-a1/detail/', 'label': 'Section A1'},
         {'tail_path': '/section-a2/detail/', 'label': 'Section A2'},
-        {'tail_path': '/section-a3/detail/', 'label': 'Section A3'},
+        {'tail_path': '/section-a3/', 'label': 'Section A3'},
         {'tail_path': '/section-a4/detail/', 'label': 'Section A4'},
         {'tail_path': '/section-a5/detail/', 'label': 'Section A5'},
         {'tail_path': '/section-a6/detail/', 'label': 'Section A6'},

@@ -1,0 +1,10 @@
+
+<nav class="usa-sidenav">
+    <ul class="usa-sidenav__list">
+        {% for page in page_list %}
+            <li class="usa-sidenav__item {% if forloop.counter0 == current_page %}usa-current{% endif %}">
+                <a href="/qapp/{{ qapp_id }}{{ page.tail_path }}">{{ page.label }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+</nav>

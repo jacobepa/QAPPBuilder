@@ -93,7 +93,7 @@ class SectionA2Detail(SectionDetailBase):
         return context
 
 
-class SectionA3Detail(LoginRequiredMixin, TemplateView):
+class SectionA3Detail(SectionTemplateView):
 
     template_name = 'qapp/sectiona/a3_detail.html'
     section_title = SECTION_A['a3']['header']
@@ -207,7 +207,7 @@ class SectionA6Detail(SectionDetailBase):
     current_page = QAPP_PAGE_INDEX['section-a6']
 
 
-class SectionA7Detail(LoginRequiredMixin, TemplateView):
+class SectionA7Detail(SectionTemplateView):
 
     template_name = 'qapp/sectiona/a7_detail.html'
     section_title = SECTION_A['a7']['header']
@@ -231,7 +231,7 @@ class SectionA7Detail(LoginRequiredMixin, TemplateView):
         return context
 
 
-class SectionA8Detail(LoginRequiredMixin, TemplateView):
+class SectionA8Detail(SectionTemplateView):
 
     template_name = 'qapp/sectiona/a8_detail.html'
     section_title = SECTION_A['a8']['header']
@@ -332,7 +332,7 @@ class SectionA11Detail(SectionDetailBase):
     current_page = QAPP_PAGE_INDEX['section-a11']
 
 
-class SectionA12Detail(LoginRequiredMixin, TemplateView):
+class SectionA12Detail(SectionTemplateView):
 
     template_name = 'qapp/sectiona/a12_detail.html'
     section_title = SECTION_A['a12']['header']

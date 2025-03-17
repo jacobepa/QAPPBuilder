@@ -103,23 +103,6 @@ def check_can_edit(qapp, user):
     return user.is_superuser or qapp.prepared_by == user
 
 
-class QappIndex(LoginRequiredMixin, TemplateView):
-    """Class to return the first page of the Existing Data flow."""
-
-    template_name = 'qapp/qapp_index.html'
-
-    def get_context_data(self, **kwargs):
-        """
-        Override default method to send data to the template.
-
-        Specifically, want to send a list of users and teams to select from.
-        """
-        context = super().get_context_data(**kwargs)
-        context['users'] = User.objects.all()
-        context['teams'] = Team.objects.all()
-        return context
-
-
 def get_qar5_for_user(user_id, qapp_id=None):
     """Get all qapps created by a User."""
     user = User.objects.get(id=user_id)
@@ -139,6 +122,23 @@ def get_qar5_for_team(team_id, qapp_id=None):
             id__in=include_qapps).filter(id=qapp_id).first()
 
     return Qapp.objects.filter(id__in=include_qapps)
+
+
+class QappIndex(LoginRequiredMixin, TemplateView):
+    """Class to return the first page of the Existing Data flow."""
+
+    template_name = 'qapp/qapp_index.html'
+
+    def get_context_data(self, **kwargs):
+        """
+        Override default method to send data to the template.
+
+        Specifically, want to send a list of users and teams to select from.
+        """
+        context = super().get_context_data(**kwargs)
+        context['users'] = User.objects.all()
+        context['teams'] = Team.objects.all()
+        return context
 
 
 class QappCreateView(LoginRequiredMixin, CreateView):
@@ -221,6 +221,7 @@ class QappDetail(LoginRequiredMixin, DetailView):
         context['revisions'] = Revision.objects.filter(qapp_id=self.object.id)
         context['page_list'] = get_qapp_page_list()
         context['current_page'] = QAPP_PAGE_INDEX['qapp']
+        context['qapp_id'] = self.object.id
         return context
 
 
@@ -239,6 +240,7 @@ class QappUpdate(LoginRequiredMixin, UpdateView):
         # Add custom context here
         context['title'] = 'Edit QAPP'
         context['previous_url'] = f'/qapp/{self.object.id}/detail/'
+        context['qapp_id'] = self.object.id
         return context
 
 
