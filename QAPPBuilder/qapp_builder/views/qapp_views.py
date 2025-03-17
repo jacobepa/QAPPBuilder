@@ -18,7 +18,9 @@ from django.views.generic import CreateView, DetailView, ListView, \
     TemplateView, UpdateView, DeleteView
 from django.contrib.auth.models import User
 from qapp_builder.forms.qapp_forms import QappForm, RevisionForm
-from qapp_builder.models import Qapp, QappSharingTeamMap, SectionA1, Revision
+from qapp_builder.models import Qapp, QappSharingTeamMap, SectionA1, Revision, \
+    SectionA2, SectionA4, SectionA5, SectionA6, SectionA10, SectionA11, \
+    SectionB, SectionB7, SectionC, SectionD
 from qapp_builder.views.export_views import export_qapp_docx, export_qapp_pdf
 from teams.models import Team, TeamMembership
 
@@ -302,6 +304,7 @@ class RevisionDelete(RevisionFormBase, DeleteView):
         return HttpResponseRedirect(success_url)
 
 
+@login_required
 def export_qapp(request, *args, **kwargs):
 
     assert isinstance(request, HttpRequest)
@@ -309,3 +312,40 @@ def export_qapp(request, *args, **kwargs):
     if str.lower(file_format) == 'pdf':
         return export_qapp_pdf(request, kwargs['pk'])
     return export_qapp_docx(request, kwargs['pk'])
+
+
+@login_required
+def qapp_progress_view(request, *args, **kwargs):
+    """
+    View to render a QAPP Progress page. Can also be used to navigate to
+    specific sections of the QAPP without needing the forward/backward buttons.
+    """
+    assert isinstance(request, HttpRequest)
+    qapp_id = kwargs['pk']
+    ctx = {}
+    # #########################################################################
+    # Section A ---------------------------------------------------------------
+    section_a1 = SectionA1.objects.get(qapp_id=qapp_id)  # noqa: F841
+    section_a2 = SectionA2.objects.get(qapp_id=qapp_id)  # noqa: F841
+    # TODO: SectionA3 doesn't have a model, how to decide its "completeness"?
+    section_a4 = SectionA4.objects.get(qapp_id=qapp_id)  # noqa: F841
+    section_a5 = SectionA5.objects.get(qapp_id=qapp_id)  # noqa: F841
+    section_a6 = SectionA6.objects.get(qapp_id=qapp_id)  # noqa: F841
+    # TODO: SectionA7 doesn't have a model, how to decide its "completeness"?
+    # TODO: SectionA8 doesn't have a model, how to decide its "completeness"?
+    # TODO: SectionA9 doesn't have a model, how to decide its "completeness"?
+    section_a10 = SectionA10.objects.get(qapp_id=qapp_id)  # noqa: F841
+    section_a11 = SectionA11.objects.get(qapp_id=qapp_id)  # noqa: F841
+    # TODO: SectionA12 doesn't have a model, how to decide its "completeness"?
+    # #########################################################################
+    # Section B ---------------------------------------------------------------
+    section_b = SectionB.objects.get(qapp_id=qapp_id)  # noqa: F841
+    section_b7 = SectionB7.objects.get(qapp_id=qapp_id)  # noqa: F841
+    # #########################################################################
+    # Section C ---------------------------------------------------------------
+    section_c = SectionC.objects.get(qapp_id=qapp_id)  # noqa: F841
+    # #########################################################################
+    # Section D ---------------------------------------------------------------
+    section_d = SectionD.objects.get(qapp_id=qapp_id)  # noqa: F841
+    # #########################################################################
+    return render(request, 'qapp/progress.html', ctx)
