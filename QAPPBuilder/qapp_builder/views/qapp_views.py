@@ -149,7 +149,7 @@ class QappCreateView(LoginRequiredMixin, CreateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['previous_url'] = f'/qapp/list/user/{self.request.user.id}/'
-        context['page_list'] = get_qapp_page_list()
+        # context['page_list'] = get_qapp_page_list()
         context['current_page'] = QAPP_PAGE_INDEX['qapp']
         return context
 
@@ -219,7 +219,7 @@ class QappDetail(LoginRequiredMixin, DetailView):
         context['next_url'] = reverse('sectiona1_detail',
                                       kwargs={'qapp_id': self.object.id})
         context['revisions'] = Revision.objects.filter(qapp_id=self.object.id)
-        context['page_list'] = get_qapp_page_list()
+        context['page_list'] = get_qapp_page_list(self.object.id)
         context['current_page'] = QAPP_PAGE_INDEX['qapp']
         context['qapp_id'] = self.object.id
         return context

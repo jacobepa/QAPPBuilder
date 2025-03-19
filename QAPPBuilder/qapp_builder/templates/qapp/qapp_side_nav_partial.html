@@ -1,9 +1,21 @@
-
 <nav class="usa-sidenav">
     <ul class="usa-sidenav__list">
         {% for page in page_list %}
             <li class="usa-sidenav__item {% if forloop.counter0 == current_page %}usa-current{% endif %}">
-                <a href="/qapp/{{ qapp_id }}{{ page.tail_path }}">{{ page.label }}</a>
+                <a href="/qapp/{{ qapp_id }}{{ page.tail_path }}">
+                    {% if page.progress == 100 %}
+                        <svg class="usa-icon" aria-hidden="true" role="img">
+                            <use href="https://www.epa.gov/themes/epa_theme/images/sprite.svg#check_circle"></use>
+                        </svg>
+                        <span class="usa-sr-only">Completed</span>
+                    {% else %}
+                        <svg class="usa-icon" aria-hidden="true" role="img">
+                            <use href="https://www.epa.gov/themes/epa_theme/images/sprite.svg#error_outline"></use>
+                        </svg>
+                        <span class="usa-sr-only">Not Complete</span>
+                    {% endif %}
+                    {{ page.label }}
+                </a>
             </li>
         {% endfor %}
     </ul>
