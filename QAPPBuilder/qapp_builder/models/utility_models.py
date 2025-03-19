@@ -2,9 +2,7 @@ from django.db import models
 from django.utils.safestring import mark_safe
 from simple_history.models import HistoricalRecords
 
-IGNORE_FIELDS_PROGRESS = [
-    'id', 'title'
-]
+IGNORE_FIELDS_PROGRESS = ['id']
 
 
 class EpaBaseModel(models.Model):
@@ -18,16 +16,16 @@ class EpaBaseModel(models.Model):
     def get_progress(self):
         total_fields = 0
         empty_fields = 0
-        all_fields = self._meta.get_fields()
         for field in self._meta.get_fields():
             if (
                 isinstance(field,
                            (models.ForeignKey, models.OneToOneField,
                             models.ManyToManyRel, models.ManyToOneRel,
                             models.AutoField)) or
-                field.name in IGNORE_FIELDS_PROGRESS
+                field.name in IGNORE_FIELDS_PROGRESS or
+                getattr(field, 'null', True) or getattr(field, 'blank', True)
             ):
-                continue  # Skip foreign keys
+                continue
 
             total_fields += 1
             value = getattr(self, field.name, None)
