@@ -2,6 +2,10 @@ from django.db import models
 from django.utils.safestring import mark_safe
 from simple_history.models import HistoricalRecords
 
+IGNORE_FIELDS_PROGRESS = [
+    'id', 'title'
+]
+
 
 class EpaBaseModel(models.Model):
     """Abstract class to be inherited by all EPA/QAPP Models."""
@@ -14,9 +18,15 @@ class EpaBaseModel(models.Model):
     def get_progress(self):
         total_fields = 0
         empty_fields = 0
-
+        all_fields = self._meta.get_fields()
         for field in self._meta.get_fields():
-            if isinstance(field, models.ForeignKey):
+            if (
+                isinstance(field,
+                           (models.ForeignKey, models.OneToOneField,
+                            models.ManyToManyRel, models.ManyToOneRel,
+                            models.AutoField)) or
+                field.name in IGNORE_FIELDS_PROGRESS
+            ):
                 continue  # Skip foreign keys
 
             total_fields += 1
