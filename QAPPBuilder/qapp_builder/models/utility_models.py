@@ -11,6 +11,25 @@ class EpaBaseModel(models.Model):
     def render_details(self):
         return render_model_details(self)
 
+    def get_progress(self):
+        total_fields = 0
+        empty_fields = 0
+
+        for field in self._meta.get_fields():
+            if isinstance(field, models.ForeignKey):
+                continue  # Skip foreign keys
+
+            total_fields += 1
+            value = getattr(self, field.name, None)
+            if value in [None, '', []]:  # Check for empty or null values
+                empty_fields += 1
+
+        if total_fields == 0:
+            return 0  # Avoid division by zero
+
+        progress = (total_fields - empty_fields) / total_fields * 100
+        return progress
+
     class Meta:
         abstract = True
 

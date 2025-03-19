@@ -7,7 +7,8 @@ from django.views.generic import DetailView, TemplateView
 import qapp_builder.forms.section_b_forms as forms
 from qapp_builder.models import SectionB, SectionB7, HardwareSoftware
 from qapp_builder.views.inheritable_views import SectionCreateBase, \
-    SectionDetailBase, SectionUpdateBase, QAPP_PAGE_INDEX
+    SectionDetailBase, SectionUpdateBase
+from qapp_builder.views.progress_views import QAPP_PAGE_INDEX
 from constants.qapp_section_b_const import SECTION_B
 
 

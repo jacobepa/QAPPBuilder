@@ -2,7 +2,8 @@ from django.urls import reverse
 import qapp_builder.forms.section_c_d_forms as forms
 from qapp_builder.models import SectionC, SectionD, SectionA1
 from qapp_builder.views.inheritable_views import SectionCreateBase, \
-    SectionDetailBase, SectionUpdateBase, QAPP_PAGE_INDEX
+    SectionDetailBase, SectionUpdateBase
+from qapp_builder.views.progress_views import QAPP_PAGE_INDEX
 from constants.qapp_section_a_const import QA_CATEGORY_A
 from constants.qapp_section_c_d_const import SECTION_C, SECTION_D
 

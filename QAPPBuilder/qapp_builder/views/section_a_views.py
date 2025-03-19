@@ -8,7 +8,8 @@ from qapp_builder.models import SectionA1, SectionA2, SectionA4, \
     AdditionalSignature, AcronymAbbreviation, Distribution, SectionA10
 import qapp_builder.forms.section_a_forms as forms
 from qapp_builder.views.inheritable_views import SectionCreateBase, \
-    SectionDetailBase, SectionTemplateView, SectionUpdateBase, QAPP_PAGE_INDEX
+    SectionDetailBase, SectionTemplateView, SectionUpdateBase
+from qapp_builder.views.progress_views import QAPP_PAGE_INDEX
 from constants.qapp_section_a_const import SECTION_A
 
 
