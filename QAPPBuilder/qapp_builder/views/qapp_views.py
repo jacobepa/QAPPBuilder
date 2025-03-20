@@ -100,28 +100,23 @@ def check_can_edit(qapp, user):
             return True
 
     # Check if the user is super or owns the qapp:
-    return user.is_superuser or qapp.prepared_by == user
+    return user.is_superuser or qapp.created_by == user
 
 
-def get_qar5_for_user(user_id, qapp_id=None):
+def get_qar5_for_user(user_id):
     """Get all qapps created by a User."""
     user = User.objects.get(id=user_id)
-    if qapp_id:
-        return Qapp.objects.filter(id=qapp_id)
-    return Qapp.objects.filter(prepared_by=user)
+    qapps = Qapp.objects.filter(created_by=user)
+    return qapps
 
 
-def get_qar5_for_team(team_id, qapp_id=None):
+def get_qar5_for_team(team_id):
     """Get all data belonging to a team."""
     team = Team.objects.get(id=team_id)
     include_qapps = QappSharingTeamMap.objects.filter(
         team=team).values_list('qapp', flat=True)
-
-    if qapp_id:
-        return Qapp.objects.filter(
-            id__in=include_qapps).filter(id=qapp_id).first()
-
-    return Qapp.objects.filter(id__in=include_qapps)
+    qapps = Qapp.objects.filter(id__in=include_qapps)
+    return qapps
 
 
 class QappIndex(LoginRequiredMixin, TemplateView):
@@ -190,6 +185,7 @@ class QappList(LoginRequiredMixin, ListView):
     def get_queryset(self):
         """Get a list of QAPP objects based on the provided user or team ID."""
         path = self.request.path.split('/')
+        path = list(filter(None, path))
         p_id = path[len(path) - 1]
         p_type = path[len(path) - 2]
         if p_type == 'user':
