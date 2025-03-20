@@ -1,33 +1,31 @@
 {% extends "main/base.html" %}
 
 {% block content %}
-<div class="white-box">
-    <div>
-        <h3>New user registration</h3>
-        <div class="text-muted">
-            Enter your user information below.  Fields marked with a <span class="red">*</span>
+<div class="usa-section">
+    <div class="usa-grid">
+        <h3 class="usa-heading">New user registration</h3>
+        <div class="usa-text--muted">
+            Enter your user information below. Fields marked with a <span class="usa-text--error">*</span>
             are required.
         </div>
-        <div class="vpadding20">
+        <div class="usa-margin-y-4">
             <form enctype="multipart/form-data" method="post" action="{% url 'register' %}">
-
                 {% csrf_token %}
 
                 {% for field in form %}
-                <div class="form-group">
-                    <label for="{{ field.label }}">
+                <div class="usa-form-group">
+                    <label class="usa-label" for="{{ field.label }}">
                         {{ field.label_tag }}
-                        {% if field.field.required %}<span class="red">*</span>{% endif %}
-                        <span class="text-danger">{{ field.errors.as_text }}</span>
+                        {% if field.field.required %}<span class="usa-text--error">*</span>{% endif %}
+                        <span class="usa-error-message">{{ field.errors.as_text }}</span>
                     </label>
-                    {{field}}
+                    {{ field }}
                 </div>
                 {% endfor %}
 
-                <input type="submit" name="submit" value="Submit" class="usa-button usa-button--accent-cool" role="button"/>
+                <input type="submit" name="submit" value="Submit" class="usa-button usa-button--primary" role="button"/>
             </form>
         </div>
     </div>
 </div>
 {% endblock %}
-

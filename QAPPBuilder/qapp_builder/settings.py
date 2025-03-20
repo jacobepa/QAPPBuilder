@@ -68,6 +68,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'qapp_builder.urls'
+LOGIN_REDIRECT_URL = '/'
 
 # Template configuration
 # https://docs.djangoproject.com/en/2.1/topics/templates/
