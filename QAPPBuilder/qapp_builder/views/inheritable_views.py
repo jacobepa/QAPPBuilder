@@ -19,6 +19,9 @@ def check_can_edit(qapp, user):
     All of the user's member teams are checked as well as the user's
     super user status or qapp ownership status.
     """
+    if isinstance(qapp, int):
+        qapp = Qapp.objects.get(id=qapp)
+
     # Check if any of the user's teams have edit privilege:
     user_teams = TeamMembership.objects.filter(
         member=user).values_list('team', flat=True)
@@ -33,7 +36,16 @@ def check_can_edit(qapp, user):
     return user.is_superuser or qapp.created_by == user
 
 
-class SectionTemplateView(LoginRequiredMixin, TemplateView):
+class QappBuilderPrivateView(LoginRequiredMixin):
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['user_can_edit'] = check_can_edit(
+            self.kwargs['qapp_id'], self.request.user)
+        return context
+
+
+class SectionTemplateView(QappBuilderPrivateView, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -48,7 +60,7 @@ class SectionTemplateView(LoginRequiredMixin, TemplateView):
         return context
 
 
-class SectionCreateBase(LoginRequiredMixin, CreateView):
+class SectionCreateBase(QappBuilderPrivateView, CreateView):
 
     template_name = GENERIC_FORM_TEMPLATE
 
@@ -90,7 +102,7 @@ class SectionCreateBase(LoginRequiredMixin, CreateView):
                        kwargs={'qapp_id': self.kwargs['qapp_id']})
 
 
-class SectionUpdateBase(LoginRequiredMixin, UpdateView):
+class SectionUpdateBase(QappBuilderPrivateView, UpdateView):
 
     template_name = GENERIC_FORM_TEMPLATE
 
@@ -127,7 +139,7 @@ class SectionUpdateBase(LoginRequiredMixin, UpdateView):
         return obj
 
 
-class SectionDetailBase(LoginRequiredMixin, DetailView):
+class SectionDetailBase(QappBuilderPrivateView, DetailView):
 
     template_name = 'qapp/generic_detail.html'
 
