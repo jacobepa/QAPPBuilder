@@ -40,8 +40,8 @@ class QappBuilderPrivateView(LoginRequiredMixin):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['user_can_edit'] = check_can_edit(
-            self.kwargs['qapp_id'], self.request.user)
+        qapp_id = self.kwargs.get('qapp_id', self.kwargs.get('pk', False))
+        context['user_can_edit'] = check_can_edit(qapp_id, self.request.user)
         return context
 
 

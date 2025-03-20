@@ -10,7 +10,6 @@
 from datetime import datetime
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpRequest, HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy, reverse
@@ -22,7 +21,8 @@ from qapp_builder.models import Qapp, QappSharingTeamMap, SectionA1, Revision, \
     SectionA2, SectionA4, SectionA5, SectionA6, SectionA10, SectionA11, \
     SectionB, SectionB7, SectionC, SectionD
 from qapp_builder.views.export_views import export_qapp_docx, export_qapp_pdf
-from qapp_builder.views.inheritable_views import check_can_edit
+from qapp_builder.views.inheritable_views import check_can_edit, \
+    QappBuilderPrivateView
 from qapp_builder.views.progress_views import QAPP_PAGE_INDEX, \
     get_qapp_page_list
 from teams.models import Team
@@ -99,7 +99,7 @@ def get_qar5_for_team(team_id):
     return qapps
 
 
-class QappIndex(LoginRequiredMixin, TemplateView):
+class QappIndex(QappBuilderPrivateView, TemplateView):
     """Class to return the first page of the Existing Data flow."""
 
     template_name = 'qapp/qapp_index.html'
@@ -116,7 +116,7 @@ class QappIndex(LoginRequiredMixin, TemplateView):
         return context
 
 
-class QappCreateView(LoginRequiredMixin, CreateView):
+class QappCreateView(QappBuilderPrivateView, CreateView):
     model = Qapp
     form_class = QappForm
     template_name = 'qapp/qapp_form.html'
@@ -138,7 +138,7 @@ class QappCreateView(LoginRequiredMixin, CreateView):
                             kwargs={'qapp_id': self.object.id})
 
 
-class QappList(LoginRequiredMixin, ListView):
+class QappList(QappBuilderPrivateView, ListView):
     """Class for listing this user's (or all if admin) QAPP objects."""
 
     model = Qapp
@@ -175,7 +175,7 @@ class QappList(LoginRequiredMixin, ListView):
         return get_qapp_all()
 
 
-class QappDetail(LoginRequiredMixin, DetailView):
+class QappDetail(QappBuilderPrivateView, DetailView):
     """Class for viewing an existing QAPP."""
 
     model = Qapp
@@ -201,7 +201,7 @@ class QappDetail(LoginRequiredMixin, DetailView):
         return context
 
 
-class QappUpdate(LoginRequiredMixin, UpdateView):
+class QappUpdate(QappBuilderPrivateView, UpdateView):
     """Class for editing an existing (newly created) QAPP."""
 
     model = Qapp
@@ -226,7 +226,7 @@ class QappUpdate(LoginRequiredMixin, UpdateView):
         return context
 
 
-class QappDelete(LoginRequiredMixin, DeleteView):
+class QappDelete(QappBuilderPrivateView, DeleteView):
 
     model = Qapp
     template_name = 'qapp/confirm_delete.html'
@@ -249,7 +249,7 @@ class QappDelete(LoginRequiredMixin, DeleteView):
             'qapp_list_user', kwargs={'user_id': self.request.user.id})
 
 
-class RevisionFormBase(LoginRequiredMixin):
+class RevisionFormBase(QappBuilderPrivateView):
 
     model = Revision
     form_class = RevisionForm

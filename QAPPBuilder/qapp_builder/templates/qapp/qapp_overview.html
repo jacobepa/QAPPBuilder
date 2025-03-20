@@ -13,14 +13,16 @@
 
     <div class="usa-button-group margin-top-2">
         <li class="usa-button-group__item">
-            <a class="usa-button usa-button--accent-cool" href="/qapp/{{qapp.id}}/export/?format=docx">Export QAPP to Word Doc</a>
+            <a class="usa-button usa-button--accent-cool" href="/qapp/{{qapp.id}}/export/?format=docx">Export to Word Doc</a>
         </li>
-        <!-- <li class="usa-button-group__item">
-            <a class="usa-button usa-button--accent-cool" href="{{previous_url}}">Export to Excel</a>
-        </li> -->
+        <li class="usa-button-group__item">
+            <a class="usa-button usa-button--accent-cool" href="/qapp/{{qapp.id}}/export/?format=pdf">Export to PDF</a>
+        </li>
+        {% if user_can_edit %}
         <li class="usa-button-group__item">
             <a class="usa-button usa-button--secondary" href="/qapp/{{qapp.id}}/delete/">Delete QAPP</a>
         </li>
+        {% endif %}
     </div>
 
     <h2>U.S. Environmental Protection Agency Office of Research and Development</h2>

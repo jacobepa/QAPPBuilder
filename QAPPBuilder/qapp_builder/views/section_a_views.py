@@ -282,6 +282,12 @@ class SectionA10Create(SectionCreateBase):
     boilerplate = SECTION_A['a10']['boilerplate']
     current_page = QAPP_PAGE_INDEX['section-a10']
 
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+        return super().post(request, *args, **kwargs)
+
 
 class SectionA10Update(SectionUpdateBase):
     model = SectionA10
@@ -291,6 +297,12 @@ class SectionA10Update(SectionUpdateBase):
     detail_url_name = 'sectiona10_detail'
     next_url_name = 'sectiona11_create'
     current_page = QAPP_PAGE_INDEX['section-a10']
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+        return super().post(request, *args, **kwargs)
 
 
 class SectionA10Detail(SectionDetailBase):
