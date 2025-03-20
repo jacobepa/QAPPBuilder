@@ -65,6 +65,9 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     # Django model auditing/change tracking/history
     'simple_history.middleware.HistoryRequestMiddleware',
+    # Custom middleware for rendering 401 unauthorized page
+    'qapp_builder.middleware.UnauthorizedMiddleware',
+
 ]
 
 ROOT_URLCONF = 'qapp_builder.urls'
@@ -75,7 +78,7 @@ LOGIN_REDIRECT_URL = '/'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

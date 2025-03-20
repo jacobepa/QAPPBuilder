@@ -1,12 +1,36 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import HttpResponse
 from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse
 from django.views.generic.edit import CreateView, UpdateView
 from django.views.generic import DetailView, TemplateView
+from teams.models import TeamMembership
+from qapp_builder.models import Qapp, QappSharingTeamMap
 from qapp_builder.views.progress_views import get_qapp_page_list
 
 GENERIC_FORM_TEMPLATE = 'qapp/generic_form.html'
 CONFIRM_DELETE_TEMPLATE = 'qapp/confirm_delete.html'
+
+
+def check_can_edit(qapp, user):
+    """
+    Check if the provided user can edit the provided qapp.
+
+    All of the user's member teams are checked as well as the user's
+    super user status or qapp ownership status.
+    """
+    # Check if any of the user's teams have edit privilege:
+    user_teams = TeamMembership.objects.filter(
+        member=user).values_list('team', flat=True)
+
+    for team in user_teams:
+        data_team_map = QappSharingTeamMap.objects.filter(
+            qapp=qapp, team=team).first()
+        if data_team_map and data_team_map.can_edit:
+            return True
+
+    # Check if the user is super or owns the qapp:
+    return user.is_superuser or qapp.created_by == user
 
 
 class SectionTemplateView(LoginRequiredMixin, TemplateView):
@@ -34,6 +58,12 @@ class SectionCreateBase(LoginRequiredMixin, CreateView):
             # Redirect to the detail view if the object exists
             return redirect(reverse(self.detail_url_name,
                                     kwargs={'qapp_id': self.kwargs['qapp_id']}))
+
+        # Check if the user has permissions to contribute to the QAPP:
+        qapp = get_object_or_404(Qapp, id=self.kwargs['qapp_id'])
+        if not check_can_edit(qapp, request.user):
+            return HttpResponse('Unauthorized', status=401)
+
         return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
@@ -63,6 +93,12 @@ class SectionCreateBase(LoginRequiredMixin, CreateView):
 class SectionUpdateBase(LoginRequiredMixin, UpdateView):
 
     template_name = GENERIC_FORM_TEMPLATE
+
+    def dispatch(self, request, *args, **kwargs):
+        qapp = get_object_or_404(Qapp, id=self.kwargs['qapp_id'])
+        if not check_can_edit(qapp, request.user):
+            return HttpResponse('Unauthorized', status=401)
+        return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

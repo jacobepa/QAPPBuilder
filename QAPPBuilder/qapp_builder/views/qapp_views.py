@@ -11,8 +11,8 @@ from datetime import datetime
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import HttpRequest, HttpResponseRedirect
-from django.shortcuts import render
+from django.http import HttpRequest, HttpResponseRedirect, HttpResponse
+from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy, reverse
 from django.views.generic import CreateView, DetailView, ListView, \
     TemplateView, UpdateView, DeleteView
@@ -22,9 +22,10 @@ from qapp_builder.models import Qapp, QappSharingTeamMap, SectionA1, Revision, \
     SectionA2, SectionA4, SectionA5, SectionA6, SectionA10, SectionA11, \
     SectionB, SectionB7, SectionC, SectionD
 from qapp_builder.views.export_views import export_qapp_docx, export_qapp_pdf
+from qapp_builder.views.inheritable_views import check_can_edit
 from qapp_builder.views.progress_views import QAPP_PAGE_INDEX, \
     get_qapp_page_list
-from teams.models import Team, TeamMembership
+from teams.models import Team
 
 
 @login_required
@@ -80,27 +81,6 @@ def contact(request):
 def get_qapp_all():
     """Get all QAPP data regardless of user or team."""
     return Qapp.objects.all()
-
-
-def check_can_edit(qapp, user):
-    """
-    Check if the provided user can edit the provided qapp.
-
-    All of the user's member teams are checked as well as the user's
-    super user status or qapp ownership status.
-    """
-    # Check if any of the user's teams have edit privilege:
-    user_teams = TeamMembership.objects.filter(
-        member=user).values_list('team', flat=True)
-
-    for team in user_teams:
-        data_team_map = QappSharingTeamMap.objects.filter(
-            qapp=qapp, team=team).first()
-        if data_team_map and data_team_map.can_edit:
-            return True
-
-    # Check if the user is super or owns the qapp:
-    return user.is_superuser or qapp.created_by == user
 
 
 def get_qar5_for_user(user_id):
@@ -228,6 +208,12 @@ class QappUpdate(LoginRequiredMixin, UpdateView):
     form_class = QappForm
     template_name = 'qapp/qapp_form.html'
 
+    def dispatch(self, request, *args, **kwargs):
+        qapp = get_object_or_404(Qapp, id=self.kwargs['pk'])
+        if not check_can_edit(qapp, request.user):
+            return HttpResponse('Unauthorized', status=401)
+        return super().dispatch(request, *args, **kwargs)
+
     def get_success_url(self):
         return reverse_lazy('qapp_detail', kwargs={'pk': self.object.id})
 
@@ -244,6 +230,12 @@ class QappDelete(LoginRequiredMixin, DeleteView):
 
     model = Qapp
     template_name = 'qapp/confirm_delete.html'
+
+    def dispatch(self, request, *args, **kwargs):
+        qapp = get_object_or_404(Qapp, id=self.kwargs['pk'])
+        if not check_can_edit(qapp, request.user):
+            return HttpResponse('Unauthorized', status=401)
+        return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
