@@ -20,7 +20,9 @@ def check_can_edit(qapp, user):
     super user status or qapp ownership status.
     """
     if isinstance(qapp, int):
-        qapp = Qapp.objects.get(id=qapp)
+        qapp = Qapp.objects.filter(id=qapp).first()
+        if not qapp:
+            return False
 
     # Check if any of the user's teams have edit privilege:
     user_teams = TeamMembership.objects.filter(

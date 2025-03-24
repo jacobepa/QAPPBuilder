@@ -24,7 +24,7 @@ xhtml2pdf>=0.2.17                 # Package for saving html templates as PDF fil
                                   # single PDF Template Response (as in wkhtmltopdf).
 django-grappelli>=3.0.4           # A jazzy skin for the Django Admin-Interface.
 django-session-security>=2.6.7    # Provides a mechanism to logout inactive authenticated users.
-django-simple-history>=3.9.0
+django-simple-history>=3.8.0
 
 #---------------------------------------------------------------------------------------#
 # Used for code management
