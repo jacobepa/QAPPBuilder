@@ -24,8 +24,6 @@ from docx.enum.text import WD_ALIGN_PARAGRAPH
 from docx.oxml.ns import qn
 from docx.oxml import OxmlElement
 
-WORD_CHECKBOX_CHARACTER = '☐'
-
 
 def set_font(run, name='Calibri (Body)', size=11, bold=False, italic=False):
     run.font.name = name
