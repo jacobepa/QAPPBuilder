@@ -73,94 +73,25 @@ def export_qapp_pdf(request, qapp_id):
     doc = SimpleDocTemplate(file_stream, pagesize=letter)
     elements = []
 
-    # Set up styles
-    styles = getSampleStyleSheet()
-    normal_style = styles['Normal']
-    heading_style = styles['Heading1']
-
     # Write the Sections A:
-    write_section_a1(qapp,
-                     elements,
-                     normal_style,
-                     heading_style,
-                     format_type='pdf')
-    write_section_a2(qapp,
-                     elements,
-                     normal_style,
-                     heading_style,
-                     format_type='pdf')
-    write_section_a3(qapp,
-                     elements,
-                     normal_style,
-                     heading_style,
-                     format_type='pdf')
-    write_section_a4(qapp,
-                     elements,
-                     normal_style,
-                     heading_style,
-                     format_type='pdf')
-    write_section_a5(qapp,
-                     elements,
-                     normal_style,
-                     heading_style,
-                     format_type='pdf')
-    write_section_a6(qapp,
-                     elements,
-                     normal_style,
-                     heading_style,
-                     format_type='pdf')
-    write_section_a7(qapp,
-                     elements,
-                     normal_style,
-                     heading_style,
-                     format_type='pdf')
-    write_section_a8(qapp,
-                     elements,
-                     normal_style,
-                     heading_style,
-                     format_type='pdf')
-    write_section_a9(qapp,
-                     elements,
-                     normal_style,
-                     heading_style,
-                     format_type='pdf')
-    write_section_a10(qapp,
-                      elements,
-                      normal_style,
-                      heading_style,
-                      format_type='pdf')
-    write_section_a11(qapp,
-                      elements,
-                      normal_style,
-                      heading_style,
-                      format_type='pdf')
-    write_section_a12(qapp,
-                      elements,
-                      normal_style,
-                      heading_style,
-                      format_type='pdf')
+    write_section_a1(qapp, elements, None, format_type='pdf')
+    write_section_a2(qapp, elements, None, format_type='pdf')
+    write_section_a3(qapp, elements, None, format_type='pdf')
+    write_section_a4(qapp, elements, None, format_type='pdf')
+    write_section_a5(qapp, elements, None, format_type='pdf')
+    write_section_a6(qapp, elements, None, format_type='pdf')
+    write_section_a7(qapp, elements, None, format_type='pdf')
+    write_section_a8(qapp, elements, None, format_type='pdf')
+    write_section_a9(qapp, elements, None, format_type='pdf')
+    write_section_a10(qapp, elements, None, format_type='pdf')
+    write_section_a11(qapp, elements, None, format_type='pdf')
+    write_section_a12(qapp, elements, None, format_type='pdf')
 
     # Write the Sections B, C, D:
-    write_section_b(qapp,
-                    elements,
-                    normal_style,
-                    heading_style,
-                    format_type='pdf')
-    write_section_b7(qapp,
-                     elements,
-                     normal_style,
-                     heading_style,
-                     format_type='pdf')
-    write_section_c(qapp,
-                    elements,
-                    normal_style,
-                    heading_style,
-                    format_type='pdf')
-    write_section_d(qapp,
-                    elements,
-                    normal_style,
-                    heading_style,
-                    format_type='pdf')
+    write_section_b(qapp, elements, None, format_type='pdf')
+    write_section_b7(qapp, elements, None, format_type='pdf')
+    write_section_c(qapp, elements, None, format_type='pdf')
+    write_section_d(qapp, elements, None, format_type='pdf')
 
     # Build the PDF document
     doc.build(elements)
