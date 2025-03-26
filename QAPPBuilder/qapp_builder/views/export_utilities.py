@@ -12,7 +12,7 @@ def parse_fy(fy):
     return int(fy[-2:])
 
 
-def set_font(run, name='Calibri (Body)', size=11, bold=False, italic=False,
+def set_font(run, name='Helvetica', size=11, bold=False, italic=False,
              format_type='docx'):
     if format_type == 'docx':
         run.font.name = name
@@ -28,9 +28,11 @@ def set_font(run, name='Calibri (Body)', size=11, bold=False, italic=False,
         style.leading = size * 1.2
         style.textColor = 'black'
         if bold:
-            style.fontName += '-Bold'
+            style.fontName = 'Helvetica-Bold' \
+                if name == 'Helvetica' else f'{name}-Bold'
         if italic:
-            style.fontName += '-Italic'
+            style.fontName = 'Helvetica-Oblique' \
+                if name == 'Helvetica' else f'{name}-Italic'
         return style
 
 
@@ -78,7 +80,7 @@ def set_fake_header_style(paragraph, format_type='docx'):
         from reportlab.lib.styles import getSampleStyleSheet
         styles = getSampleStyleSheet()
         style = styles['Heading1']
-        style.fontName = 'Calibri-Light'
+        style.fontName = 'Helvetica'
         style.fontSize = 16
         style.leading = 16 * 1.2
         style.textColor = '2F5496'

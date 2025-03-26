@@ -5,8 +5,7 @@ from docx.enum.text import WD_ALIGN_PARAGRAPH
 from io import BytesIO
 from os.path import exists
 from reportlab.lib.pagesizes import letter
-from reportlab.platypus import SimpleDocTemplate, Spacer, Image
-from reportlab.lib.styles import getSampleStyleSheet
+from reportlab.platypus import SimpleDocTemplate, Image, Paragraph, Spacer
 from reportlab.lib.units import inch
 import constants.qapp_section_a_const as constants_a
 import constants.qapp_section_b_const as constants_b
@@ -124,7 +123,7 @@ def write_section_a1(qapp, doc_or_elements, c, format_type):
                   c,
                   constants_a.QAPP_TITLE_HEADER,
                   format_type=format_type,
-                  name='Calibri (Body)',
+                  name='Helvetica',
                   size=16,
                   bold=True,
                   alignment=WD_ALIGN_PARAGRAPH.CENTER)
@@ -132,7 +131,7 @@ def write_section_a1(qapp, doc_or_elements, c, format_type):
                   c,
                   section_a1.ord_center,
                   format_type=format_type,
-                  name='Calibri (Body)',
+                  name='Helvetica',
                   size=16,
                   bold=True,
                   alignment=WD_ALIGN_PARAGRAPH.CENTER)
@@ -140,7 +139,7 @@ def write_section_a1(qapp, doc_or_elements, c, format_type):
                   c,
                   section_a1.division,
                   format_type=format_type,
-                  name='Calibri (Body)',
+                  name='Helvetica',
                   size=16,
                   bold=True,
                   alignment=WD_ALIGN_PARAGRAPH.CENTER)
@@ -148,7 +147,7 @@ def write_section_a1(qapp, doc_or_elements, c, format_type):
                   c,
                   section_a1.branch,
                   format_type=format_type,
-                  name='Calibri (Body)',
+                  name='Helvetica',
                   size=16,
                   bold=True,
                   alignment=WD_ALIGN_PARAGRAPH.CENTER)
@@ -156,7 +155,7 @@ def write_section_a1(qapp, doc_or_elements, c, format_type):
                   c,
                   f'{qapp.title} {constants_a.QAPP_STR}',
                   format_type=format_type,
-                  name='Calibri (Body)',
+                  name='Helvetica',
                   size=16,
                   bold=True,
                   alignment=WD_ALIGN_PARAGRAPH.CENTER)
@@ -165,7 +164,7 @@ def write_section_a1(qapp, doc_or_elements, c, format_type):
                   c,
                   f'ORD National Program: {section_a1.ord_national_program}',
                   format_type=format_type,
-                  name='Calibri (Body)',
+                  name='Helvetica',
                   size=12,
                   bold=True,
                   alignment=WD_ALIGN_PARAGRAPH.CENTER)
@@ -173,7 +172,7 @@ def write_section_a1(qapp, doc_or_elements, c, format_type):
                   c,
                   f'Version Date: {section_a1.version_date}',
                   format_type=format_type,
-                  name='Calibri (Body)',
+                  name='Helvetica',
                   size=12,
                   bold=True,
                   alignment=WD_ALIGN_PARAGRAPH.CENTER)
@@ -181,7 +180,7 @@ def write_section_a1(qapp, doc_or_elements, c, format_type):
                   c,
                   f'Project QAPP ID: {section_a1.proj_qapp_id}',
                   format_type=format_type,
-                  name='Calibri (Body)',
+                  name='Helvetica',
                   size=12,
                   bold=True,
                   alignment=WD_ALIGN_PARAGRAPH.CENTER)
@@ -189,7 +188,7 @@ def write_section_a1(qapp, doc_or_elements, c, format_type):
                   c,
                   f'QA Category: {section_a1.qa_category}',
                   format_type=format_type,
-                  name='Calibri (Body)',
+                  name='Helvetica',
                   size=12,
                   bold=True,
                   alignment=WD_ALIGN_PARAGRAPH.CENTER)
@@ -197,7 +196,7 @@ def write_section_a1(qapp, doc_or_elements, c, format_type):
                   c,
                   f'QAPP Developed: {section_a1.intra_or_extra}',
                   format_type=format_type,
-                  name='Calibri (Body)',
+                  name='Helvetica',
                   size=12,
                   bold=True,
                   alignment=WD_ALIGN_PARAGRAPH.CENTER)
@@ -206,7 +205,7 @@ def write_section_a1(qapp, doc_or_elements, c, format_type):
                       c,
                       constants_a.INTRAMURAL_TEXT,
                       format_type=format_type,
-                      name='Calibri (Body)',
+                      name='Helvetica',
                       size=12,
                       alignment=WD_ALIGN_PARAGRAPH.CENTER)
     else:
@@ -214,14 +213,14 @@ def write_section_a1(qapp, doc_or_elements, c, format_type):
                       c,
                       f'Vehicle #: {section_a1.vehicle_num}',
                       format_type=format_type,
-                      name='Calibri (Body)',
+                      name='Helvetica',
                       size=12,
                       alignment=WD_ALIGN_PARAGRAPH.CENTER)
         add_paragraph(doc_or_elements,
                       c,
                       f'Name of Non-EPA Organization: {section_a1.non_epa_org}',
                       format_type=format_type,
-                      name='Calibri (Body)',
+                      name='Helvetica',
                       size=12,
                       alignment=WD_ALIGN_PARAGRAPH.CENTER)
         add_paragraph(
@@ -229,14 +228,14 @@ def write_section_a1(qapp, doc_or_elements, c, format_type):
             c,
             f'Period of Performance (POP): {section_a1.period_performance}',
             format_type=format_type,
-            name='Calibri (Body)',
+            name='Helvetica',
             size=12,
             alignment=WD_ALIGN_PARAGRAPH.CENTER)
         add_paragraph(doc_or_elements,
                       c,
                       constants_a.EXTRAMURAL_TEXT,
                       format_type=format_type,
-                      name='Calibri (Body)',
+                      name='Helvetica',
                       size=12,
                       alignment=WD_ALIGN_PARAGRAPH.CENTER)
     add_paragraph(
@@ -244,7 +243,7 @@ def write_section_a1(qapp, doc_or_elements, c, format_type):
         c,
         'QAPP Accessibility: QAPPs will be made internally accessible via the ORD QAPP intranet site upon final approval unless the following statement is selected.',  # noqa: E501
         format_type=format_type,
-        name='Calibri (Body)',
+        name='Helvetica',
         size=12,
         italic=True,
         alignment=WD_ALIGN_PARAGRAPH.CENTER)
@@ -253,11 +252,13 @@ def write_section_a1(qapp, doc_or_elements, c, format_type):
         c,
         'I do NOT want this QAPP internally shared and accessible on the ORD intranet site.',  # noqa: E501
         format_type=format_type,
-        name='Calibri (Body)',
+        name='Helvetica',
         size=12,
         alignment=WD_ALIGN_PARAGRAPH.CENTER)
     if format_type == 'docx':
         doc_or_elements.add_page_break()
+    elif format_type == 'pdf':
+        doc_or_elements.append(Spacer(1, 12))
 
 
 def write_section_a2(qapp, doc_or_elements, c, format_type):
@@ -271,6 +272,7 @@ def write_section_a2(qapp, doc_or_elements, c, format_type):
                   c,
                   "QAPP Approvals (Electronic Approval Signatures/Dates)",
                   format_type=format_type,
+                  name='Helvetica',
                   size=12,
                   bold=True)
 
@@ -306,8 +308,14 @@ def write_section_a3(qapp, doc_or_elements, c, format_type):
     add_paragraph(doc_or_elements,
                   c,
                   "Revision History",
-                  format_type=format_type)
-    set_fake_header_style(doc_or_elements.paragraphs[-1])
+                  format_type=format_type,
+                  name='Helvetica',
+                  size=12)
+    if format_type == 'docx':
+        set_fake_header_style(doc_or_elements.paragraphs[-1])
+    elif format_type == 'pdf':
+        style = set_fake_header_style(None, format_type=format_type)
+        doc_or_elements.append(Paragraph("Header Text", style))
 
     revisions = Revision.objects.filter(qapp_id=qapp.id)
     table_data = [['Date', 'QAPP ID', 'Author(s)', 'Description of Revision']
@@ -324,8 +332,14 @@ def write_section_a3(qapp, doc_or_elements, c, format_type):
     add_paragraph(doc_or_elements,
                   c,
                   "Acronyms/Abbreviations/Definitions",
-                  format_type=format_type)
-    set_fake_header_style(doc_or_elements.paragraphs[-1])
+                  format_type=format_type,
+                  name='Helvetica',
+                  size=12)
+    if format_type == 'docx':
+        set_fake_header_style(doc_or_elements.paragraphs[-1])
+    elif format_type == 'pdf':
+        style = set_fake_header_style(None, format_type=format_type)
+        doc_or_elements.append(Paragraph("Header Text", style))
 
     acronyms = AcronymAbbreviation.objects.filter(qapp_id=qapp.id)
     table_data = [['Acronym/Abbreviation', 'Definition']
@@ -354,6 +368,7 @@ def write_section_a4(qapp, doc_or_elements, c, format_type):
                   c,
                   constants_a.SECTION_A['a4']['boilerplate'],
                   format_type=format_type,
+                  name='Helvetica',
                   size=11)
     add_heading(doc_or_elements,
                 c,
@@ -364,6 +379,7 @@ def write_section_a4(qapp, doc_or_elements, c, format_type):
                   c,
                   section_a4.project_background,
                   format_type=format_type,
+                  name='Helvetica',
                   size=11)
     add_heading(doc_or_elements,
                 c,
@@ -374,6 +390,7 @@ def write_section_a4(qapp, doc_or_elements, c, format_type):
                   c,
                   section_a4.project_purpose,
                   format_type=format_type,
+                  name='Helvetica',
                   size=11)
 
 
@@ -388,11 +405,13 @@ def write_section_a5(qapp, doc_or_elements, c, format_type):
                   c,
                   constants_a.SECTION_A['a5']['boilerplate'],
                   format_type=format_type,
+                  name='Helvetica',
                   size=11)
     add_paragraph(doc_or_elements,
                   c,
                   section_a5.tasks_summary,
                   format_type=format_type,
+                  name='Helvetica',
                   size=11)
 
     start_fy = int(section_a5.start_fy)
@@ -422,6 +441,7 @@ def write_section_a6(qapp, doc_or_elements, c, format_type):
                   c,
                   section_a6.information,
                   format_type=format_type,
+                  name='Helvetica',
                   size=11)
 
 
@@ -435,6 +455,7 @@ def write_section_a7(qapp, doc_or_elements, c, format_type):
                   c,
                   constants_a.SECTION_A['a7']['boilerplate'],
                   format_type=format_type,
+                  name='Helvetica',
                   size=11)
 
     distribution_list = Distribution.objects.filter(qapp_id=qapp.id)
@@ -461,6 +482,7 @@ def write_section_a8(qapp, doc_or_elements, c, format_type):
                   c,
                   constants_a.SECTION_A['a8']['boilerplate'],
                   format_type=format_type,
+                  name='Helvetica',
                   size=11)
 
     roles = RoleResponsibility.objects.filter(qapp_id=qapp.id)
@@ -487,6 +509,7 @@ def write_section_a9(qapp, doc_or_elements, c, format_type):
                   c,
                   constants_a.SECTION_A['a9']['boilerplate'],
                   format_type=format_type,
+                  name='Helvetica',
                   size=11)
 
 
@@ -501,6 +524,7 @@ def write_section_a10(qapp, doc_or_elements, c, format_type):
                   c,
                   constants_a.SECTION_A['a10']['boilerplate'],
                   format_type=format_type,
+                  name='Helvetica',
                   size=11)
 
     if format_type == 'docx' and section_a10.org_chart and exists(
@@ -524,6 +548,7 @@ def write_section_a11(qapp, doc_or_elements, c, format_type):
                   c,
                   section_a11.information,
                   format_type=format_type,
+                  name='Helvetica',
                   size=11)
 
 
@@ -537,6 +562,7 @@ def write_section_a12(qapp, doc_or_elements, c, format_type):
                   c,
                   constants_a.SECTION_A['a12']['boilerplate'],
                   format_type=format_type,
+                  name='Helvetica',
                   size=11)
 
     records = DocumentRecord.objects.filter(qapp_id=qapp.id)
@@ -574,6 +600,7 @@ def write_section_b(qapp, doc_or_elements, c, format_type):
                       c,
                       getattr(section_b, section),
                       format_type=format_type,
+                      name='Helvetica',
                       size=11)
 
     write_section_b7(qapp, doc_or_elements, c, format_type)
@@ -596,6 +623,7 @@ def write_section_b7(qapp, doc_or_elements, c, format_type):
                   c,
                   section_b7.b71,
                   format_type=format_type,
+                  name='Helvetica',
                   size=11)
 
     add_heading(doc_or_elements,
@@ -607,6 +635,7 @@ def write_section_b7(qapp, doc_or_elements, c, format_type):
                   c,
                   section_b7.b72,
                   format_type=format_type,
+                  name='Helvetica',
                   size=11)
 
     add_heading(doc_or_elements,
@@ -618,6 +647,7 @@ def write_section_b7(qapp, doc_or_elements, c, format_type):
                   c,
                   constants_b.SECTION_B['b73']['boilerplate'],
                   format_type=format_type,
+                  name='Helvetica',
                   size=11)
 
     hdw_sfw = HardwareSoftware.objects.filter(qapp_id=qapp.id)
@@ -640,6 +670,7 @@ def write_section_b7(qapp, doc_or_elements, c, format_type):
                   c,
                   constants_b.SECTION_B['b74']['boilerplate'],
                   format_type=format_type,
+                  name='Helvetica',
                   size=11)
 
 
@@ -670,6 +701,7 @@ def write_section_c(qapp, doc_or_elements, c, format_type):
                   c,
                   c11_boilerplate,
                   format_type=format_type,
+                  name='Helvetica',
                   size=11)
 
     add_heading(doc_or_elements,
@@ -681,6 +713,7 @@ def write_section_c(qapp, doc_or_elements, c, format_type):
                   c,
                   constants_c_d.SECTION_C['c12']['boilerplate'],
                   format_type=format_type,
+                  name='Helvetica',
                   size=11)
 
     add_heading(doc_or_elements,
@@ -692,6 +725,7 @@ def write_section_c(qapp, doc_or_elements, c, format_type):
                   c,
                   section_c.c2,
                   format_type=format_type,
+                  name='Helvetica',
                   size=11)
 
 
@@ -714,4 +748,5 @@ def write_section_d(qapp, doc_or_elements, c, format_type):
                       c,
                       getattr(section_d, section),
                       format_type=format_type,
+                      name='Helvetica',
                       size=11)
