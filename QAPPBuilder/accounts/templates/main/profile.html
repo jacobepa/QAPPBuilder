@@ -2,164 +2,167 @@
 
 {% block content %}
 
-<div class="white-box">
-    <form class="form-horizontal" method="post" action="{% url 'profile' %}">
+<div class="usa-section">
+    <form class="usa-form" method="post" action="{% url 'profile' %}">
         {% if form.errors %}
-        <div class="alert alert-danger">
-            <h5>Please correct the following errors</h5>
-            {% for error in form.non_field_errors %}
-            <div>{{ error|escape }}</div>
-            {% endfor %}
-            {% for field in form %}
-                {% if field.errors %}
-                <div>{{field.label_tag}} {{ field.errors|striptags }}</div>
-                {% endif %}
-            {% endfor %}
+        <div class="usa-alert usa-alert--error">
+            <div class="usa-alert__body">
+                <h5 class="usa-alert__heading">Please correct the following errors</h5>
+                {% for error in form.non_field_errors %}
+                <div>{{ error|escape }}</div>
+                {% endfor %}
+                {% for field in form %}
+                    {% if field.errors %}
+                    <div>{{field.label_tag}} {{ field.errors|striptags }}</div>
+                    {% endif %}
+                {% endfor %}
+            </div>
         </div>
         {% endif %}
         {% if success %}
-        <div class="alert alert-success">
-            Your profile has been updated. <span class="glyphicon glyphicon-ok"></span>
+        <div class="usa-alert usa-alert--success">
+            <div class="usa-alert__body">
+                Your profile has been updated. <span class="usa-icon usa-icon--check-circle" aria-hidden="true"></span>
+            </div>
         </div>
         {% endif %}
 
         {% csrf_token %}
-        <h5 class="separator">Personal Information</h5>
+        <h5 class="usa-heading">Personal Information</h5>
 
-        <div class="form-group">
-            <label for="username" class="grid-col-3 control-label">{{form.username.label_tag}}</label>
-            <div class="grid-col-9">
+        <div class="usa-form-group">
+            <label for="username" class="usa-label">{{form.username.label_tag}}</label>
+            <div class="usa-input-group">
                 {{form.username}}
             </div>
         </div>
 
-        <div class="form-group">
-            <label for="last_login" class="grid-col-3 control-label">{{form.last_login.label_tag}}</label>
-            <div class="grid-col-9">
+        <div class="usa-form-group">
+            <label for="last_login" class="usa-label">{{form.last_login.label_tag}}</label>
+            <div class="usa-input-group">
                 {{form.last_login}}
             </div>
         </div>
 
-        <div class="form-group">
-            <label for="first_name" class="grid-col-3 control-label">{{form.first_name.label_tag}}</label>
-            <div class="grid-col-9">
+        <div class="usa-form-group">
+            <label for="first_name" class="usa-label">{{form.first_name.label_tag}}</label>
+            <div class="usa-input-group">
                 {{form.first_name}}
             </div>
         </div>
 
-        <div class="form-group">
-            <label for="last_name" class="grid-col-3 control-label">{{form.last_name.label_tag}}</label>
-            <div class="grid-col-9">
+        <div class="usa-form-group">
+            <label for="last_name" class="usa-label">{{form.last_name.label_tag}}</label>
+            <div class="usa-input-group">
                 {{form.last_name}}
             </div>
         </div>
 
-        <div class="form-group">
-            <label for="email" class="grid-col-3 control-label">{{form.email.label_tag}}</label>
-            <div class="grid-col-9">
+        <div class="usa-form-group">
+            <label for="email" class="usa-label">{{form.email.label_tag}}</label>
+            <div class="usa-input-group">
                 {{form.email}}
             </div>
         </div>
 
-        <div class="form-group">
-            <label for="affiliation" class="grid-col-3 control-label">{{form.affiliation.label_tag}}</label>
-            <div class="grid-col-9">
+        <div class="usa-form-group">
+            <label for="affiliation" class="usa-label">{{form.affiliation.label_tag}}</label>
+            <div class="usa-input-group">
                 {{form.affiliation}}
             </div>
         </div>
 
-        <div class="form-group">
-            <label for="sector" class="grid-col-3 control-label">{{form.sector.label_tag}}</label>
-            <div class="grid-col-9">
+        <div class="usa-form-group">
+            <label for="sector" class="usa-label">{{form.sector.label_tag}}</label>
+            <div class="usa-input-group">
                 {{form.sector}}
             </div>
         </div>
 
-        <div class="form-group">
-            <label for="job_title" class="grid-col-3 control-label">{{form.job_title.label_tag}}</label>
-            <div class="grid-col-9">
+        <div class="usa-form-group">
+            <label for="job_title" class="usa-label">{{form.job_title.label_tag}}</label>
+            <div class="usa-input-group">
                 {{form.job_title}}
             </div>
         </div>
 
-        <div class="form-group">
-            <label for="role" class="grid-col-3 control-label">{{form.role.label_tag}}</label>
-            <div class="grid-col-9">
+        <div class="usa-form-group">
+            <label for="role" class="usa-label">{{form.role.label_tag}}</label>
+            <div class="usa-input-group">
                 {{form.role}}
             </div>
         </div>
 
-        <div class="form-group">
-            <label for="address_line1" class="grid-col-3 control-label">{{form.address_line1.label_tag}}</label>
-            <div class="grid-col-9">
+        <div class="usa-form-group">
+            <label for="address_line1" class="usa-label">{{form.address_line1.label_tag}}</label>
+            <div class="usa-input-group">
                 {{form.address_line1}}
             </div>
         </div>
 
-        <div class="form-group">
-            <label for="address_line2" class="grid-col-3 control-label">{{form.address_line2.label_tag}}</label>
-            <div class="grid-col-9">
+        <div class="usa-form-group">
+            <label for="address_line2" class="usa-label">{{form.address_line2.label_tag}}</label>
+            <div class="usa-input-group">
                 {{form.address_line2}}
             </div>
         </div>
 
-        <div class="form-group">
-            <label for="city" class="grid-col-3 control-label">{{form.city.label_tag}}</label>
-            <div class="grid-col-9">
+        <div class="usa-form-group">
+            <label for="city" class="usa-label">{{form.city.label_tag}}</label>
+            <div class="usa-input-group">
                 {{form.city}}
             </div>
         </div>
 
-        <div class="form-group">
-            <label for="state" class="grid-col-3 control-label">{{form.state.label_tag}}</label>
-            <div class="grid-col-9">
+        <div class="usa-form-group">
+            <label for="state" class="usa-label">{{form.state.label_tag}}</label>
+            <div class="usa-input-group">
                 {{form.state}}
             </div>
         </div>
 
-        <div class="form-group">
-            <label for="zipcode" class="grid-col-3 control-label">{{form.zipcode.label_tag}}</label>
-            <div class="grid-col-9">
+        <div class="usa-form-group">
+            <label for="zipcode" class="usa-label">{{form.zipcode.label_tag}}</label>
+            <div class="usa-input-group">
                 {{form.zipcode}}
             </div>
         </div>
 
-
-        <div class="form-group">
-            <label for="country" class="grid-col-3 control-label">{{form.country.label_tag}}</label>
-            <div class="grid-col-9">
+        <div class="usa-form-group">
+            <label for="country" class="usa-label">{{form.country.label_tag}}</label>
+            <div class="usa-input-group">
                 {{form.country}}
             </div>
         </div>
 
-        <h5 class="separator">Change Password</h5>
+        <h5 class="usa-heading">Change Password</h5>
 
-        <div class="form-group">
-            <label for="current_password" class="grid-col-3 control-label">{{form.current_password.label_tag}}</label>
-            <div class="grid-col-9">
+        <div class="usa-form-group">
+            <label for="current_password" class="usa-label">{{form.current_password.label_tag}}</label>
+            <div class="usa-input-group">
                 {{form.current_password}}
             </div>
         </div>
 
-        <div class="form-group">
-            <label for="password1" class="grid-col-3 control-label">{{form.password1.label_tag}}</label>
-            <div class="grid-col-9">
+        <div class="usa-form-group">
+            <label for="password1" class="usa-label">{{form.password1.label_tag}}</label>
+            <div class="usa-input-group">
                 {{form.password1}}
             </div>
         </div>
 
-        <div class="form-group">
-            <label for="password2" class="grid-col-3 control-label">{{form.password2.label_tag}}</label>
-            <div class="grid-col-9">
+        <div class="usa-form-group">
+            <label for="password2" class="usa-label">{{form.password2.label_tag}}</label>
+            <div class="usa-input-group">
                 {{form.password2}}
             </div>
         </div>
 
-        <div class="grid-row">
-            <div class="grid-col-9"> </div>
-            <div class="grid-col-3">
-                <input class="usa-button " type="submit" value="Save" />
-                <a class="usa-button usa-button--accent-warm" href="{% url 'profile' %}">Undo changes</a>
+        <div class="usa-grid-row">
+            <div class="usa-grid-col-9"> </div>
+            <div class="usa-grid-col-3">
+                <input class="usa-button usa-button--primary" type="submit" value="Save" />
+                <a class="usa-button usa-button--secondary" href="{% url 'profile' %}">Undo changes</a>
             </div>
         </div>
 

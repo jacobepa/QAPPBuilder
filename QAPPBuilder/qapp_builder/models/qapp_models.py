@@ -15,6 +15,13 @@ class Qapp(EpaBaseModel):
     def __str__(self):
         return self.title
 
+    def get_progress(self, section=None):
+        if not section:
+            return super().get_progress()
+        if not hasattr(self, section):
+            return 0
+        return getattr(self, section).get_progress()
+
 
 class QappSharingTeamMap(EpaBaseModel):
     """Mapping between QAPP and Teams they share."""

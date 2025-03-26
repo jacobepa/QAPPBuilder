@@ -1,4 +1,4 @@
-{% extends 'main/base.html' %}
+{% extends 'main/base_with_side_nav.html' %}
 
 {% block content %}
   <h2>{{ title }}</h2>
@@ -14,6 +14,6 @@
   <form method="post">
     {% csrf_token %}
     {{ form.as_epa }}
-    {% include 'create_buttons_partial.html' %}
+    {% include 'create_edit_buttons_partial.html' %}
   </form>
 {% endblock %}

@@ -1,4 +1,4 @@
-{% extends "main/base.html" %}
+{% extends "main/base_with_side_nav.html" %}
 {% load static %}
 
 {% block content %}
@@ -8,6 +8,6 @@
     {% csrf_token %}
     {{ form.as_epa }}
 
-    {% include 'edit_buttons_partial.html' %}
+    {% include 'create_edit_buttons_partial.html' %}
   </form>
 {% endblock %}

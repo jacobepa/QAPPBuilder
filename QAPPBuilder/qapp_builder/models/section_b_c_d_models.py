@@ -30,7 +30,8 @@ class SectionB(EpaBaseModel):
 
 class SectionB7(EpaBaseModel):
 
-    qapp = models.OneToOneField(Qapp, on_delete=models.CASCADE)
+    qapp = models.OneToOneField(Qapp, on_delete=models.CASCADE,
+                                related_name='section_b7')
     b71 = models.TextField(blank=False, null=False)
     b72 = models.TextField(blank=False, null=False)
     # B7.3 Includes Table 6:

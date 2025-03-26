@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.humanize',
     'django_extensions',
+    'simple_history',
     'accounts',
     'constants',
     'qapp_builder',
@@ -62,16 +63,22 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # Django model auditing/change tracking/history
+    'simple_history.middleware.HistoryRequestMiddleware',
+    # Custom middleware for rendering 401 unauthorized page
+    'qapp_builder.middleware.UnauthorizedMiddleware',
+
 ]
 
 ROOT_URLCONF = 'qapp_builder.urls'
+LOGIN_REDIRECT_URL = '/'
 
 # Template configuration
 # https://docs.djangoproject.com/en/2.1/topics/templates/
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

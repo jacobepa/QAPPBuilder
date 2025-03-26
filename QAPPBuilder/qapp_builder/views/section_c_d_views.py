@@ -3,6 +3,7 @@ import qapp_builder.forms.section_c_d_forms as forms
 from qapp_builder.models import SectionC, SectionD, SectionA1
 from qapp_builder.views.inheritable_views import SectionCreateBase, \
     SectionDetailBase, SectionUpdateBase
+from qapp_builder.views.progress_views import QAPP_PAGE_INDEX
 from constants.qapp_section_a_const import QA_CATEGORY_A
 from constants.qapp_section_c_d_const import SECTION_C, SECTION_D
 
@@ -15,6 +16,7 @@ class SectionCCreate(SectionCreateBase):
     previous_url_name = 'sectionb7_detail'
     detail_url_name = 'sectionc_detail'
     next_url_name = 'sectiond_detail'
+    current_page = QAPP_PAGE_INDEX['section-c']
 
     def form_valid(self, form):
         # Set the qapp field based on the URL path/PK
@@ -31,6 +33,7 @@ class SectionCDetail(SectionDetailBase):
     previous_url_name = 'sectionb7_detail'
     create_url_name = 'sectionc_create'
     next_url_name = 'sectiond_detail'
+    current_page = QAPP_PAGE_INDEX['section-c']
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -56,6 +59,7 @@ class SectionCUpdate(SectionUpdateBase):
     previous_url_name = 'sectionc_detail'
     detail_url_name = 'sectionc_detail'
     next_url_name = 'sectionc_detail'
+    current_page = QAPP_PAGE_INDEX['section-c']
 
 
 class SectionDCreate(SectionCreateBase):
@@ -66,6 +70,7 @@ class SectionDCreate(SectionCreateBase):
     previous_url_name = 'sectionc_detail'
     detail_url_name = 'sectiond_detail'
     next_url_name = 'qapp_detail'
+    current_page = QAPP_PAGE_INDEX['section-d']
 
     def form_valid(self, form):
         # Set the qapp field based on the URL path/PK
@@ -81,6 +86,7 @@ class SectionDUpdate(SectionUpdateBase):
     previous_url_name = 'sectiond_detail'
     detail_url_name = 'sectiond_detail'
     next_url_name = 'sectiond_detail'
+    current_page = QAPP_PAGE_INDEX['section-d']
 
     def get_success_url(self):
         return reverse(
@@ -96,3 +102,4 @@ class SectionDDetail(SectionDetailBase):
     edit_url_name = 'sectiond_edit'
     create_url_name = 'sectiond_create'
     next_url_name = 'qapp_detail'
+    current_page = QAPP_PAGE_INDEX['section-d']
