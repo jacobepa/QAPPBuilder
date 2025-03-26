@@ -2,7 +2,13 @@ from docx.shared import Pt, RGBColor
 from docx.enum.text import WD_ALIGN_PARAGRAPH
 from docx.oxml.ns import qn
 from docx.oxml import OxmlElement
+from reportlab.lib.colors import Color
 from reportlab.platypus import Spacer
+
+
+def hex_to_rgb(hex_color):
+    hex_color = hex_color.lstrip('#')
+    return tuple(int(hex_color[i:i + 2], 16) / 255.0 for i in (0, 2, 4))
 
 
 def parse_fy(fy):
@@ -83,7 +89,7 @@ def set_fake_header_style(paragraph, format_type='docx'):
         style.fontName = 'Helvetica'
         style.fontSize = 16
         style.leading = 16 * 1.2
-        style.textColor = '2F5496'
+        style.textColor = Color(*hex_to_rgb('2F5496'))
         return style
 
 
