@@ -70,25 +70,25 @@ def export_qapp_pdf(request, qapp_id):
     # Create the PDF document
     file_stream = BytesIO()
     c = canvas.Canvas(file_stream, pagesize=letter)
-    width, height = letter
+    # width, height = letter
 
     # Write the Sections A:
-    write_section_a1(qapp, c, width, height, format_type='pdf')
-    write_section_a2(qapp, c, width, height, format_type='pdf')
-    write_section_a3(qapp, c, width, height, format_type='pdf')
-    write_section_a4(qapp, c, width, height, format_type='pdf')
-    write_section_a5(qapp, c, width, height, format_type='pdf')
-    write_section_a6(qapp, c, width, height, format_type='pdf')
-    write_section_a7(qapp, c, width, height, format_type='pdf')
-    write_section_a8(qapp, c, width, height, format_type='pdf')
-    write_section_a9(qapp, c, width, height, format_type='pdf')
-    write_section_a10(qapp, c, width, height, format_type='pdf')
-    write_section_a11(qapp, c, width, height, format_type='pdf')
-    write_section_a12(qapp, c, width, height, format_type='pdf')
-    write_section_b(qapp, c, width, height, format_type='pdf')
-    write_section_b7(qapp, c, width, height, format_type='pdf')
-    write_section_c(qapp, c, width, height, format_type='pdf')
-    write_section_d(qapp, c, width, height, format_type='pdf')
+    write_section_a1(qapp, None, c, format_type='pdf')
+    write_section_a2(qapp, None, c, format_type='pdf')
+    write_section_a3(qapp, None, c, format_type='pdf')
+    write_section_a4(qapp, None, c, format_type='pdf')
+    write_section_a5(qapp, None, c, format_type='pdf')
+    write_section_a6(qapp, None, c, format_type='pdf')
+    write_section_a7(qapp, None, c, format_type='pdf')
+    write_section_a8(qapp, None, c, format_type='pdf')
+    write_section_a9(qapp, None, c, format_type='pdf')
+    write_section_a10(qapp, None, c, format_type='pdf')
+    write_section_a11(qapp, None, c, format_type='pdf')
+    write_section_a12(qapp, None, c, format_type='pdf')
+    write_section_b(qapp, None, c, format_type='pdf')
+    write_section_b7(qapp, None, c, format_type='pdf')
+    write_section_c(qapp, None, c, format_type='pdf')
+    write_section_d(qapp, None, c, format_type='pdf')
 
     # Save the PDF document
     c.save()
@@ -476,7 +476,7 @@ def write_section_a9(qapp, doc, c, format_type):
                   size=11)
 
 
-def write_section_a10(qapp, doc, c, format_type):
+def write_section_a10(qapp, doc, c: canvas.Canvas, format_type):
     section_a10 = SectionA10.objects.get(qapp_id=qapp.id)
     add_heading(doc,
                 c,

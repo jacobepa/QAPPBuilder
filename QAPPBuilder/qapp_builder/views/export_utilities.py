@@ -154,6 +154,8 @@ def add_table(doc, c, data, format_type, column_widths=None):
         table = doc.add_table(rows=len(data), cols=len(data[0]))
         table.style = 'Table Grid'
         if column_widths:
+            # NOTE: These widths must be integers, so cast them
+            column_widths = [int(x) for x in column_widths]
             for i, width in enumerate(column_widths):
                 table.columns[i].width = width
         for row_idx, row_data in enumerate(data):

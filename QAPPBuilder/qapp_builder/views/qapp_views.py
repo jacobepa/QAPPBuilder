@@ -20,7 +20,7 @@ from qapp_builder.forms.qapp_forms import QappForm, RevisionForm
 from qapp_builder.models import Qapp, QappSharingTeamMap, SectionA1, Revision, \
     SectionA2, SectionA4, SectionA5, SectionA6, SectionA10, SectionA11, \
     SectionB, SectionB7, SectionC, SectionD
-from qapp_builder.views.export_docx_views import export_qapp_docx, export_qapp_pdf
+from qapp_builder.views.export_views import export_qapp_docx, export_qapp_pdf
 from qapp_builder.views.inheritable_views import check_can_edit, \
     QappBuilderPrivateView
 from qapp_builder.views.progress_views import QAPP_PAGE_INDEX, \

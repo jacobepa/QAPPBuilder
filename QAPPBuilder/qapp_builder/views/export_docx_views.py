@@ -734,8 +734,3 @@ def write_section_d(qapp, doc):
     for section in sections_to_write:
         add_heading(doc, constants_c_d.SECTION_D[section]['header'], level=2)
         add_paragraph(doc, getattr(section_d, section), size=11)
-
-
-def export_qapp_pdf(request, qapp_id):
-
-    return
