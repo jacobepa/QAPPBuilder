@@ -23,6 +23,15 @@
             </i>
         </li>
     </div>
+    <div class="usa-button-group">
+        <li class="usa-button-group__item">
+            <select class="usa-button">
+                {% for hdw in hdw_defaults %}
+                <option value="{{hdw.Hardware}}"
+                {% endfor %}
+            </select>
+        </li>
+    </div>
     <table class="usa-table grid-col">
         <thead>
             <tr>

@@ -10,6 +10,7 @@ from django.urls import path
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include
+import django_saml2_auth.views
 import qapp_builder.views.qapp_views as qapp_views
 import qapp_builder.views.section_a_views as section_a_views
 import qapp_builder.views.section_b_views as section_b_views
@@ -44,6 +45,26 @@ sections_a_b = [
 
 
 urlpatterns = [
+    # ########################################################################
+    # Auth SAML
+    # ########################################################################
+    # SAML2 related URLs. You can change "^saml2_auth/" regex to # any path you
+    # want, like "^sso/", "^sso_auth/", "^sso_login/", etc. (required)
+    path('sso/', include('django_saml2_auth.urls')),
+
+    # The following line will replace default user login with SAML2 (optional)
+    # If you want to specific the after-login-redirect-URL,
+    # use parameter "?next=/the/path/you/want" with this view.
+    path('accounts/login/', django_saml2_auth.views.signin, name='login'),
+
+    # The following line will replace the admin login with SAML2 (optional)
+    # If you want to specific the after-login-redirect-URL, use parameter
+    # "?next=/the/path/you/want" with this view.
+    path('admin/login/', django_saml2_auth.views.signin),
+    # ########################################################################
+    # END Auth SAML
+    # ########################################################################
+
     path('admin/', admin.site.urls),
 
     path('', qapp_views.QappIndex.as_view(), name='home'),
@@ -191,7 +212,6 @@ urlpatterns = [
          name='sectionc_detail'),
     # ########################################################################
     # Begin other module import URLs.
-    path('accounts/', include('accounts.urls')),
     path('support/', include('support.urls')),
     path('teams/', include('teams.urls')),
 ]

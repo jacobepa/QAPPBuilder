@@ -9,7 +9,7 @@ from qapp_builder.models import SectionB, SectionB7, HardwareSoftware
 from qapp_builder.views.inheritable_views import SectionCreateBase, \
     SectionDetailBase, SectionUpdateBase
 from qapp_builder.views.progress_views import QAPP_PAGE_INDEX
-from constants.qapp_section_b_const import SECTION_B
+from constants.qapp_section_b_const import SECTION_B, HDW_SFW_OS_DEFAULTS
 
 
 class SectionBCreate(SectionCreateBase):
@@ -93,6 +93,7 @@ class SectionB7Detail(SectionDetailBase):
         context['b73_label'] = SectionB7().labels['b73']
         context['b74_label'] = SectionB7().labels['b74']
         context['b74_boilerplate'] = SECTION_B['b74']['boilerplate']
+        context['hdw_defaults'] = HDW_SFW_OS_DEFAULTS
         return context
 
 
