@@ -140,7 +140,7 @@ class TestViewAuthenticated(TestCase):
 
     def test_qapp_list_team(self):
         """Test the qapp list page for a Team."""
-        response = self.client.get('/qapp/list/team/1/')
+        response = self.client.get(f'/qapp/list/team/{self.team.id}/')
         self.assertContains(response, 'QUALITY ASSURANCE PROJECT PLAN', 1, 200)
         self.assertContains(response, 'Create a new QAPP', 1, 200)
         self.assertContains(response, 'View or Edit Existing QAPP', 1, 200)
@@ -150,17 +150,17 @@ class TestViewAuthenticated(TestCase):
 
     def test_check_can_edit_user_true(self):
         """Test the check_can_edit method when the user CAN edit."""
-        can_edit = check_can_edit(self.qapp, self.user)
+        can_edit, _ = check_can_edit(self.qapp, self.user)
         self.assertTrue(can_edit)
 
     def test_check_can_edit_team_true(self):
         """Test the check_can_edit method when the user team CAN edit."""
-        can_edit = check_can_edit(self.qapp, self.user1)
+        can_edit, _ = check_can_edit(self.qapp, self.user1)
         self.assertTrue(can_edit)
 
     def test_check_can_edit_false(self):
         """Test the check_can_edit method when the user CANNOT edit."""
-        can_edit = check_can_edit(self.qapp, self.user2)
+        can_edit, _ = check_can_edit(self.qapp, self.user2)
         self.assertFalse(can_edit)
 
     def test_qapp_update_get_allowed(self):
