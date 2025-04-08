@@ -15,9 +15,9 @@ from django.db.models.query import QuerySet, EmptyQuerySet
 from django.test import Client, TestCase
 from django.test.client import RequestFactory
 from django.contrib.auth.models import User
-from qapp_builder.models import Division, Qapp, QappSharingTeamMap
-from qapp_builder.forms import QappForm
-from qapp_builder.views import check_can_edit, get_qapp_all, QappEdit
+from qapp_builder.models import Qapp, QappSharingTeamMap
+from qapp_builder.forms.qapp_forms import QappForm
+from qapp_builder.views.qapp_views import check_can_edit, get_qapp_all, QappUpdate
 from teams.models import Team, TeamMembership
 
 
@@ -78,11 +78,11 @@ class TestViewAuthenticated(TestCase):
             can_edit=True
         )
         # Build some models to be used in this test class:
-        self.division = Division.objects.first()
+        self.division_name = 'Test Division'
         self.form = QappForm()
 
         self.qapp_dict = {
-            'division': self.division,
+            'division': self.division_name,
             'division_branch': 'Test',
             'title': 'Test',
             'qa_category': 'QA Category A',
@@ -123,7 +123,7 @@ class TestViewAuthenticated(TestCase):
         response = self.client.get('/qapp/list/user/1/')
         self.assertContains(response, 'QUALITY ASSURANCE PROJECT PLAN', 1, 200)
         self.assertContains(response, 'Create a new QAPP', 1, 200)
-        self.assertContains(response, 'View or Edit Existing QAPP', 1, 200)
+        self.assertContains(response, 'View or Update Existing QAPP', 1, 200)
         self.assertContains(response, 'Export All QAPP', 3, 200)
         self.assertContains(response, 'Export All QAPP to Word Doc', 1, 200)
         self.assertContains(response, 'Export All QAPP to PDF', 1, 200)
@@ -133,7 +133,7 @@ class TestViewAuthenticated(TestCase):
         response = self.client.get('/list/team/1/')
         self.assertContains(response, 'QUALITY ASSURANCE PROJECT PLAN', 1, 200)
         self.assertContains(response, 'Create a new QAPP', 1, 200)
-        self.assertContains(response, 'View or Edit Existing QAPP', 1, 200)
+        self.assertContains(response, 'View or Update Existing QAPP', 1, 200)
         self.assertContains(response, 'Export All QAPP', 3, 200)
         self.assertContains(response, 'Export All QAPP to Word Doc', 1, 200)
         self.assertContains(response, 'Export All QAPP to PDF', 1, 200)
@@ -153,9 +153,9 @@ class TestViewAuthenticated(TestCase):
         can_edit = check_can_edit(self.qapp, self.user2)
         self.assertFalse(can_edit)
 
-    def test_qapp_edit_get_allowed(self):
-        """Test the QappEdit view GET method with default (permitted) user."""
-        response = self.client.get('/edit/1/')
+    def test_qapp_update_get_allowed(self):
+        """Test the QappUpdate view GET method with default (permitted) user."""
+        response = self.client.get(f'/update/{self.qapp.id}/')
         self.assertContains(response, 'Division:', 1, 200)
         self.assertContains(response, 'Division Branch:', 1, 200)
         self.assertContains(response, 'Share With Teams:', 1, 200)
@@ -164,22 +164,25 @@ class TestViewAuthenticated(TestCase):
         self.assertContains(response, 'Reset', 1, 200)
         self.assertContains(response, 'Cancel', 1, 200)
 
-    def test_qapp_edit_get_denied(self):
-        """Test the QappEdit view GET method with non-permitted user."""
-        request = self.request_factory.get('/edit/1/')
+    def test_qapp_update_get_denied(self):
+        """Test the QappUpdate view GET method with non-permitted user."""
+        request = self.request_factory.get(f'/update/{self.qapp.id}/')
         request.user = self.user2
-        response = QappEdit.as_view()(request, pk=str(self.qapp.id))
+        response = QappUpdate.as_view()(request, pk=str(self.qapp.id))
         self.assertEqual(response.status_code, 302)
 
-    def test_qapp_edit_form_valid(self):
-        """Test the QappEdit form_valid method."""
+    def test_qapp_update_form_valid(self):
+        """Test the QappUpdate form_valid method."""
         data = self.qapp_dict.copy()
-        # When posting to form, the division should be ID not an object:
-        data['division'] = self.division.id
+        # Update the division name
+        data['division'] = 'Updated Division'
         # Existing qapp has team 1, replace it with team2:
         data['teams'] = f'{self.team2.id}'
-        response = self.client.post(f'/edit/{self.qapp.id}/', data=data)
+        response = self.client.post(f'/update/{self.qapp.id}/', data=data)
         self.assertEqual(response.status_code, 302)
+        # Verify the update
+        updated_qapp = Qapp.objects.get(id=self.qapp.id)
+        self.assertEqual(updated_qapp.division, 'Updated Division')
 
     def test_qapp_create_get(self):
         """Test the QappCreate view GET method."""
@@ -195,8 +198,6 @@ class TestViewAuthenticated(TestCase):
     def test_qapp_create_post(self):
         """Test the QappCreate view POST method."""
         data = self.qapp_dict.copy()
-        # When posting to form, the division should be ID not an object:
-        data['division'] = self.division.id
         data['teams'] = f'{self.team.id}'
         response = self.client.post('/create/', data=data)
         self.assertEqual(response.status_code, 302)
