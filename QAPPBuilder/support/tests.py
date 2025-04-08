@@ -18,6 +18,7 @@ from django.test.client import RequestFactory
 # from support.views import index, SuggestionEditView, create_help_request
 from support.views import create_help_request
 # from support.forms import SupportForm
+from teams.models import Team
 
 
 class TestSupport(TestCase):
@@ -30,6 +31,12 @@ class TestSupport(TestCase):
             username='testuser', password='12345')
         self.client.login(username='testuser', password='12345')
         self.factory = RequestFactory()
+        # Create a team with required fields
+        self.team = Team.objects.create(
+            name='Test Team',
+            created_by=self.user,
+            last_modified_by=self.user
+        )
 
     def test_home(self):
         """Test the home page."""

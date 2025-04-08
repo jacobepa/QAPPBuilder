@@ -14,6 +14,7 @@ Available functions:
 from django.test import Client, TestCase
 from django.contrib.auth.models import User
 from teams.forms import TeamManagementForm
+from teams.models import Team
 
 
 class TestTeams(TestCase):
@@ -26,6 +27,12 @@ class TestTeams(TestCase):
         self.user = User.objects.create_user(
             username='testuser', password='12345')
         self.client.login(username='testuser', password='12345')
+        # Create a team with required fields
+        self.team = Team.objects.create(
+            name='Test Team',
+            created_by=self.user,
+            last_modified_by=self.user
+        )
 
     def test_team_create_view_get(self):
         """Tests the Team Create View get method on an empty form."""
