@@ -121,27 +121,30 @@ class TestViewAuthenticated(TestCase):
     def test_qapp_index(self):
         """Test the qapp module index page."""
         response = self.client.get('/')
-        self.assertContains(response, 'QUALITY ASSURANCE PROJECT PLAN', 1, 200)
-        self.assertContains(response, 'View QAPP documents for...', 1, 200)
-        self.assertContains(response, 'or create a new QAPP...', 1, 200)
+        self.assertContains(
+            response, 'Quality Assurance (QA) Project Plan Development', 1, 200)
+        self.assertContains(response, 'New QAPP', 1, 200)
+        self.assertContains(response, 'New Team', 1, 200)
+        self.assertContains(response, 'View QAPPs by User', 1, 200)
+        self.assertContains(response, 'View QAPPs by Team', 1, 200)
 
     def test_qapp_list_user(self):
         """Test the qapp list page for a User."""
         response = self.client.get('/qapp/list/user/1/')
         self.assertContains(response, 'QUALITY ASSURANCE PROJECT PLAN', 1, 200)
         self.assertContains(response, 'Create a new QAPP', 1, 200)
-        self.assertContains(response, 'View or Update Existing QAPP', 1, 200)
-        self.assertContains(response, 'Export All QAPP', 3, 200)
+        self.assertContains(response, 'View or Edit Existing QAPP', 1, 200)
+        self.assertContains(response, 'Export All QAPP', 2, 200)
         self.assertContains(response, 'Export All QAPP to Word Doc', 1, 200)
         self.assertContains(response, 'Export All QAPP to PDF', 1, 200)
 
     def test_qapp_list_team(self):
         """Test the qapp list page for a Team."""
-        response = self.client.get('/list/team/1/')
+        response = self.client.get('/qapp/list/team/1/')
         self.assertContains(response, 'QUALITY ASSURANCE PROJECT PLAN', 1, 200)
         self.assertContains(response, 'Create a new QAPP', 1, 200)
-        self.assertContains(response, 'View or Update Existing QAPP', 1, 200)
-        self.assertContains(response, 'Export All QAPP', 3, 200)
+        self.assertContains(response, 'View or Edit Existing QAPP', 1, 200)
+        self.assertContains(response, 'Export All QAPP', 2, 200)
         self.assertContains(response, 'Export All QAPP to Word Doc', 1, 200)
         self.assertContains(response, 'Export All QAPP to PDF', 1, 200)
 
@@ -161,23 +164,23 @@ class TestViewAuthenticated(TestCase):
         self.assertFalse(can_edit)
 
     def test_qapp_update_get_allowed(self):
-        """Test the QappUpdate view GET method with default (permitted) user."""
+        """Test the QappEdit view GET method with default (permitted) user."""
         response = self.client.get(f'/qapp/{self.qapp.id}/edit/')
-        self.assertContains(response, 'Title:', 1, 200)
-        self.assertContains(response, 'Share With Teams:', 1, 200)
+        self.assertContains(response, 'Title', 1, 200)
+        self.assertContains(response, 'Share With Teams', 1, 200)
         self.assertContains(response, 'Save', 1, 200)
         self.assertContains(response, 'Reset', 1, 200)
         self.assertContains(response, 'Cancel', 1, 200)
 
     def test_qapp_update_get_denied(self):
-        """Test the QappUpdate view GET method with non-permitted user."""
+        """Test the QappEdit view GET method with non-permitted user."""
         request = self.request_factory.get(f'/qapp/{self.qapp.id}/edit/')
         request.user = self.user2
         response = QappEdit.as_view()(request, pk=str(self.qapp.id))
         self.assertEqual(response.status_code, 403)
 
     def test_qapp_update_form_valid(self):
-        """Test the QappUpdate form_valid method."""
+        """Test the QappEdit form_valid method."""
         data = {
             'title': 'Updated QAPP Title',
             'teams': [self.team2.id]
@@ -192,8 +195,8 @@ class TestViewAuthenticated(TestCase):
     def test_qapp_create_get(self):
         """Test the QappCreate view GET method."""
         response = self.client.get('/qapp/create/')
-        self.assertContains(response, 'Title:', 1, 200)
-        self.assertContains(response, 'Share With Teams:', 1, 200)
+        self.assertContains(response, 'Title', 1, 200)
+        self.assertContains(response, 'Share With Teams', 1, 200)
         self.assertContains(response, 'Save', 1, 200)
         self.assertContains(response, 'Reset', 1, 200)
         self.assertContains(response, 'Cancel', 1, 200)
@@ -215,8 +218,8 @@ class TestViewAuthenticated(TestCase):
         This should render the create page again.
         """
         response = self.client.post('/qapp/create/', data={})
-        self.assertContains(response, 'Title:', 1, 200)
-        self.assertContains(response, 'Share With Teams:', 1, 200)
+        self.assertContains(response, 'Title', 1, 200)
+        self.assertContains(response, 'Share With Teams', 1, 200)
         self.assertContains(response, 'Save', 1, 200)
         self.assertContains(response, 'Reset', 1, 200)
         self.assertContains(response, 'Cancel', 1, 200)
@@ -224,38 +227,33 @@ class TestViewAuthenticated(TestCase):
     def test_qapp_edit(self):
         response = self.client.get(f'/qapp/{self.qapp.pk}/edit/')
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'qapp_builder/qapp_edit.html')
+        self.assertTemplateUsed(response, 'qapp/qapp_form.html')
 
     def test_qapp_edit_form_valid(self):
         response = self.client.post(
             f'/qapp/{self.qapp.pk}/edit/',
             {
                 'title': 'Updated QAPP',
-                'description': 'Updated description'
             }
         )
         self.assertEqual(response.status_code, 302)
         self.qapp.refresh_from_db()
         self.assertEqual(self.qapp.title, 'Updated QAPP')
-        self.assertEqual(
-            self.qapp.description,
-            'Updated description'
-        )
 
     def test_qapp_detail(self):
         response = self.client.get(
-            f'/qapp/{self.qapp.pk}/'
+            f'/qapp/{self.qapp.pk}/detail/'
         )
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(
             response,
-            'qapp_builder/qapp_detail.html'
+            'qapp/qapp_detail.html'
         )
 
     def test_qapp_create(self):
         response = self.client.get('/qapp/create/')
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'qapp_builder/qapp_create.html')
+        self.assertTemplateUsed(response, 'qapp/qapp_form.html')
 
     def test_qapp_create_form_valid(self):
         response = self.client.post(
