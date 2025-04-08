@@ -17,6 +17,7 @@ import qapp_builder.views.section_b_views as section_b_views
 import qapp_builder.views.section_c_d_views as section_c_d_views
 import qapp_builder.views.table_based_model_views as table_views
 from qapp_builder.settings import MEDIA_ROOT, MEDIA_URL
+from qapp_builder.views.qapp_views import QappEdit, QappDetail, QappCreateView
 
 sections_a_b = [
     ('section-a1', section_a_views.SectionA1Create,
@@ -76,28 +77,15 @@ urlpatterns = [
 
     # ###################################################################
     # QAPP URLs ---------------------------------------------------------
-    path('qapp/list/user/<int:user_id>/',
-         qapp_views.QappList.as_view(),
-         name='qapp_list_user'),
-    path('qapp/list/team/<int:team_id>/',
-         qapp_views.QappList.as_view(),
-         name='qapp_list_team'),
-    path('qapp/create/',
-         qapp_views.QappCreateView.as_view(),
-         name='qapp_create'),
-    path('qapp/<int:pk>/detail/',
-         qapp_views.QappDetail.as_view(),
-         name='qapp_detail'),
+    path('qapp/<int:pk>/edit/', QappEdit.as_view(), name='qapp_edit'),
+    path('qapp/<int:pk>/detail/', QappDetail.as_view(), name='qapp_detail'),
+    path('qapp/create/', QappCreateView.as_view(), name='qapp_create'),
+    path('qapp/list/user/<int:user_id>/', qapp_views.QappList.as_view(), name='qapp_list_user'),
+    path('qapp/list/team/<int:team_id>/', qapp_views.QappList.as_view(), name='qapp_list_team'),
     path('qapp/<int:qapp_id>/detail/',
          qapp_views.QappDetail.as_view(),
          name='qapp_detail'),
-    path('qapp/<int:pk>/edit/',
-         qapp_views.QappUpdate.as_view(),
-         name='qapp_edit'),
-    path('qapp/<int:qapp_id>/edit/',
-         qapp_views.QappUpdate.as_view(),
-         name='qapp_edit'),
-    path('qapp/<int:pk>/delete/',
+    path('qapp/<int:qapp_id>/delete/',
          qapp_views.QappDelete.as_view(),
          name='qapp_delete'),
     # QAPP Exports ------------------------------------------------------

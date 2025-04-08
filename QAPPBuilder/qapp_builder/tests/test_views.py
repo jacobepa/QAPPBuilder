@@ -15,9 +15,11 @@ from django.db.models.query import QuerySet, EmptyQuerySet
 from django.test import Client, TestCase
 from django.test.client import RequestFactory
 from django.contrib.auth.models import User
-from qapp_builder.models import Qapp, QappSharingTeamMap
+from qapp_builder.models import Qapp, QappSharingTeamMap, SectionA1
 from qapp_builder.forms.qapp_forms import QappForm
-from qapp_builder.views.qapp_views import check_can_edit, get_qapp_all, QappUpdate
+from qapp_builder.views.qapp_views import (
+    check_can_edit, get_qapp_all, QappEdit
+)
 from teams.models import Team, TeamMembership
 
 
@@ -78,22 +80,27 @@ class TestViewAuthenticated(TestCase):
             can_edit=True
         )
         # Build some models to be used in this test class:
-        self.division_name = 'Test Division'
         self.form = QappForm()
 
-        self.qapp_dict = {
-            'division': self.division_name,
-            'division_branch': 'Test',
-            'title': 'Test',
-            'qa_category': 'QA Category A',
-            'intra_extra': 'Intramural',
-            'revision_number': '1',
-            'date': datetime.now(),
-            'prepared_by': self.user,
-            'strap': 'Test',
-            'tracking_id': 'Test'
-        }
-        self.qapp = Qapp.objects.create(**self.qapp_dict)
+        # Create Qapp with required fields
+        self.qapp = Qapp.objects.create(
+            title='Test QAPP',
+            created_by=self.user
+        )
+
+        # Create SectionA1 with the additional fields
+        self.section_a1 = SectionA1.objects.create(
+            qapp=self.qapp,
+            ord_center='Center for Environmental Solutions & Emergency Response',
+            division='Test Division',
+            branch='Test Branch',
+            ord_national_program='Test Program',
+            version_date=datetime.now().date(),
+            proj_qapp_id='Test ID',
+            qa_category='A',
+            intra_or_extra='Intramurally'
+        )
+
         self.dat_team_map = QappSharingTeamMap.objects.create(
             qapp=self.qapp,
             team=self.team,
@@ -155,51 +162,49 @@ class TestViewAuthenticated(TestCase):
 
     def test_qapp_update_get_allowed(self):
         """Test the QappUpdate view GET method with default (permitted) user."""
-        response = self.client.get(f'/update/{self.qapp.id}/')
-        self.assertContains(response, 'Division:', 1, 200)
-        self.assertContains(response, 'Division Branch:', 1, 200)
+        response = self.client.get(f'/qapp/{self.qapp.id}/edit/')
+        self.assertContains(response, 'Title:', 1, 200)
         self.assertContains(response, 'Share With Teams:', 1, 200)
-        self.assertContains(response, 'Teams can edit the QAPP:', 1, 200)
         self.assertContains(response, 'Save', 1, 200)
         self.assertContains(response, 'Reset', 1, 200)
         self.assertContains(response, 'Cancel', 1, 200)
 
     def test_qapp_update_get_denied(self):
         """Test the QappUpdate view GET method with non-permitted user."""
-        request = self.request_factory.get(f'/update/{self.qapp.id}/')
+        request = self.request_factory.get(f'/qapp/{self.qapp.id}/edit/')
         request.user = self.user2
-        response = QappUpdate.as_view()(request, pk=str(self.qapp.id))
-        self.assertEqual(response.status_code, 302)
+        response = QappEdit.as_view()(request, pk=str(self.qapp.id))
+        self.assertEqual(response.status_code, 403)
 
     def test_qapp_update_form_valid(self):
         """Test the QappUpdate form_valid method."""
-        data = self.qapp_dict.copy()
-        # Update the division name
-        data['division'] = 'Updated Division'
-        # Existing qapp has team 1, replace it with team2:
-        data['teams'] = f'{self.team2.id}'
-        response = self.client.post(f'/update/{self.qapp.id}/', data=data)
+        data = {
+            'title': 'Updated QAPP Title',
+            'teams': [self.team2.id]
+        }
+        response = self.client.post(f'/qapp/{self.qapp.id}/edit/', data=data)
         self.assertEqual(response.status_code, 302)
         # Verify the update
         updated_qapp = Qapp.objects.get(id=self.qapp.id)
-        self.assertEqual(updated_qapp.division, 'Updated Division')
+        self.assertEqual(updated_qapp.title, 'Updated QAPP Title')
+        self.assertTrue(updated_qapp.teams.filter(id=self.team2.id).exists())
 
     def test_qapp_create_get(self):
         """Test the QappCreate view GET method."""
-        response = self.client.get('/create/')
-        self.assertContains(response, 'Office of Research and Development', 1, 200)
-        self.assertContains(
-            response,
-            'Center for Environmental Solutions & Emergency Response', 1, 200)
-        self.assertContains(response, 'Next Page', 1, 200)
+        response = self.client.get('/qapp/create/')
+        self.assertContains(response, 'Title:', 1, 200)
+        self.assertContains(response, 'Share With Teams:', 1, 200)
+        self.assertContains(response, 'Save', 1, 200)
         self.assertContains(response, 'Reset', 1, 200)
         self.assertContains(response, 'Cancel', 1, 200)
 
     def test_qapp_create_post(self):
         """Test the QappCreate view POST method."""
-        data = self.qapp_dict.copy()
-        data['teams'] = f'{self.team.id}'
-        response = self.client.post('/create/', data=data)
+        data = {
+            'title': 'New QAPP',
+            'teams': [self.team.id]
+        }
+        response = self.client.post('/qapp/create/', data=data)
         self.assertEqual(response.status_code, 302)
         self.assertEqual(Qapp.objects.count(), 2)
 
@@ -209,11 +214,56 @@ class TestViewAuthenticated(TestCase):
 
         This should render the create page again.
         """
-        response = self.client.post('/create/', data={})
-        self.assertContains(response, 'Office of Research and Development', 1, 200)
-        self.assertContains(
-            response,
-            'Center for Environmental Solutions & Emergency Response', 1, 200)
-        self.assertContains(response, 'Next Page', 1, 200)
+        response = self.client.post('/qapp/create/', data={})
+        self.assertContains(response, 'Title:', 1, 200)
+        self.assertContains(response, 'Share With Teams:', 1, 200)
+        self.assertContains(response, 'Save', 1, 200)
         self.assertContains(response, 'Reset', 1, 200)
         self.assertContains(response, 'Cancel', 1, 200)
+
+    def test_qapp_edit(self):
+        response = self.client.get(f'/qapp/{self.qapp.pk}/edit/')
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'qapp_builder/qapp_edit.html')
+
+    def test_qapp_edit_form_valid(self):
+        response = self.client.post(
+            f'/qapp/{self.qapp.pk}/edit/',
+            {
+                'title': 'Updated QAPP',
+                'description': 'Updated description'
+            }
+        )
+        self.assertEqual(response.status_code, 302)
+        self.qapp.refresh_from_db()
+        self.assertEqual(self.qapp.title, 'Updated QAPP')
+        self.assertEqual(
+            self.qapp.description,
+            'Updated description'
+        )
+
+    def test_qapp_detail(self):
+        response = self.client.get(
+            f'/qapp/{self.qapp.pk}/'
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(
+            response,
+            'qapp_builder/qapp_detail.html'
+        )
+
+    def test_qapp_create(self):
+        response = self.client.get('/qapp/create/')
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'qapp_builder/qapp_create.html')
+
+    def test_qapp_create_form_valid(self):
+        response = self.client.post(
+            '/qapp/create/',
+            {
+                'title': 'New QAPP',
+                'description': 'New description'
+            }
+        )
+        self.assertEqual(response.status_code, 302)
+        self.assertTrue(Qapp.objects.filter(title='New QAPP').exists())

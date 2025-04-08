@@ -201,7 +201,7 @@ class QappDetail(QappBuilderPrivateView, DetailView):
         return context
 
 
-class QappUpdate(QappBuilderPrivateView, UpdateView):
+class QappEdit(QappBuilderPrivateView, UpdateView):
     """Class for editing an existing (newly created) QAPP."""
 
     model = Qapp
@@ -210,8 +210,11 @@ class QappUpdate(QappBuilderPrivateView, UpdateView):
 
     def dispatch(self, request, *args, **kwargs):
         qapp = get_object_or_404(Qapp, id=self.kwargs['pk'])
-        if not check_can_edit(qapp, request.user):
-            return HttpResponse('Unauthorized', status=401)
+        can_edit, response = check_can_edit(qapp, request.user)
+        if response:  # User is not authenticated, redirect to login
+            return response
+        if not can_edit:  # User is authenticated but not authorized
+            return HttpResponse('Forbidden', status=403)
         return super().dispatch(request, *args, **kwargs)
 
     def get_success_url(self):
@@ -233,8 +236,11 @@ class QappDelete(QappBuilderPrivateView, DeleteView):
 
     def dispatch(self, request, *args, **kwargs):
         qapp = get_object_or_404(Qapp, id=self.kwargs['pk'])
-        if not check_can_edit(qapp, request.user):
-            return HttpResponse('Unauthorized', status=401)
+        can_edit, response = check_can_edit(qapp, request.user)
+        if response:  # User is not authenticated, redirect to login
+            return response
+        if not can_edit:  # User is authenticated but not authorized
+            return HttpResponse('Forbidden', status=403)
         return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
