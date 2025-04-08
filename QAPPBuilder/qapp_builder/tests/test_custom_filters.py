@@ -5,29 +5,44 @@
 from django.test import TestCase
 from django import forms
 from django.utils.safestring import SafeString
+from django.contrib.auth.models import User
 
 from qapp_builder.templatetags.custom_filters import as_epa, render_detail
-from qapp_builder.models import SectionA1
+from qapp_builder.models import Qapp, SectionA1
+
+
+class TestForm(forms.Form):
+    """Test form for testing custom filters."""
+    test_field = forms.CharField(
+        label='Test Field',
+        required=True
+    )
 
 
 class TestCustomFilters(TestCase):
-    """Tests for custom template filters in qapp_builder/templatetags/custom_filters.py."""
+    """Tests for custom template filters."""
 
     def setUp(self):
         """Set up test data."""
-        # Create a test form field
-        class TestForm(forms.Form):
-            test_field = forms.CharField(
-                label='Test Field',
-                required=True
-            )
+        # Create a test user
+        self.user = User.objects.create_user(
+            username='testuser',
+            password='12345'
+        )
 
+        # Create a test QAPP
+        self.qapp = Qapp.objects.create(
+            title='Test QAPP',
+            created_by=self.user
+        )
+
+        # Create a test form field
         self.form = TestForm()
         self.field = self.form['test_field']
 
         # Create a test model instance
         self.section_a1 = SectionA1.objects.create(
-            qapp_id=1,
+            qapp=self.qapp,
             ord_center='Test Center',
             division='Test Division',
             branch='Test Branch',
@@ -55,10 +70,15 @@ class TestCustomFilters(TestCase):
 
     def test_as_epa_with_errors(self):
         """Test as_epa filter with errors."""
-        # Add errors to the field
-        self.field.errors = ['This field is required']
+        # Create a form with errors
+        form_data = {'test_field': ''}
+        form = TestForm(data=form_data)
+        form.is_valid()  # This will trigger validation and set errors
 
-        result = as_epa(self.field)
+        # Get the field with errors
+        field_with_errors = form['test_field']
+
+        result = as_epa(field_with_errors)
 
         # Check result is a SafeString
         self.assertIsInstance(result, SafeString)

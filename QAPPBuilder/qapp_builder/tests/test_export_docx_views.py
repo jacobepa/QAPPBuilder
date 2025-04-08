@@ -4,7 +4,6 @@
 
 from django.test import TestCase, Client
 from django.contrib.auth.models import User
-from django.urls import reverse
 from qapp_builder.models import Qapp, SectionA1
 from teams.models import Team, TeamMembership
 from docx import Document
@@ -68,9 +67,7 @@ class TestExportDocxViews(TestCase):
 
     def test_export_qapp_docx_authenticated(self):
         """Test exporting QAPP as DOCX when authenticated."""
-        response = self.client.get(
-            reverse('export_qapp_docx', args=[self.qapp.id])
-        )
+        response = self.client.get(f'/qapp/{self.qapp.id}/export/?format=docx')
 
         # Check response status code
         self.assertEqual(response.status_code, 200)
@@ -103,9 +100,7 @@ class TestExportDocxViews(TestCase):
         # Logout the client
         self.client.logout()
 
-        response = self.client.get(
-            reverse('export_qapp_docx', args=[self.qapp.id])
-        )
+        response = self.client.get(f'/qapp/{self.qapp.id}/export/?format=docx')
 
         # Should redirect to login page
         self.assertEqual(response.status_code, 302)
@@ -113,18 +108,13 @@ class TestExportDocxViews(TestCase):
 
     def test_export_qapp_docx_nonexistent(self):
         """Test exporting non-existent QAPP."""
-        response = self.client.get(
-            reverse('export_qapp_docx', args=[999])
-        )
-
+        response = self.client.get('/qapp/-1/export/?format=docx')
         # Should return 404
         self.assertEqual(response.status_code, 404)
 
     def test_export_qapp_docx_content(self):
         """Test the content of the exported DOCX file."""
-        response = self.client.get(
-            reverse('export_qapp_docx', args=[self.qapp.id])
-        )
+        response = self.client.get(f'/qapp/{self.qapp.id}/export/?format=docx')
 
         doc = Document(BytesIO(response.content))
 
