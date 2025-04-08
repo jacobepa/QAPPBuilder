@@ -3,9 +3,9 @@
 # coding=utf-8
 
 from django.test import TestCase, Client, RequestFactory
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, AnonymousUser
 from django.urls import reverse
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.views.generic import TemplateView
 
 from qapp_builder.models import Qapp, SectionA1, QappSharingTeamMap
@@ -81,7 +81,10 @@ class TestInheritableViews(TestCase):
 
     def test_check_can_edit_unauthenticated(self):
         """Test check_can_edit with unauthenticated user."""
-        can_edit, response = check_can_edit(self.qapp, self.user2)
+        # Create an unauthenticated user
+        unauthenticated_user = AnonymousUser()
+
+        can_edit, response = check_can_edit(self.qapp, unauthenticated_user)
 
         self.assertFalse(can_edit)
         self.assertIsInstance(response, HttpResponseRedirect)
@@ -199,8 +202,12 @@ class TestInheritableViews(TestCase):
 
         # Test dispatch with nonexistent object
         view.kwargs = {'qapp_id': 999}
-        response = view.dispatch(request)
-        self.assertIsInstance(response, HttpResponse)
+        try:
+            response = view.dispatch(request)
+            self.fail("Expected Http404 exception")
+        except Http404:
+            # This is expected
+            pass
 
     def test_section_update_base(self):
         """Test SectionUpdateBase."""
