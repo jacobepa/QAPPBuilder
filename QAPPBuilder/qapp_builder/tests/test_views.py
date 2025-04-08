@@ -247,7 +247,7 @@ class TestViewAuthenticated(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(
             response,
-            'qapp/qapp_detail.html'
+            'qapp/qapp_overview.html'
         )
 
     def test_qapp_create(self):
