@@ -118,7 +118,9 @@ class QappTestMixin:
             qapp = self.create_test_qapp(user)
         return SectionA5.objects.create(
             qapp=qapp,
-            tasks_summary='Test Summary'
+            tasks_summary='Test Summary',
+            start_fy=25,
+            start_q=1
         )
 
     def create_test_section_a6(self, qapp=None, user=None):

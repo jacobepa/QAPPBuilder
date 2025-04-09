@@ -3,67 +3,38 @@
 # coding=utf-8
 
 from django.test import TestCase, Client
-from django.contrib.auth.models import User
-from qapp_builder.models import Qapp, SectionA1
-from teams.models import Team, TeamMembership
 from docx import Document
 from io import BytesIO
 import constants.qapp_section_a_const as constants_a
+from qapp_builder.tests.mixins import QappTestMixin
 
 
-class TestExportDocxViews(TestCase):
+class TestExportDocxViews(QappTestMixin, TestCase):
     """Tests for the export_docx_views module."""
 
     def setUp(self):
         """Set up test data."""
-        # Create test users
-        self.user1 = User.objects.create_user(
-            username='testuser1',
-            password='12345'
-        )
-        self.user2 = User.objects.create_user(
-            username='testuser2',
-            password='12345'
-        )
+        # Create test user and QAPP
+        self.user = self.create_test_user()
+        self.qapp = self.create_test_qapp(self.user)
 
-        # Create test team
-        self.team = Team.objects.create(
-            created_by=self.user1,
-            name='testteam',
-            last_modified_by=self.user1
-        )
-
-        # Create team membership
-        TeamMembership.objects.create(
-            member=self.user1,
-            team=self.team,
-            is_owner=True,
-            can_edit=True
-        )
-
-        # Create test QAPP
-        self.qapp = Qapp.objects.create(
-            title='Test QAPP',
-            created_by=self.user1
-        )
-
-        # Create SectionA1 for the QAPP
-        self.section_a1 = SectionA1.objects.create(
-            qapp=self.qapp,
-            ord_center='Test Center',
-            division='Test Division',
-            branch='Test Branch',
-            ord_national_program='Test Program',
-            version_date='2024-01-01',
-            proj_qapp_id='TEST-001',
-            qa_category='A',
-            intra_or_extra=constants_a.INTRAMURALLY,
-            accessibility=True
-        )
+        # Create all test sections
+        sections = self.create_all_test_sections(self.qapp)
+        self.section_a1 = sections['section_a1']
+        self.section_a2 = sections['section_a2']
+        self.section_a4 = sections['section_a4']
+        self.section_a5 = sections['section_a5']
+        self.section_a6 = sections['section_a6']
+        self.section_a10 = sections['section_a10']
+        self.section_a11 = sections['section_a11']
+        self.section_b = sections['section_b']
+        self.section_b7 = sections['section_b7']
+        self.section_c = sections['section_c']
+        self.section_d = sections['section_d']
 
         # Set up client
         self.client = Client()
-        self.client.login(username='testuser1', password='12345')
+        self.client.login(username='testuser', password='12345')
 
     def test_export_qapp_docx_authenticated(self):
         """Test exporting QAPP as DOCX when authenticated."""
@@ -73,10 +44,8 @@ class TestExportDocxViews(TestCase):
         self.assertEqual(response.status_code, 200)
 
         # Check content type
-        self.assertEqual(
-            response['Content-Type'],
-            'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
-        )
+        content_type = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+        self.assertEqual(response['Content-Type'], content_type)
 
         # Check filename
         expected_filename = f'{self.qapp.title} - {constants_a.QAPP_STR}.docx'
@@ -92,8 +61,31 @@ class TestExportDocxViews(TestCase):
         self.assertTrue(len(doc.paragraphs) > 0)
 
         # Check for section headers
-        section_headers = [p.text for p in doc.paragraphs if p.style.name.startswith('Heading')]
-        self.assertTrue(any('Section A' in header for header in section_headers))
+        section_headers = []
+        for paragraph in doc.paragraphs:
+            # Check if paragraph is a heading
+            if paragraph.style.name.startswith('Heading'):
+                section_headers.append(paragraph.text)
+
+        # Verify we found at least one section header
+        self.assertTrue(len(section_headers) > 0, "No section headers found in document")
+
+        # Check for specific section headers
+        expected_headers = [
+            'A1: Title Page',
+            'A2: Approval Page',
+            'A3: Table of Contents'
+        ]
+
+        found_headers = [
+            header for header in expected_headers
+            if any(header in h for h in section_headers)
+        ]
+
+        self.assertTrue(
+            len(found_headers) > 0,
+            f"No expected section headers found. Expected one of: {expected_headers}"
+        )
 
     def test_export_qapp_docx_unauthenticated(self):
         """Test exporting QAPP as DOCX when not authenticated."""
