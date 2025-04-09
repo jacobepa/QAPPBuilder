@@ -27,19 +27,19 @@ class SupportForm(ModelForm):
     id = CharField(
         label=_("Reference Num"),
         widget=TextInput(
-            attrs={'class': 'form-control', 'readonly': 'readonly'}),
+            attrs={'class': 'usa-input', 'readonly': 'readonly'}),
         required=False)
     subject = CharField(
-        label=_("Subject"), widget=TextInput(attrs={'class': 'form-control'}),
+        label=_("Subject"), widget=TextInput(attrs={'class': 'usa-input'}),
         required=True)
 
     the_description = CharField(
         label=_("Description"),
-        widget=Textarea(attrs={'class': 'form-control'}),
+        widget=Textarea(attrs={'class': 'usa-textarea'}),
         required=True)
     weblink = CharField(
         label=_("Email Address"),
-        widget=TextInput(attrs={'class': 'form-control'}),
+        widget=TextInput(attrs={'class': 'usa-input'}),
         required=True)
 
     class Meta:
@@ -61,26 +61,26 @@ class SupportAdminForm(ModelForm):
     id = CharField(
         label=_("Reference Num"),
         widget=TextInput(
-            attrs={'class': 'form-control', 'readonly': 'readonly'}),
+            attrs={'class': 'usa-input', 'readonly': 'readonly'}),
         required=False)
     subject = CharField(
-        label=_("Subject"), widget=TextInput(attrs={'class': 'form-control'}),
+        label=_("Subject"), widget=TextInput(attrs={'class': 'usa-input'}),
         required=True)
     date_resolved = DateField(
         label=_("Date Resolved"),
-        widget=TextInput(attrs={'class': 'form-control date-control'}),
+        widget=TextInput(attrs={'class': 'usa-input date-control'}),
         required=False)
     the_description = CharField(
         label=_("Description"),
-        widget=Textarea(attrs={'class': 'form-control'}),
+        widget=Textarea(attrs={'class': 'usa-textarea'}),
         required=True)
     weblink = CharField(
         label=_("Email Address"),
-        widget=TextInput(attrs={'class': 'form-control'}),
+        widget=TextInput(attrs={'class': 'usa-input'}),
         required=True)
     review_notes = CharField(
         label=_("Review Notes"),
-        widget=Textarea(attrs={'class': 'form-control'}),
+        widget=Textarea(attrs={'class': 'usa-textarea'}),
         help_text="Notes from review of suggestion", required=False)
 
     class Meta:
@@ -102,7 +102,7 @@ class SupportTypeForm(ModelForm):
     required_css_class = 'required'
     the_name = CharField(
         label=_("Support Type"),
-        widget=TextInput(attrs={'class': 'form-control'}),
+        widget=TextInput(attrs={'class': 'usa-input'}),
         required=False)
 
     class Meta:
@@ -121,7 +121,7 @@ class PriorityForm(ModelForm):
 
     the_name = CharField(
         label=_("Priority"),
-        widget=TextInput(attrs={'class': 'form-control'}),
+        widget=TextInput(attrs={'class': 'usa-input'}),
         required=False)
 
     class Meta:
