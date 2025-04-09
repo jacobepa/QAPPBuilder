@@ -1,5 +1,6 @@
 {% extends "base/site_base_support.html" %}
 {% block support_content %}
+{% load custom_filters %}
 
 <h3>{{title}}</h3>
 <div class="text-base text-gray-600 margin-bottom-4">
@@ -24,23 +25,10 @@
     {% endif %}
 
     {% for field in form %}
-    <div class="usa-form-group">
-        <label class="usa-label" for="{{ field.id_for_label }}">
-            {{field.label}}
-            {% if field.help_text %}
-            <span class="usa-hint">{{field.help_text}}</span>
-            {% endif %}
-        </label>
-        <div class="usa-input-group">
-            {{field}}
-        </div>
-        {% if field.errors %}
-        <div class="usa-error-message">{{field.errors.as_text}}</div>
-        {% endif %}
-    </div>
+        {{ field|as_epa }}
     {% endfor %}
 
-    <div class="usa-form-group">
+    <div class="usa-form-group margin-top-4">
         <button type="submit" class="usa-button">Save</button>
     </div>
 </form>

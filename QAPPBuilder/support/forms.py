@@ -30,12 +30,13 @@ class SupportForm(ModelForm):
             attrs={'class': 'usa-input', 'readonly': 'readonly'}),
         required=False)
     subject = CharField(
-        label=_("Subject"), widget=TextInput(attrs={'class': 'usa-input'}),
+        label=_("Subject"),
+        widget=TextInput(attrs={'class': 'usa-input'}),
         required=True)
 
     the_description = CharField(
         label=_("Description"),
-        widget=Textarea(attrs={'class': 'usa-textarea'}),
+        widget=Textarea(attrs={'class': 'usa-textarea', 'rows': '5'}),
         required=True)
     weblink = CharField(
         label=_("Email Address"),
@@ -64,7 +65,8 @@ class SupportAdminForm(ModelForm):
             attrs={'class': 'usa-input', 'readonly': 'readonly'}),
         required=False)
     subject = CharField(
-        label=_("Subject"), widget=TextInput(attrs={'class': 'usa-input'}),
+        label=_("Subject"),
+        widget=TextInput(attrs={'class': 'usa-input'}),
         required=True)
     date_resolved = DateField(
         label=_("Date Resolved"),
@@ -72,7 +74,7 @@ class SupportAdminForm(ModelForm):
         required=False)
     the_description = CharField(
         label=_("Description"),
-        widget=Textarea(attrs={'class': 'usa-textarea'}),
+        widget=Textarea(attrs={'class': 'usa-textarea', 'rows': '5'}),
         required=True)
     weblink = CharField(
         label=_("Email Address"),
@@ -80,8 +82,9 @@ class SupportAdminForm(ModelForm):
         required=True)
     review_notes = CharField(
         label=_("Review Notes"),
-        widget=Textarea(attrs={'class': 'usa-textarea'}),
-        help_text="Notes from review of suggestion", required=False)
+        widget=Textarea(attrs={'class': 'usa-textarea', 'rows': '5'}),
+        help_text="Notes from review of suggestion",
+        required=False)
 
     class Meta:
         """All fields to complete support form."""

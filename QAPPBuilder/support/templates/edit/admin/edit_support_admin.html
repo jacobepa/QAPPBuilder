@@ -1,5 +1,6 @@
 {% extends "base/site_base_support.html" %}
 {% block support_content %}
+{% load custom_filters %}
 
         <script>
         $(function () {
@@ -102,115 +103,81 @@
 
 <h3>Edit Suggestion (Admin):</h3>
 
-<form class="form-horizontal" enctype="multipart/form-data" method="post" action="." role="form" novalidate>
+<form class="usa-form" enctype="multipart/form-data" method="post" action="." role="form" novalidate>
 
 
     {% csrf_token %}
 
     {% if form.errors %}
-    <div class="alert alert-danger">
-        <h5>Please correct the following errors</h5>
-        {% for field in form %}
-        {% if field.errors %}
-        <div>{{field.label_tag}} {{ field.errors|striptags }}</div>
-        {% endif %}
-        {% endfor %}
+    <div class="usa-alert usa-alert--error" role="alert">
+        <div class="usa-alert__body">
+            <h4 class="usa-alert__heading">Please correct the following errors</h4>
+            {% for field in form %}
+            {% if field.errors %}
+            <p class="usa-alert__text">{{field.label_tag}} {{ field.errors|striptags }}</p>
+            {% endif %}
+            {% endfor %}
+        </div>
     </div>
     {% endif %}
     {% if success %}
-    <div class="alert alert-success">
-        The progam has been created. <span class="glyphicon glyphicon-ok"></span>
+    <div class="usa-alert usa-alert--success" role="alert">
+        <div class="usa-alert__body">
+            The progam has been created. <span class="usa-icon-check"></span>
+        </div>
     </div>
     {% endif %}
 
     {% for field in form %}
-    <div class="form-group">
-        <label class="grid-col-2 control-label">
-            <div>{{field.label_tag}}</div>
-            <div class="help-block">{{field.help_text}}</div>
-        </label>
-        <div class="grid-col-10">
-            {{field}}
-            {% if field.errors %}<div class="alert alert-danger">{{field.errors.as_text}}</div>{% endif %}
-        </div>
-
-    </div>
+        {{ field|as_epa }}
     {% endfor %}
-    <div class="form-group">
-        <div class="grid-col-2"></div>
-        <div class="grid-col-10">
-            <input type="submit" value="Submit" class="usa-button btn-success">
-        </div>
+
+    <div class="usa-form-group margin-top-4">
+        <button type="submit" class="usa-button">Submit</button>
     </div>
 </form>
 
 
 {% if support_attachments %}
-    <br>
-    <p><h3>File Attachments</h3></p>
+    <div class="margin-top-4">
+        <h3>File Attachments</h3>
 
-    <table class="example table-autosort table-stripeclass:alternate table-autofilter" id="support_attachments_table">
-        <thead id="support_attachments_head">
-        <tr>
-            <th class="usa-table-sortable:alphanumeric">Filename</th>
-            <!--<th class="usa-table-sortable:alphanumeric">Type</th>-->
-{#            <th class="usa-table-sortable:alphanumeric">QA Activity ID</th>#}
-
-            <!--<th class="usa-table-header">Download</th>-->
-            <th class="usa-table-header">Delete</th>
-        </tr>
-        <tr>
-            <th class="usa-table-filterable"></th>
-            <!--<th class="usa-table-filterable"></th>-->
-{#            <th class="usa-table-filterable"></th>#}
-
-            <!--<th class="usa-table-header"></th>-->
-            <th class="usa-table-header"></th>
-        </tr>
-
-        </thead>
-
-        <tbody id="support_attachments_body">
-
-        {% for obj in support_attachments %}
-        <tr>
-            <td class='filename_td'><a href="{{MEDIA_URL}}{{obj.attachment|urlencode}}">{{obj.the_name}}</a></td>
-{#            <td><a href="/support/show/{{obj.support.id}}">{{obj.support.id}}</a></td>#}
-
-            <!--<td><a href="{{MEDIA_URL}}{{obj.attachment|urlencode}}">Download</a></td>-->
-            <td><a href={% url 'delete_support_attachment' obj.id %}>Delete</a></td>
-        </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    {% endif %}
-</div>
-
-</div>
-
-<div>
-    {% if obj.id %}
-    <form id="upload" method="post"action={% url 'file_upload_support' obj.id %} enctype="multipart/form-data">
-
-    {% csrf_token %}
-
-    <div id="drop">
-        Drop Files ONLY Here
-
-        <a>Browse</a>
-        <input type="file" name="upl" multiple />
+        <table class="usa-table" id="support_attachments_table">
+            <thead id="support_attachments_head">
+                <tr>
+                    <th scope="col">Filename</th>
+                    <th scope="col">Delete</th>
+                </tr>
+            </thead>
+            <tbody id="support_attachments_body">
+                {% for obj in support_attachments %}
+                    <tr>
+                        <td class='filename_td'><a href="{{MEDIA_URL}}{{obj.attachment|urlencode}}" class="usa-link">{{obj.the_name}}</a></td>
+                        <td><a href="{% url 'support:delete_support_attachment' obj.id %}" class="usa-link">Delete</a></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
-    <ul>
-        <!-- The file uploads will be shown here -->
-    </ul>
-{#    <button type="submit" class="usa-button start">#}
-{#        <span>Finish</span>#}
-{#    </button>#}
+{% endif %}
 
+<div class="margin-top-4">
+    <form id="upload" method="post" action={% url 'support:file_upload_support' obj.id %} enctype="multipart/form-data">
+        {% csrf_token %}
+        <div id="drop" class="usa-file-input">
+            <div class="usa-file-input__instructions">Drop Files ONLY Here</div>
+            <div class="usa-file-input__box">
+                <a class="usa-button">Browse</a>
+                <input type="file" name="upl" multiple />
+            </div>
+        </div>
+        <ul><!-- The file uploads will be shown here --></ul>
     </form>
-    {% endif %}
 </div>
 
+<script>
+    $(".chosen-select").chosen({});
+    $(".date-control").datepicker({ dateFormat: "yy-mm-dd" });
+</script>
 
 {% endblock %}
