@@ -7,6 +7,8 @@
     {{instructions}}
 </div>
 
+{# Note: The "Email Address" field will be auto-populated with the authenticated user's email in a future update #}
+
 <form class="usa-form" enctype="multipart/form-data" method="post" action="." role="form" novalidate>
 
     {% csrf_token %}
@@ -25,7 +27,9 @@
     {% endif %}
 
     {% for field in form %}
-        {{ field|as_epa }}
+        {% if field.name != 'id' or form.instance.id %}
+            {{ field|as_epa }}
+        {% endif %}
     {% endfor %}
 
     <div class="usa-form-group margin-top-4">

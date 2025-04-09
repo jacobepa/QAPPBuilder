@@ -21,13 +21,17 @@ class SupportForm(ModelForm):
     def __init__(self, *args, **kwargs):
         """Support form to send to Django Admin."""
         super(SupportForm, self).__init__(*args, **kwargs)
+        # Hide the id field in create forms
+        if 'instance' not in kwargs or not kwargs['instance']:
+            self.fields['id'].widget = TextInput(attrs={'class': 'usa-input', 'readonly': 'readonly', 'style': 'display:none;'})
+            self.fields['id'].label = ''
 
     required_css_class = 'required'
 
     id = CharField(
         label=_("Reference Num"),
         widget=TextInput(
-            attrs={'class': 'usa-input', 'readonly': 'readonly'}),
+            attrs={'class': 'usa-input', 'readonly': 'readonly', 'disabled': 'disabled'}),
         required=False)
     subject = CharField(
         label=_("Subject"),
@@ -38,6 +42,9 @@ class SupportForm(ModelForm):
         label=_("Description"),
         widget=Textarea(attrs={'class': 'usa-textarea', 'rows': '5'}),
         required=True)
+    # TODO: This field will be auto-populated with the authenticated user's
+    # email address in a future update. Currently it's manually entered but
+    # will be replaced with user.email from the request.user object.
     weblink = CharField(
         label=_("Email Address"),
         widget=TextInput(attrs={'class': 'usa-input'}),
@@ -56,13 +63,18 @@ class SupportAdminForm(ModelForm):
     def __init__(self, *args, **kwargs):
         """Support Django Admin form."""
         super(SupportAdminForm, self).__init__(*args, **kwargs)
+        # Make the id field read-only and disabled in edit forms
+        self.fields['id'].widget = TextInput(
+            attrs={'class': 'usa-input', 'readonly': 'readonly',
+                   'disabled': 'disabled'})
 
     required_css_class = 'required'
 
     id = CharField(
         label=_("Reference Num"),
         widget=TextInput(
-            attrs={'class': 'usa-input', 'readonly': 'readonly'}),
+            attrs={'class': 'usa-input', 'readonly': 'readonly',
+                   'disabled': 'disabled'}),
         required=False)
     subject = CharField(
         label=_("Subject"),
@@ -76,6 +88,9 @@ class SupportAdminForm(ModelForm):
         label=_("Description"),
         widget=Textarea(attrs={'class': 'usa-textarea', 'rows': '5'}),
         required=True)
+    # TODO: This field will be auto-populated with the authenticated user's
+    # email address in a future update. Currently it's manually entered but
+    # will be replaced with user.email from the request.user object.
     weblink = CharField(
         label=_("Email Address"),
         widget=TextInput(attrs={'class': 'usa-input'}),

@@ -105,10 +105,12 @@
         }
     </style>
 
-    <h3>{{title}} #{{support.id}}</h3>
+    <h3>{{title}}</h3>
     <div class="text-base text-gray-600 margin-bottom-4">
         {{instructions}}
     </div>
+
+    {# Note: The "Email Address" field will be auto-populated with the authenticated user's email in a future update #}
 
     <form class="usa-form" enctype="multipart/form-data" method="post" action="." role="form" novalidate>
         {% csrf_token %}
@@ -142,11 +144,18 @@
         {% endif %}
 
         {% for field in form %}
-            {{ field|as_epa }}
+            {% if field.name == 'id' %}
+                <div class="usa-form-group">
+                    <label class="usa-label" for="{{ field.id_for_label }}">Reference Num</label>
+                    <input type="text" class="usa-input" id="{{ field.id_for_label }}" name="{{ field.html_name }}" value="{{ field.value }}" disabled>
+                </div>
+            {% else %}
+                {{ field|as_epa }}
+            {% endif %}
         {% endfor %}
 
         <div class="usa-form-group margin-top-4">
-            <button type="submit" class="usa-button">Submit</button>
+            <button type="submit" class="usa-button">Save</button>
             <p class="usa-hint margin-top-2">Add Any Attachments Before Submitting</p>
         </div>
     </form>
