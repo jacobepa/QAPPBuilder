@@ -1,11 +1,14 @@
 from django.db import models
 from .qapp_models import Qapp
 from .utility_models import EpaBaseModel
-from constants.utils import get_attachment_storage_path
-from constants.qapp_section_a_const import SECTION_A, INTRA_EXTRA_CHOICES, \
-    QA_CATEGORY_OPTIONS, ORD_CENTER_OPTIONS
+from constants.utils import get_qapp_attachment_storage_path, upload_storage
+from constants.qapp_section_a_const import (
+    SECTION_A, INTRA_EXTRA_CHOICES, QA_CATEGORY_OPTIONS, ORD_CENTER_OPTIONS
+)
 from constants.qapp_section_b_const import DISCIPLINE_CHOICES, \
     DISCIPLINE_MAX_LEN
+from django.core.files.storage import FileSystemStorage
+from django.conf import settings
 
 
 class Discipline(EpaBaseModel):
@@ -184,9 +187,27 @@ class RoleResponsibility(EpaBaseModel):
 class SectionA10(EpaBaseModel):
 
     qapp = models.OneToOneField(
-        Qapp, on_delete=models.CASCADE, related_name='section_a10')
-    org_chart = models.FileField(null=True, blank=True,
-                                 upload_to=get_attachment_storage_path)
+        Qapp, on_delete=models.CASCADE, related_name='section_a10',
+        null=False, blank=False)
+    org_chart = models.FileField(
+        upload_to=get_qapp_attachment_storage_path,
+        storage=upload_storage,
+        null=True,
+        blank=True,
+        help_text="Upload the organizational chart"
+    )
+
+    def save(self, *args, **kwargs):
+        # If qapp isn't set yet but we have a qapp_id, set it
+        if not self.qapp_id and hasattr(self, '_qapp_id'):
+            self.qapp_id = self._qapp_id
+        super().save(*args, **kwargs)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Store qapp_id if it's passed in
+        if 'qapp_id' in kwargs:
+            self._qapp_id = kwargs['qapp_id']
 
 
 class SectionA11(EpaBaseModel):

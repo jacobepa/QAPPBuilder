@@ -275,6 +275,7 @@ class SectionA9Detail(SectionTemplateView):
 class SectionA10Create(SectionCreateBase):
     model = SectionA10
     form_class = forms.SectionA10Form
+    template_name = 'qapp/sectiona/a10_form.html'
     section_title = SECTION_A['a10']['header']
     previous_url_name = 'sectiona9_detail'
     detail_url_name = 'sectiona10_detail'
@@ -282,27 +283,28 @@ class SectionA10Create(SectionCreateBase):
     boilerplate = SECTION_A['a10']['boilerplate']
     current_page = QAPP_PAGE_INDEX['section-a10']
 
-    def post(self, request, *args, **kwargs):
-        form = self.form_class(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-        return super().post(request, *args, **kwargs)
+    def form_valid(self, form):
+        # Set the qapp_id before saving to ensure proper file path
+        form.instance.qapp_id = self.kwargs['qapp_id']
+        response = super().form_valid(form)
+        return response
 
 
 class SectionA10Update(SectionUpdateBase):
     model = SectionA10
     form_class = forms.SectionA10Form
+    template_name = 'qapp/sectiona/a10_form.html'
     section_title = SECTION_A['a10']['header']
     previous_url_name = 'sectiona9_detail'
     detail_url_name = 'sectiona10_detail'
     next_url_name = 'sectiona11_create'
     current_page = QAPP_PAGE_INDEX['section-a10']
 
-    def post(self, request, *args, **kwargs):
-        form = self.form_class(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-        return super().post(request, *args, **kwargs)
+    def form_valid(self, form):
+        # Set the qapp_id before saving to ensure proper file path
+        form.instance.qapp_id = self.kwargs['qapp_id']
+        response = super().form_valid(form)
+        return response
 
 
 class SectionA10Detail(SectionDetailBase):

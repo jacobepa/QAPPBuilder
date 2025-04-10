@@ -112,6 +112,15 @@ class SectionA10Form(EpaBaseForm):
         model = SectionA10
         exclude = ['qapp']
         labels = {'org_chart': 'Organization Chart File Upload'}
+        widgets = {
+            'org_chart': forms.FileInput(attrs={'class': 'usa-file-input'})
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['org_chart'].widget.attrs.update({
+            'accept': 'image/*,.pdf,.doc,.docx'  # Accept common file types
+        })
 
 
 class SectionA11Form(EpaBaseForm):

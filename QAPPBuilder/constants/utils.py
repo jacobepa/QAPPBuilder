@@ -53,6 +53,15 @@ def get_attachment_storage_path(instance, filename):
     return up_path
 
 
+def get_qapp_attachment_storage_path(instance, filename):
+    """Build the QAPP attachment storage path using QAPP ID and filename."""
+    # If qapp isn't set yet, use a temporary path that will be moved later
+    if not hasattr(instance, 'qapp') or not instance.qapp:
+        return f'uploads/temp/{filename}'
+    up_path = f'uploads/qapp_{instance.qapp.id}/attachments/{filename}'
+    return up_path
+
+
 # Email Utility functions.
 def split_email_list(email_list):
     """Replace all defined delimiter characters with spaces."""

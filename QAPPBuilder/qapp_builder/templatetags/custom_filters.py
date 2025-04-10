@@ -28,3 +28,8 @@ def render_detail(obj, field):
 
 register.filter('as_epa', as_epa)
 register.filter('render_detail', render_detail)
+
+@register.filter
+def split(value, delimiter):
+    """Split a string by a delimiter and return the list."""
+    return value.split(delimiter)
