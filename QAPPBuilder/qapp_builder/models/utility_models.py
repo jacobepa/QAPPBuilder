@@ -32,6 +32,9 @@ class EpaBaseModel(models.Model):
             if value in [None, '', []]:  # Check for empty or null values
                 empty_fields += 1
 
+        if empty_fields == 0:
+            return 100
+
         if total_fields == 0:
             return 0  # Avoid division by zero
 
