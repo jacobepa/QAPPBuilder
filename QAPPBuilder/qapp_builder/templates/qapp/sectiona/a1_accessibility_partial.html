@@ -1,17 +1,23 @@
 <!-- Manually render the accessibility checkbox -->
 <div class="usa-form-group">
-    <legend class="usa-legend">Accessibility</legend>
-    <div class="usa-checkbox">
-        <input readonly="true" type="checkbox" name="accessibility" disabled
-                class="usa-checkbox__input" onclick="return false;"
-                id="accessibility-checkbox"
-                {% if  object.accessibility %}
-                checked
-                {% endif %}
-        />
-        <label class="usa-checkbox__label" for="accessibility-checkbox">
-            I do NOT want this QAPP internally shared and
-            accessible on the ORD intranet site.
-        </label>
-    </div>
+    <fieldset>
+        <legend class="usa-legend">Accessibility</legend>
+        <div class="usa-checkbox">
+            <input readonly="true" type="checkbox" name="accessibility" disabled
+                    class="usa-checkbox__input" onclick="return false;"
+                    id="accessibility-checkbox"
+                    aria-describedby="accessibility-description"
+                    {% if  object.accessibility %}
+                    checked
+                    {% endif %}
+            />
+            <label class="usa-checkbox__label" for="accessibility-checkbox">
+                I do NOT want this QAPP internally shared and
+                accessible on the ORD intranet site.
+            </label>
+            <div id="accessibility-description" class="usa-hint">
+                This checkbox indicates whether the QAPP should be restricted from internal sharing on the ORD intranet site.
+            </div>
+        </div>
+    </fieldset>
 </div>

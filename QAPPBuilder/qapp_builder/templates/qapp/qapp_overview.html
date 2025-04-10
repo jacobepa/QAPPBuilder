@@ -9,19 +9,13 @@
 {% endblock %}
 
 {% block content %}
-    <h2>QAPP Section A1 - Title Page</h2>
+    <h1>QAPP Section A1 - Title Page</h1>
 
-    <div class="usa-button-group margin-top-2">
-        <li class="usa-button-group__item">
-            <a class="usa-button usa-button--accent-cool" href="/qapp/{{qapp.id}}/export/?format=docx">Export to Word Doc</a>
-        </li>
-        <li class="usa-button-group__item">
-            <a class="usa-button usa-button--accent-cool" href="/qapp/{{qapp.id}}/export/?format=pdf">Export to PDF</a>
-        </li>
+    <div class="usa-button-group margin-top-2" role="group" aria-label="QAPP actions">
+        <a class="usa-button usa-button--accent-cool" href="/qapp/{{qapp.id}}/export/?format=docx">Export to Word Doc</a>
+        <a class="usa-button usa-button--accent-cool" href="/qapp/{{qapp.id}}/export/?format=pdf">Export to PDF</a>
         {% if user_can_edit %}
-        <li class="usa-button-group__item">
-            <a class="usa-button usa-button--secondary" href="/qapp/{{qapp.id}}/delete/">Delete QAPP</a>
-        </li>
+        <a class="usa-button usa-button--secondary" href="/qapp/{{qapp.id}}/delete/">Delete QAPP</a>
         {% endif %}
     </div>
 
@@ -52,23 +46,17 @@
 
     <h3>QAPP Revisions</h3>
 
-    <div class="usa-button-group">
-        <li class="usa-button-group__item">
-            <a class="usa-button" href="/qapp/{{qapp.id}}/revision/create/">Add New Revision</a>
-        </li>
-        <li class="usa-button-group__item">
-            <i class="usa-button usa-button--accent-warm" onclick="editRevision(this)" aria-disabled="true">
-                Edit Revision
-            </i>
-        </li>
-        <li class="usa-button-group__item">
-            <i class="usa-button usa-button--secondary" onclick="deleteRevision(this)" aria-disabled="true">
-                Remove Revision
-            </i>
-        </li>
+    <div class="usa-button-group" role="group" aria-label="Revision actions">
+        <a class="usa-button" href="/qapp/{{qapp.id}}/revision/create/">Add New Revision</a>
+        <button class="usa-button usa-button--accent-warm" onclick="editRevision(this)" aria-disabled="true">
+            Edit Revision
+        </button>
+        <button class="usa-button usa-button--secondary" onclick="deleteRevision(this)" aria-disabled="true">
+            Remove Revision
+        </button>
     </div>
 
-    <table class="usa-table grid-col">
+    <table class="usa-table grid-col" aria-label="QAPP Revisions">
         <thead>
             <tr>
                 <th scope="col">Date</th>
@@ -79,7 +67,7 @@
         <tbody>
             {% if revisions %}
             {% for revision in revisions %}
-            <tr id="{{revision.id}}" onclick="rowClick('{{revision.id}}')">
+            <tr id="{{revision.id}}" onclick="rowClick('{{revision.id}}')" role="button" tabindex="0" aria-label="Revision from {{revision.date}} by {{revision.author}}">
                 <th scope="row">{{revision.date}}</th>
                 <td>{{revision.author}}</td>
                 <td>{{revision.description}}</td>

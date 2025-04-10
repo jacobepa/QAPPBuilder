@@ -1,7 +1,7 @@
 {% extends 'main/base_with_side_nav.html' %}
 
 {% block content %}
-  <h2>{{ title }}</h2>
+  <h1>{{ title }}</h1>
 
   {% if boilerplate_list %}
   {% for boilerplate in boilerplate_list %}
@@ -11,7 +11,7 @@
   <p>{{ boilerplate|linebreaksbr }}</p>
   {% endif %}
 
-  <form method="post">
+  <form method="post" aria-label="{{ title }}">
     {% csrf_token %}
     {{ form.as_epa }}
     {% include 'create_edit_buttons_partial.html' %}
