@@ -49,7 +49,7 @@ upload_storage = FileSystemStorage(location=settings.UPLOAD_ROOT,
 # NOTE: This path requires a leading 'uploads'
 def get_attachment_storage_path(instance, filename):
     """Build the attachment storage path using username and filename."""
-    up_path = f'uploads/{instance.uploaded_by.username}/attachments/{filename}'
+    up_path = f'{instance.uploaded_by.username}/attachments/{filename}'
     return up_path
 
 
@@ -57,8 +57,8 @@ def get_qapp_attachment_storage_path(instance, filename):
     """Build the QAPP attachment storage path using QAPP ID and filename."""
     # If qapp isn't set yet, use a temporary path that will be moved later
     if not hasattr(instance, 'qapp') or not instance.qapp:
-        return f'uploads/temp/{filename}'
-    up_path = f'uploads/qapp_{instance.qapp.id}/attachments/{filename}'
+        return f'temp/{filename}'
+    up_path = f'qapp_{instance.qapp.id}/attachments/{filename}'
     return up_path
 
 

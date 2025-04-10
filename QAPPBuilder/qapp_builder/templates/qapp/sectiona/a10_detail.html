@@ -13,9 +13,7 @@
         <label class="usa-label">Organization Chart</label>
         {% if object.org_chart %}
             <div class="margin-top-1">
-                <a href="{{ object.org_chart.url }}" class="usa-button" target="_blank">
-                    <i class="fas fa-download"></i> Download Organization Chart
-                </a>
+                <img src="{{ object.org_chart.url }}" alt="Organization Chart" class="usa-image">
             </div>
             <div class="margin-top-1">
                 <small class="usa-hint">Filename: {{ object.org_chart.name|split:"/"|last }}</small>

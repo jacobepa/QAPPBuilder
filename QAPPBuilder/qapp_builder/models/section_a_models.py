@@ -1,7 +1,7 @@
 from django.db import models
 from .qapp_models import Qapp
 from .utility_models import EpaBaseModel
-from constants.utils import get_qapp_attachment_storage_path, upload_storage
+from constants.utils import get_qapp_attachment_storage_path
 from constants.qapp_section_a_const import (
     SECTION_A, INTRA_EXTRA_CHOICES, QA_CATEGORY_OPTIONS, ORD_CENTER_OPTIONS
 )
@@ -191,7 +191,10 @@ class SectionA10(EpaBaseModel):
         null=False, blank=False)
     org_chart = models.FileField(
         upload_to=get_qapp_attachment_storage_path,
-        storage=upload_storage,
+        storage=FileSystemStorage(
+            location=settings.UPLOAD_ROOT,
+            base_url='/media/uploads/'
+        ),
         null=True,
         blank=True,
         help_text="Upload the organizational chart"

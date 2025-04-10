@@ -310,6 +310,7 @@ class SectionA10Update(SectionUpdateBase):
 class SectionA10Detail(SectionDetailBase):
     model = SectionA10
     section_title = SECTION_A['a10']['header']
+    template_name = 'qapp/sectiona/a10_detail.html'
     edit_url_name = 'sectiona10_edit'
     create_url_name = 'sectiona10_create'
     previous_url_name = 'sectiona9_detail'

@@ -118,9 +118,7 @@ class SectionA10Form(EpaBaseForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['org_chart'].widget.attrs.update({
-            'accept': 'image/*,.pdf,.doc,.docx'  # Accept common file types
-        })
+        self.fields['org_chart'].widget.attrs.update({'accept': 'image/*'})
 
 
 class SectionA11Form(EpaBaseForm):
