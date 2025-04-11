@@ -7,22 +7,18 @@
 
     <h3>Additional Signatures</h3>
 
-    <div class="usa-button-group">
-        <li class="usa-button-group__item">
-            <a class="usa-button" href="/qapp/{{object.qapp_id}}/signature/create/">Add New Signee</a>
-        </li>
-        <li class="usa-button-group__item">
-            <i class="usa-button usa-button--accent-warm" onclick="viewEditSignature(this)" aria-disabled="true">
-                Edit Signee
-            </i>
-        </li>
-        <li class="usa-button-group__item">
-            <i class="usa-button usa-button--secondary" onclick="deleteSignee(this)" aria-disabled="true">
-                Delete Signee
-            </i>
-        </li>
+    <div class="usa-button-group" role="group" aria-label="Signature actions">
+        <button class="usa-button" onclick="window.location.href='/qapp/{{object.qapp_id}}/signature/create/'" aria-label="Add new signee">
+            Add New Signee
+        </button>
+        <button class="usa-button usa-button--accent-warm" onclick="viewEditSignature(this)" aria-disabled="true" aria-label="Edit selected signee">
+            Edit Signee
+        </button>
+        <button class="usa-button usa-button--secondary" onclick="deleteSignee(this)" aria-disabled="true" aria-label="Delete selected signee">
+            Delete Signee
+        </button>
     </div>
-    <table class="usa-table grid-col">
+    <table class="usa-table grid-col" aria-label="Additional Signatures">
         <thead>
             <tr>
                 <th scope="col">Title</th>
@@ -32,14 +28,14 @@
         <tbody>
             {% if additional_signatures %}
             {% for person in additional_signatures %}
-            <tr id="{{person.id}}" onclick="rowClick('{{person.id}}')">
+            <tr id="{{person.id}}" onclick="rowClick('{{person.id}}')" role="button" tabindex="0" aria-label="Signature from {{person.title}} {{person.name}}">
                 <th scope="row">{{person.title}}</th>
                 <td>{{person.name}}</td>
             </tr>
             {% endfor %}
             {% else %}
             <tr>
-                <td colspan="3">No Additional Signatures configured.</td>
+                <td colspan="2">No Additional Signatures configured.</td>
             </tr>
             {% endif %}
         </tbody>

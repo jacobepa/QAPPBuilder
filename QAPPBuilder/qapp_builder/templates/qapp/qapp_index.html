@@ -25,7 +25,8 @@
                 this project has been approved under the CESER QAPP K-LRTD-0032360-QP-1-0.</p>
             <p>
                 <button class="usa-button"
-                        onclick="window.location='https://www.epa.gov/sites/production/files/2015-06/documents/g9-final.pdf'">
+                        onclick="window.location='https://www.epa.gov/sites/production/files/2015-06/documents/g9-final.pdf'"
+                        aria-label="Learn more about USEPA Existing Data">
                     Learn more about USEPA Existing Data &raquo;
                 </button>
             </p>
@@ -34,7 +35,8 @@
         <div class="grid-row">
             <div class="grid-col">
                 <div>
-                    <select id="userSelect" class="usa-select" onchange="window.location.href=this.value">
+                    <label for="userSelect" class="usa-label">View QAPPs by User</label>
+                    <select id="userSelect" class="usa-select" onchange="window.location.href=this.value" aria-label="Select user to view their QAPPs">
                         <option value="#">View QAPPs by User</option>
                         {% for user in users %}
                         <option value="/qapp/list/user/{{user.id}}">
@@ -44,8 +46,9 @@
                     </select>
                 </div>
 
-                <div class="">
-                    <select id="teamSelect" class="usa-select" onchange="window.location.href=this.value">
+                <div class="margin-top-2">
+                    <label for="teamSelect" class="usa-label">View QAPPs by Team</label>
+                    <select id="teamSelect" class="usa-select" onchange="window.location.href=this.value" aria-label="Select team to view their QAPPs">
                         <option value="#">View QAPPs by Team</option>
                         {% for team in teams %}
                         <option value="/qapp/list/team/{{team.id}}">
@@ -59,18 +62,14 @@
         </div>
 
         <div class="grid-row margin-top-2">
-            <ul class="usa-button-group">
-                <li class="usa-button-group--item">
-                    <a href="{% url 'qapp_create' %}" class="usa-button">
-                        New QAPP
-                    </a>
-                </li>
-                <li class="usa-button-group--item">
-                    <a href="{% url 'team_create' %}" class="usa-button">
-                        New Team
-                    </a>
-                </li>
-            </ul>
+            <div class="usa-button-group" role="group" aria-label="QAPP creation actions">
+                <a href="{% url 'qapp_create' %}" class="usa-button" aria-label="Create a new QAPP">
+                    New QAPP
+                </a>
+                <a href="{% url 'team_create' %}" class="usa-button" aria-label="Create a new team">
+                    New Team
+                </a>
+            </div>
         </div>
     </div>
 {% endblock %}

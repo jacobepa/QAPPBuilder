@@ -11,22 +11,18 @@
 {% block content %}
     <h2>{{ title }}</h2>
 
-    <div class="usa-button-group">
-        <li class="usa-button-group__item">
-            <a class="usa-button" href="/qapp/{{qapp_id}}/role-responsibility/create/">Add New Entry</a>
-        </li>
-        <li class="usa-button-group__item">
-            <i class="usa-button usa-button--accent-warm" onclick="editEntry(this)" aria-disabled="true">
-                Edit Entry
-            </i>
-        </li>
-        <li class="usa-button-group__item">
-            <i class="usa-button usa-button--secondary" onclick="deleteEntry(this)" aria-disabled="true">
-                Remove Entry
-            </i>
-        </li>
+    <div class="usa-button-group" role="group" aria-label="Role and responsibility actions">
+        <button class="usa-button" onclick="window.location.href='/qapp/{{qapp_id}}/role-responsibility/create/'" aria-label="Add new role and responsibility">
+            Add New Entry
+        </button>
+        <button class="usa-button usa-button--accent-warm" onclick="editEntry(this)" aria-disabled="true" aria-label="Edit selected entry">
+            Edit Entry
+        </button>
+        <button class="usa-button usa-button--secondary" onclick="deleteEntry(this)" aria-disabled="true" aria-label="Delete selected entry">
+            Remove Entry
+        </button>
     </div>
-    <table class="usa-table grid-col">
+    <table class="usa-table grid-col" aria-label="Roles and Responsibilities">
         <thead>
             <tr>
                 <th scope="col">Name</th>
@@ -38,7 +34,7 @@
         <tbody>
             {% if roles_responsibilities %}
             {% for entry in roles_responsibilities %}
-            <tr id="{{entry.id}}" onclick="rowClick('{{entry.id}}')">
+            <tr id="{{entry.id}}" onclick="rowClick('{{entry.id}}')" role="button" tabindex="0" aria-label="Role entry for {{entry.name}} from {{entry.org}}">
                 <th scope="row">{{entry.name}}</th>
                 <td>{{entry.org}}</td>
                 <td>{{entry.proj_role}}</td>

@@ -27,19 +27,19 @@
     under the CESER QAPP K-LRTD-0032360-QP-1-0.
   </p>
   <p>
-    <a class="usa-button" href="https://www.epa.gov/sites/production/files/2015-06/documents/g9-final.pdf">
+    <a class="usa-button" href="https://www.epa.gov/sites/production/files/2015-06/documents/g9-final.pdf" aria-label="Learn more about USEPA Existing Data">
       Learn more about USEPA Existing Data &raquo;
     </a>
   </p>
 
   {% if user.is_authenticated %}
   <div class="grid-row mb-2">
-    <button class="grid-col usa-button" onclick="window.location.href='{% url 'qapp_create' %}'">
+    <button class="grid-col usa-button" onclick="window.location.href='{% url 'qapp_create' %}'" aria-label="Create a new QAPP">
       Create a new QAPP
     </button>
   </div>
   <div class="grid-row">
-    <table class="usa-table grid-col">
+    <table class="usa-table grid-col" aria-label="QAPP List">
       <thead>
         <tr>
           <th scope="col">QAPP Title</th>
@@ -50,7 +50,7 @@
       <tbody>
         {% if qapp_list %}
         {% for qapp in qapp_list %}
-        <tr id="{{qapp.id}}" onclick="rowClick('{{qapp.id}}')">
+        <tr id="{{qapp.id}}" onclick="rowClick('{{qapp.id}}')" role="button" tabindex="0" aria-label="QAPP: {{qapp.title}} created by {{qapp.created_by}} on {{qapp.created_on}}">
           <th scope="row">{{qapp.title}}</th>
           <td>{{qapp.created_by}}</td>
           <td>{{qapp.created_on}}</td>
@@ -67,17 +67,17 @@
 
   <div class="grid-row">
     <div class="grid-col">
-      <i class="usa-button" onclick="viewEditExistingQar5(this)" aria-disabled="true">
+      <button class="usa-button" onclick="viewEditExistingQar5(this)" aria-disabled="true" aria-label="View or edit selected QAPP">
         View or Edit Existing QAPP
-      </i>
+      </button>
     </div>
     <div class="grid-col">
-      <button class="usa-button" onclick="exportAllQar5('exportdoc')">
+      <button class="usa-button" onclick="exportAllQar5('exportdoc')" aria-label="Export all QAPPs to Word document">
         Export All QAPP to Word Doc
       </button>
     </div>
     <div class="grid-col">
-      <button class="usa-button" onclick="exportAllQar5('exportpdf')">
+      <button class="usa-button" onclick="exportAllQar5('exportpdf')" aria-label="Export all QAPPs to PDF">
         Export All QAPP to PDF
       </button>
     </div>
