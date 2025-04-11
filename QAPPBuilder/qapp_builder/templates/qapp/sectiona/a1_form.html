@@ -4,11 +4,17 @@
 {% block content %}
     {% load custom_filters %}
     <h2>{{ title }}</h2>
-    <form method="post">
+    <form method="post" aria-label="Section A1 Form">
         {% csrf_token %}
         <!-- {{ form.as_epa }} -->
 
-        {{ form.non_field_errors }}
+        {% if form.non_field_errors %}
+        <div class="usa-alert usa-alert--error" role="alert">
+            {% for error in form.non_field_errors %}
+                {{ error }}
+            {% endfor %}
+        </div>
+        {% endif %}
 
         <!-- Render other fields automatically -->
         {{ form.ord_center|as_epa }}
@@ -24,8 +30,8 @@
         <!-- TODO: IF previous field selection is 'Extramurally' then these
              should be visible, else hidden:
              -->
-        <div class="border-left margin-left-2 padding-left-2 margin-top-2 padding-bottom-2">
-            <label class="usa-label">
+        <div class="border-left margin-left-2 padding-left-2 margin-top-2 padding-bottom-2" role="group" aria-labelledby="extramural-requirements">
+            <label class="usa-label" id="extramural-requirements">
                 If you chose Extramurally, then Vehicle Number,
                 Non-EPA Organization, and Period of Performance are required.
             </label>
@@ -35,11 +41,11 @@
         </div>
 
         <!-- Manually render the accessibility checkbox -->
-        <div class="usa-form-group">
-          <legend class="usa-legend">Accessibility</legend>
+        <div class="usa-form-group" role="group" aria-labelledby="accessibility-legend">
+          <legend class="usa-legend" id="accessibility-legend">Accessibility</legend>
           <div class="usa-checkbox">
               {{ form.accessibility }}
-              <label class="usa-checkbox__label" for="accessibility-checkbox">
+              <label class="usa-checkbox__label" for="{{ form.accessibility.id_for_label }}">
                   I do NOT want this QAPP internally shared and
                   accessible on the ORD intranet site.
               </label>

@@ -9,17 +9,17 @@
     <p>{{ boilerplate|linebreaksbr }}</p>
     {% endif %}
 
-    <div class="usa-form-group">
-        <label class="usa-label">Organization Chart</label>
+    <div class="usa-form-group" role="group" aria-labelledby="org-chart-label">
+        <label class="usa-label" id="org-chart-label">Organization Chart</label>
         {% if object.org_chart %}
             <div class="margin-top-1">
-                <img src="{{ object.org_chart.url }}" alt="Organization Chart" class="usa-image">
+                <img src="{{ object.org_chart.url }}" alt="Organization Chart" class="usa-image" role="img">
             </div>
             <div class="margin-top-1">
-                <small class="usa-hint">Filename: {{ object.org_chart.name|split:"/"|last }}</small>
+                <small class="usa-hint" id="filename-hint">Filename: {{ object.org_chart.name|split:"/"|last }}</small>
             </div>
         {% else %}
-            <p class="usa-hint">No organization chart has been uploaded.</p>
+            <p class="usa-hint" role="status">No organization chart has been uploaded.</p>
         {% endif %}
     </div>
 
