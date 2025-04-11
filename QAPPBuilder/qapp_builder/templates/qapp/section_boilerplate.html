@@ -3,11 +3,15 @@
 {% block content %}
     <h2>{{ title }}</h2>
     {% if boilerplate_list %}
+    <div role="region" aria-label="Boilerplate information">
     {% for boilerplate in boilerplate_list %}
     <p>{{ boilerplate|linebreaksbr }}</p>
     {% endfor %}
+    </div>
     {% else %}
+    <div role="region" aria-label="Boilerplate information">
     <p>{{ boilerplate|linebreaksbr }}</p>
+    </div>
     {% endif %}
     {% include 'prev_next_buttons_partial.html' %}
 {% endblock %}

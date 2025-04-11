@@ -4,13 +4,19 @@
   <h2>{{ title }}</h2>
 
   {% if boilerplate_list %}
+  <div role="region" aria-label="Boilerplate information">
   {% for boilerplate in boilerplate_list %}
   <p>{{ boilerplate|linebreaksbr }}</p>
   {% endfor %}
+  </div>
   {% else %}
+  <div role="region" aria-label="Boilerplate information">
   <p>{{ boilerplate|linebreaksbr }}</p>
+  </div>
   {% endif %}
 
+  <div role="region" aria-label="Section details">
   {{ object.render_details }}
+  </div>
   {% include 'detail_buttons_partial.html' %}
 {% endblock %}
