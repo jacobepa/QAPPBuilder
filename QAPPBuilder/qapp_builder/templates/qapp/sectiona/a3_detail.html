@@ -16,17 +16,15 @@
 
     <h3>Acronyms/Abbreviations/Definitions</h3>
 
-    <div class="usa-button-group">
-        <li class="usa-button-group__item">
-            <a class="usa-button" href="/qapp/{{qapp_id}}/definition/create/">Add New Definition</a>
-        </li>
-        <li class="usa-button-group__item">
-            <i class="usa-button usa-button--secondary" onclick="deleteDefinition(this)" aria-disabled="true">
-                Remove Definition
-            </i>
-        </li>
+    <div class="usa-button-group" role="group" aria-label="Definition actions">
+        <button class="usa-button" onclick="window.location.href='/qapp/{{qapp_id}}/definition/create/'" aria-label="Add new definition">
+            Add New Definition
+        </button>
+        <button class="usa-button usa-button--secondary" onclick="deleteDefinition(this)" aria-disabled="true" aria-label="Delete selected definition">
+            Remove Definition
+        </button>
     </div>
-    <table class="usa-table grid-col">
+    <table class="usa-table grid-col" aria-label="Acronyms and Definitions">
         <thead>
             <tr>
                 <th scope="col">Acronym/Abbreviation</th>
@@ -36,7 +34,7 @@
         <tbody>
             {% if acronym_abbreviations %}
             {% for definition in acronym_abbreviations %}
-            <tr id="{{definition.id}}" onclick="rowClick('{{definition.id}}')">
+            <tr id="{{definition.id}}" onclick="rowClick('{{definition.id}}')" role="button" tabindex="0" aria-label="Definition for {{definition.acronym_abbreviation}}">
                 <th scope="row">{{definition.acronym_abbreviation}}</th>
                 <td>{{definition.definition}}</td>
             </tr>

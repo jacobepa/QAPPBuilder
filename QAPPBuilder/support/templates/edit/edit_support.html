@@ -1,6 +1,7 @@
 {% extends "base/site_base_support.html" %}
 {% block support_content %}
 {% load static %}
+{% load custom_filters %}
 
     <script>
         $(function () {
@@ -85,55 +86,77 @@
         });
     </script>
 
-    <h3>{{title}} #{{support.id}}</h3>
-    <div class="text-muted vmargin20">
+    <style>
+        /* Custom styling for the textarea to prevent overlapping */
+        #id_the_description {
+            max-height: 150px;
+            width: 100%;
+            resize: vertical;
+        }
+
+        /* Ensure proper spacing between form elements */
+        .usa-form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        /* Ensure proper width for input groups */
+        .usa-input-group {
+            width: 100%;
+        }
+    </style>
+
+    <h3>{{title}}</h3>
+    <div class="text-base text-gray-600 margin-bottom-4">
         {{instructions}}
     </div>
 
-    <form class="form-horizontal" enctype="multipart/form-data" method="post" action="." role="form" novalidate>
+    {# Note: The "Email Address" field will be auto-populated with the authenticated user's email in a future update #}
+
+    <form class="usa-form" enctype="multipart/form-data" method="post" action="." role="form" novalidate>
         {% csrf_token %}
         {% if form.errors %}
-        <div class="alert alert-danger">
-            <h5>Please correct the following errors</h5>
-            {% for field in form %}
-            {% if field.errors %}
-                <div>{{field.label_tag}} {{ field.errors|striptags }}</div>
-            {% endif %}
-            {% endfor %}
+        <div class="usa-alert usa-alert--error" role="alert">
+            <div class="usa-alert__body">
+                <h4 class="usa-alert__heading">Please correct the following errors</h4>
+                {% for field in form %}
+                {% if field.errors %}
+                <p class="usa-alert__text">{{field.label_tag}} {{ field.errors|striptags }}</p>
+                {% endif %}
+                {% endfor %}
+            </div>
         </div>
         {% endif %}
 
         {% if success %}
-        <div class="alert alert-success">
-            {{success}} <span class="glyphicon glyphicon-ok"></span>
+        <div class="usa-alert usa-alert--success" role="alert">
+            <div class="usa-alert__body">
+                {{success}} <span class="usa-icon-check"></span>
+            </div>
         </div>
         {% endif %}
 
         {% if warn %}
-        <div class="alert alert-warning">
-            {{warn}}
+        <div class="usa-alert usa-alert--warning" role="alert">
+            <div class="usa-alert__body">
+                {{warn}}
+            </div>
         </div>
         {% endif %}
 
         {% for field in form %}
-        <div class="form-group">
-            <label class="grid-col-2 control-label">
-                <div>{{field.label_tag}}</div>
-                <div class="help-block">{{field.help_text}}</div>
-            </label>
-            <div class="grid-col-10">
-                {{field}}
-                {% if field.errors %}<div class="alert alert-danger">{{field.errors.as_text}}</div>{% endif %}
-            </div>
-
-        </div>
+            {% if field.name == 'id' %}
+                <div class="usa-form-group">
+                    <label class="usa-label" for="{{ field.id_for_label }}">Reference Num</label>
+                    <input type="text" class="usa-input" id="{{ field.id_for_label }}" name="{{ field.html_name }}" value="{{ field.value }}" disabled>
+                </div>
+            {% else %}
+                {{ field|as_epa }}
+            {% endif %}
         {% endfor %}
-        <div class="form-group">
-            <div class="grid-col-2"></div>
-            <div class="grid-col-10">
-                <input type="submit" value="Submit" class="usa-button btn-success">
-                Add Any Attachments Before Submitting
-            </div>
+
+        <div class="usa-form-group margin-top-4">
+            <button type="submit" class="usa-button">Save</button>
+            <p class="usa-hint margin-top-2">Add Any Attachments Before Submitting</p>
         </div>
     </form>
 
@@ -143,40 +166,38 @@
     </script>
 
     {% if support_attachments %}
-        <br>
-        <p><h3>File Attachments</h3></p>
+        <div class="margin-top-4">
+            <h3>File Attachments</h3>
 
-        <table class="example table-autosort table-stripeclass:alternate table-autofilter" id="support_attachments_table">
-            <thead id="support_attachments_head">
-            <tr>
-                <th class="usa-table-sortable:alphanumeric">Filename</th>
-                <th class="usa-table-header">Delete</th>
-            </tr>
-            <tr>
-                <th class="usa-table-filterable"></th>
-                <th class="usa-table-header"></th>
-            </tr>
-
-            </thead>
-            <tbody id="support_attachments_body">
-                {% for obj in support_attachments %}
-                    <tr>
-                        <td class='filename_td'><a href="{{MEDIA_URL}}{{obj.attachment|urlencode}}">{{obj.the_name}}</a></td>
-                        <td><a href="{% url 'support:delete_support_attachment' obj.id %}">Delete</a></td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+            <table class="usa-table">
+                <thead>
+                <tr>
+                    <th scope="col">Filename</th>
+                    <th scope="col">Delete</th>
+                </tr>
+                </thead>
+                <tbody>
+                    {% for obj in support_attachments %}
+                        <tr>
+                            <td class='filename_td'><a href="{{MEDIA_URL}}{{obj.attachment|urlencode}}" class="usa-link">{{obj.the_name}}</a></td>
+                            <td><a href="{% url 'support:delete_support_attachment' obj.id %}" class="usa-link">Delete</a></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     {% endif %}
 
-    <div>
+    <div class="margin-top-4">
         {% if support.id %}
-        <form id="upload" method="post"action={% url 'support:file_upload_support' support.id %} enctype="multipart/form-data">
+        <form id="upload" method="post" action={% url 'support:file_upload_support' support.id %} enctype="multipart/form-data">
             {% csrf_token %}
-            <div id="drop">
-                Drop Files ONLY Here
-                <a>Browse</a>
-                <input type="file" name="upl" multiple />
+            <div id="drop" class="usa-file-input">
+                <div class="usa-file-input__instructions">Drop Files ONLY Here</div>
+                <div class="usa-file-input__box">
+                    <a class="usa-button">Browse</a>
+                    <input type="file" name="upl" multiple />
+                </div>
             </div>
             <ul><!-- The file uploads will be shown here --></ul>
         </form>

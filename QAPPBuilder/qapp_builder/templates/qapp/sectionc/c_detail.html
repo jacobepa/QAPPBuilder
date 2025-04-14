@@ -1,16 +1,16 @@
 {% extends 'main/base_with_side_nav.html' %}
 
 {% block content %}
-    <h2>{{ title }}</h2>
-    <h3>{{ c1_label }}</h3>
+    <h1>{{ title }}</h1>
+    <h2>{{ c1_label }}</h2>
 
-    <h4>{{ c11_label }}</h4>
+    <h3>{{ c11_label }}</h3>
     <p>{{ c11_boilerplate }}</p>
 
-    <h4>{{ c12_label }}</h4>
+    <h3>{{ c12_label }}</h3>
     <p>{{ c12_boilerplate }}</p>
 
-    <h3>{{ c2_label }}</h3>
+    <h2>{{ c2_label }}</h2>
     {{ object.render_details }}
 
     {% include 'detail_buttons_partial.html' %}

@@ -1,5 +1,6 @@
 {% extends "base/site_base_support.html" %}
 {% load humanize %}
+{% load custom_filters %}
 {% block support_content %}
 
 <div>
@@ -11,76 +12,43 @@
 	<p><h3>Submitted Help Requests: {{query_show}}</h3></p>
 	{% endif %}
 
-	<table class="example table-autosort:1 table-autosort-asc table-stripeclass:alternate table-autofilter" id="support_table">
+	<table class="usa-table" id="support_table">
 		<thead id="support_head">
 		<tr>
-			<th class="usa-table-sortable:alphanumeric">Submitter</th>
-			<th class="usa-table-sortable:numeric">Ref Num</th>
-            <th class="usa-table-sortable:alphanumeric">Subject</th>
-            <th class="usa-table-sortable:alphanumeric">Description</th>
-            <th class="usa-table-sortable:date">Date Created</th>
-            <th class="usa-table-sortable:date">Date Addressed</th>
-            <th class="usa-table-sortable:alphanumeric">Review Notes</th>
-            <th class="usa-table-sortable:alphanumeric">Status</th>
-			<th class="usa-table-header">Edit</th>
-			<th class="usa-table-header">Show</th>
-			<th class="usa-table-header">Delete</th>
+			<th scope="col">Submitter</th>
+			<th scope="col">Ref Num</th>
+            <th scope="col">Subject</th>
+            <th scope="col">Description</th>
+            <th scope="col">Date Created</th>
+            <th scope="col">Date Addressed</th>
+            <th scope="col">Review Notes</th>
+            <th scope="col">Status</th>
+			<th scope="col">Edit</th>
+			<th scope="col">Show</th>
+			<th scope="col">Delete</th>
 		</tr>
-		<tr>
-			<th class="usa-table-filterable"></th>
-			<th class="usa-table-filterable"></th>
-			<th class="usa-table-filterable"></th>
-			<th class="usa-table-filterable"></th>
-            <th class="usa-table-filterable"></th>
-
-			<th class="usa-table-filterable"></th>
-			<th class="usa-table-filterable"></th>
-			<th class="usa-table-filterable"></th>
-
-			<th class="usa-table-header"></th>
-			<th class="usa-table-header"></th>
-			<th class="usa-table-header"></th>
-	  	</tr>
-
 		</thead>
 		<tbody id="support_body">
 
 			{% for obj in supports %}
 				<tr>
 					<td>{{obj.weblink}}</td>
-{#					<td>{{obj.support_type.the_name}}</td>#}
 					<td>{{obj.id}}</td>
-
-                    <td>{{obj.subject}}</td>
-
-					<td width="200">{{obj.the_description}}</td>
-					<td>{{obj.created|date:"Y-m-d"}}</td>
+					<td>{{obj.subject}}</td>
+					<td>{{obj.the_description}}</td>
+					<td>{{obj.date_created|date:"Y-m-d"}}</td>
 					<td>{{obj.date_resolved|date:"Y-m-d"}}</td>
-                    <td>{{obj.review_notes}}</td>
-
-                    <td>{{obj.status}}</td>
-
-					<td>
-                        {% if obj.user == user or user.is_staff %}
-                        <a href="{% url 'support:edit_support' support_type_name obj.id %}">Edit</a>
-                        {% else %}
-                        <span class="text-muted">Edit</span>
-                        {% endif %}
-                    </td>
-					<td><a href="{% url 'support:show_support' support_type_name obj.id %}">Show</a></td>
-					<td>
-                        {% if obj.user == user or user.is_staff %}
-                        <a href="{% url 'support:delete_support' support_type_name obj.id %}">Delete</a>
-                        {% else %}
-                        <span class="text-muted">Delete</span>
-                        {% endif %}
-                    </td>
+					<td>{{obj.review_notes}}</td>
+					<td>{{obj.status}}</td>
+					<td><a href="{% url 'support:edit_support' obj.id %}" class="usa-link">Edit</a></td>
+					<td><a href="{% url 'support:show_support' obj.id %}" class="usa-link">Show</a></td>
+					<td><a href="{% url 'support:delete_support' obj.id %}" class="usa-link">Delete</a></td>
 				</tr>
 			{% endfor %}
-			</tbody>
+		</tbody>
 	</table>
-	{% else %}
-	<table><tr><td>No Support Issues Found For This Query.</td></tr></table>
+{% else %}
+	<p>No support issues found.</p>
 {% endif %}
 </div>
 

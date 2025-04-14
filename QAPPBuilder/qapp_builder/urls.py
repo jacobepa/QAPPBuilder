@@ -10,12 +10,14 @@ from django.urls import path
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include
+import django_saml2_auth.views
 import qapp_builder.views.qapp_views as qapp_views
 import qapp_builder.views.section_a_views as section_a_views
 import qapp_builder.views.section_b_views as section_b_views
 import qapp_builder.views.section_c_d_views as section_c_d_views
 import qapp_builder.views.table_based_model_views as table_views
 from qapp_builder.settings import MEDIA_ROOT, MEDIA_URL
+from qapp_builder.views.qapp_views import QappEdit, QappDetail, QappCreateView
 
 sections_a_b = [
     ('section-a1', section_a_views.SectionA1Create,
@@ -44,6 +46,26 @@ sections_a_b = [
 
 
 urlpatterns = [
+    # ########################################################################
+    # Auth SAML
+    # ########################################################################
+    # SAML2 related URLs. You can change "^saml2_auth/" regex to # any path you
+    # want, like "^sso/", "^sso_auth/", "^sso_login/", etc. (required)
+    path('sso/', include('django_saml2_auth.urls')),
+
+    # The following line will replace default user login with SAML2 (optional)
+    # If you want to specific the after-login-redirect-URL,
+    # use parameter "?next=/the/path/you/want" with this view.
+    path('accounts/login/', django_saml2_auth.views.signin, name='login'),
+
+    # The following line will replace the admin login with SAML2 (optional)
+    # If you want to specific the after-login-redirect-URL, use parameter
+    # "?next=/the/path/you/want" with this view.
+    path('admin/login/', django_saml2_auth.views.signin),
+    # ########################################################################
+    # END Auth SAML
+    # ########################################################################
+
     path('admin/', admin.site.urls),
 
     path('', qapp_views.QappIndex.as_view(), name='home'),
@@ -55,28 +77,15 @@ urlpatterns = [
 
     # ###################################################################
     # QAPP URLs ---------------------------------------------------------
-    path('qapp/list/user/<int:user_id>/',
-         qapp_views.QappList.as_view(),
-         name='qapp_list_user'),
-    path('qapp/list/team/<int:team_id>/',
-         qapp_views.QappList.as_view(),
-         name='qapp_list_team'),
-    path('qapp/create/',
-         qapp_views.QappCreateView.as_view(),
-         name='qapp_create'),
-    path('qapp/<int:pk>/detail/',
-         qapp_views.QappDetail.as_view(),
-         name='qapp_detail'),
+    path('qapp/<int:pk>/edit/', QappEdit.as_view(), name='qapp_edit'),
+    path('qapp/<int:pk>/detail/', QappDetail.as_view(), name='qapp_detail'),
+    path('qapp/create/', QappCreateView.as_view(), name='qapp_create'),
+    path('qapp/list/user/<int:user_id>/', qapp_views.QappList.as_view(), name='qapp_list_user'),
+    path('qapp/list/team/<int:team_id>/', qapp_views.QappList.as_view(), name='qapp_list_team'),
     path('qapp/<int:qapp_id>/detail/',
          qapp_views.QappDetail.as_view(),
          name='qapp_detail'),
-    path('qapp/<int:pk>/edit/',
-         qapp_views.QappUpdate.as_view(),
-         name='qapp_edit'),
-    path('qapp/<int:qapp_id>/edit/',
-         qapp_views.QappUpdate.as_view(),
-         name='qapp_edit'),
-    path('qapp/<int:pk>/delete/',
+    path('qapp/<int:qapp_id>/delete/',
          qapp_views.QappDelete.as_view(),
          name='qapp_delete'),
     # QAPP Exports ------------------------------------------------------
@@ -191,7 +200,6 @@ urlpatterns = [
          name='sectionc_detail'),
     # ########################################################################
     # Begin other module import URLs.
-    path('accounts/', include('accounts.urls')),
     path('support/', include('support.urls')),
     path('teams/', include('teams.urls')),
 ]

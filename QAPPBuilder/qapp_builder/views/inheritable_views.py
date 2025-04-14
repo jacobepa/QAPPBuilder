@@ -18,11 +18,22 @@ def check_can_edit(qapp, user):
 
     All of the user's member teams are checked as well as the user's
     super user status or qapp ownership status.
+
+    Returns:
+        tuple: (bool, HttpResponse or None)
+            - First element is True if user can edit, False otherwise
+            - Second element is HttpResponse if user is not authenticated (302 redirect)
+              or None if user is authenticated
     """
+    if not user.is_authenticated:
+        from django.shortcuts import redirect
+        from django.urls import reverse
+        return False, redirect(reverse('login'))
+
     if isinstance(qapp, int):
         qapp = Qapp.objects.filter(id=qapp).first()
         if not qapp:
-            return False
+            return False, None
 
     # Check if any of the user's teams have edit privilege:
     user_teams = TeamMembership.objects.filter(
@@ -32,10 +43,10 @@ def check_can_edit(qapp, user):
         data_team_map = QappSharingTeamMap.objects.filter(
             qapp=qapp, team=team).first()
         if data_team_map and data_team_map.can_edit:
-            return True
+            return True, None
 
     # Check if the user is super or owns the qapp:
-    return user.is_superuser or qapp.created_by == user
+    return user.is_superuser or qapp.created_by == user, None
 
 
 class QappBuilderPrivateView(LoginRequiredMixin):
@@ -75,8 +86,11 @@ class SectionCreateBase(QappBuilderPrivateView, CreateView):
 
         # Check if the user has permissions to contribute to the QAPP:
         qapp = get_object_or_404(Qapp, id=self.kwargs['qapp_id'])
-        if not check_can_edit(qapp, request.user):
-            return HttpResponse('Unauthorized', status=401)
+        can_edit, response = check_can_edit(qapp, request.user)
+        if response:  # User is not authenticated, redirect to login
+            return response
+        if not can_edit:  # User is authenticated but not authorized
+            return HttpResponse('Forbidden', status=403)
 
         return super().dispatch(request, *args, **kwargs)
 
@@ -110,8 +124,11 @@ class SectionUpdateBase(QappBuilderPrivateView, UpdateView):
 
     def dispatch(self, request, *args, **kwargs):
         qapp = get_object_or_404(Qapp, id=self.kwargs['qapp_id'])
-        if not check_can_edit(qapp, request.user):
-            return HttpResponse('Unauthorized', status=401)
+        can_edit, response = check_can_edit(qapp, request.user)
+        if response:  # User is not authenticated, redirect to login
+            return response
+        if not can_edit:  # User is authenticated but not authorized
+            return HttpResponse('Forbidden', status=403)
         return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):

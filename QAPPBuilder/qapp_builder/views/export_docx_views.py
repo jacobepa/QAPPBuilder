@@ -10,7 +10,6 @@
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from io import BytesIO
-from os.path import exists
 import constants.qapp_section_a_const as constants_a
 import constants.qapp_section_b_const as constants_b
 import constants.qapp_section_c_d_const as constants_c_d
@@ -558,8 +557,8 @@ def write_section_a10(qapp, doc):
     add_paragraph(doc, constants_a.SECTION_A['a10']['boilerplate'], size=11)
 
     # Insert organization chart image if available
-    if section_a10.org_chart and exists(section_a10.org_chart):
-        doc.add_picture(section_a10.org_chart)
+    if section_a10.org_chart and section_a10.org_chart.name:
+        doc.add_picture(section_a10.org_chart.path)
 
 
 def write_section_a11(qapp, doc):

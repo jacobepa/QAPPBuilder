@@ -1,39 +1,43 @@
-<li class="menu__item">
-  <a href="{% url 'home' %}" class="menu__link">QAPP Builder</a>
-</li>
-<li class="menu__item">
-  <a href="{% url 'contact' %}" class="menu__link">Contact</a>
-</li>
+<nav class="menu" role="navigation" aria-label="Main navigation">
+  <ul class="menu__list">
+    <li class="menu__item">
+      <a href="{% url 'home' %}" class="menu__link">QAPP Builder</a>
+    </li>
+    <li class="menu__item">
+      <a href="{% url 'contact' %}" class="menu__link">Contact</a>
+    </li>
 
-<!-- navbar when user is logged in -->
-{% if user.is_authenticated %}
-<li class="menu__item has-subnav">
-  <button class="menu__link has-subnav usa-nav__link" aria-expanded="false" aria-controls="extended-nav-teams">Teams</button>
-  <ul id="extended-nav-teams" class="menu menu__subnav is-wide" data-once="navigation" hidden="true">
-    <li class="menu__item"><a href="/teams/list/" class="menu__link">Manage existing teams</a></li>
-    <li class="menu__item"><a href="/teams/team/" class="menu__link">Create a new team</a></li>
-  </ul>
-</li>
+    <!-- navbar when user is logged in -->
+    {% if user.is_authenticated %}
+    <li class="menu__item has-subnav">
+      <button class="menu__link has-subnav usa-nav__link" aria-expanded="false" aria-controls="extended-nav-teams" aria-label="Teams menu">Teams</button>
+      <ul id="extended-nav-teams" class="menu menu__subnav is-wide" data-once="navigation" hidden="true">
+        <li class="menu__item"><a href="/teams/list/" class="menu__link">Manage existing teams</a></li>
+        <li class="menu__item"><a href="/teams/team/" class="menu__link">Create a new team</a></li>
+      </ul>
+    </li>
 
-<li class="menu__item has-subnav">
-  <button class="menu__link has-subnav usa-nav__link" aria-expanded="false" aria-controls="extended-nav-help">Help/Suggestions</button>
-  <ul id="extended-nav-help" class="menu menu__subnav is-wide" data-once="navigation" hidden="true">
-    <li class="menu__item"><a href="{% url 'support:documentation' %}" class="menu__link">User Documentation</a></li>
-    <li class="menu__item"><a href="{% url 'support:go_to_support' %}" class="menu__link">Suggestions</a></li>
-    <li class="menu__item"><a href="{% url 'support:events' %}" class="menu__link">Upcoming Events</a></li>
-  </ul>
-</li>
+    <li class="menu__item has-subnav">
+      <button class="menu__link has-subnav usa-nav__link" aria-expanded="false" aria-controls="extended-nav-help" aria-label="Help and suggestions menu">Help/Suggestions</button>
+      <ul id="extended-nav-help" class="menu menu__subnav is-wide" data-once="navigation" hidden="true">
+        <li class="menu__item"><a href="{% url 'support:documentation' %}" class="menu__link">User Documentation</a></li>
+        <li class="menu__item"><a href="{% url 'support:go_to_support' %}" class="menu__link">Suggestions</a></li>
+        <li class="menu__item"><a href="{% url 'support:events' %}" class="menu__link">Upcoming Events</a></li>
+      </ul>
+    </li>
 
 
-<li class="menu__item has-subnav">
-  <button class="menu__link has-subnav usa-nav__link" aria-expanded="false" aria-controls="extended-nav-welcome">
-    Welcome {% if user.first_name %} {{user.first_name|safe}} {% else %} {{user.username|safe}} {% endif %}
-  </button>
-  <ul id="extended-nav-welcome" class="menu menu__subnav is-wide" data-once="navigation" hidden="true">
-    {% if user.is_staff %}
-    <li class="menu__item"><a href="{% url 'admin:index' %}" class="menu__link">Admin Portal</a></li>
-    <li class="menu__item"><a href="{% url 'web_dev_tools' %}" class="menu__link">Web Dev Tools</a></li>
+    <li class="menu__item has-subnav">
+      <button class="menu__link has-subnav usa-nav__link" aria-expanded="false" aria-controls="extended-nav-welcome" aria-label="User menu">
+        Welcome {% if user.first_name %} {{user.first_name|safe}} {% else %} {{user.username|safe}} {% endif %}
+      </button>
+      <ul id="extended-nav-welcome" class="menu menu__subnav is-wide" data-once="navigation" hidden="true">
+        {% if user.is_staff %}
+        <li class="menu__item"><a href="{% url 'admin:index' %}" class="menu__link">Admin Portal</a></li>
+        <li class="menu__item"><a href="{% url 'web_dev_tools' %}" class="menu__link">Web Dev Tools</a></li>
+        {% endif %}
+      </ul>
+    </li>
     {% endif %}
   </ul>
-</li>
-{% endif %}
+</nav>

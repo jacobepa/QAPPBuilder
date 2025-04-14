@@ -1,5 +1,6 @@
 {% extends "base/site_base_support.html" %}
 {% load humanize %}
+{% load custom_filters %}
 
 {% block support_content %}
     <script>
@@ -90,45 +91,74 @@
 
     <h3>Details</h3>
 
-    <p><strong>Reference Number:</strong></p>
-    <p>{{ obj.id }}</p>
+    <div class="usa-card margin-bottom-4">
+        <div class="usa-card__body">
+            <div class="grid-row">
+                <div class="grid-col-3">
+                    <p class="text-bold">Reference Number:</p>
+                </div>
+                <div class="grid-col-9">
+                    <p>{{ obj.id }}</p>
+                </div>
+            </div>
 
-    <p><br><strong>Subject:</strong></p>
-    <p>{{ obj.subject }}</p>
+            <div class="grid-row margin-top-2">
+                <div class="grid-col-3">
+                    <p class="text-bold">Subject:</p>
+                </div>
+                <div class="grid-col-9">
+                    <p>{{ obj.subject }}</p>
+                </div>
+            </div>
 
-    <p><br><strong>Description:</strong></p>
-    <p>{{ obj.the_description }}</p>
+            <div class="grid-row margin-top-2">
+                <div class="grid-col-3">
+                    <p class="text-bold">Description:</p>
+                </div>
+                <div class="grid-col-9">
+                    <p>{{ obj.the_description }}</p>
+                </div>
+            </div>
 
-    <p><br><strong>Email Address:</strong></p>
-    <p>{{ obj.weblink }}</p>
+            <div class="grid-row margin-top-2">
+                <div class="grid-col-3">
+                    <p class="text-bold">Email Address:</p>
+                </div>
+                <div class="grid-col-9">
+                    <p>{{ obj.weblink }}</p>
+                </div>
+            </div>
 
-    <p><br><strong>Review Notes:</strong></p>
-    <p>{{ obj.review_notes }}</p>
-
+            <div class="grid-row margin-top-2">
+                <div class="grid-col-3">
+                    <p class="text-bold">Review Notes:</p>
+                </div>
+                <div class="grid-col-9">
+                    <p>{{ obj.review_notes }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
 
     {% if support_attachments %}
-        <br>
-        <p><h3>File Attachments</h3></p>
+        <div class="margin-top-4">
+            <h3>File Attachments</h3>
 
-        <table class="example table-autosort table-stripeclass:alternate table-autofilter" id="support_attachments_table">
-            <thead id="support_attachments_head">
-                <tr>
-                    <th class="usa-table-sortable:alphanumeric">Filename</th>
-                </tr>
-                <tr>
-                    <th class="usa-table-filterable"></th>
-                    <th class="usa-table-header"></th>
-                </tr>
-            </thead>
-            <tbody id="support_attachments_body">
-                {% for obj in support_attachments %}
+            <table class="usa-table" id="support_attachments_table">
+                <thead id="support_attachments_head">
                     <tr>
-                    <td class='filename_td'><a href="{{MEDIA_URL}}{{obj.attachment|urlencode}}">{{obj.the_name}}</a></td>
+                        <th scope="col">Filename</th>
                     </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-
+                </thead>
+                <tbody id="support_attachments_body">
+                    {% for obj in support_attachments %}
+                        <tr>
+                            <td class='filename_td'><a href="{{MEDIA_URL}}{{obj.attachment|urlencode}}" class="usa-link">{{obj.the_name}}</a></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     {% endif %}
 
 {% endblock %}

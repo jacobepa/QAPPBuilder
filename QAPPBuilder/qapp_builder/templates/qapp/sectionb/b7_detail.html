@@ -2,28 +2,29 @@
 {% load static %}
 
 {% block content %}
-    <h2>{{ title }}</h2>
+    <h1>{{ title }}</h1>
     {{ object.render_details }}
     {{ object.}}
 
-    <h3>{{ b73_label }}</h3>
+    <h2>{{ b73_label }}</h2>
 
-    <div class="usa-button-group">
-        <li class="usa-button-group__item">
-            <a class="usa-button" href="/qapp/{{object.qapp_id}}/hardware-software/create/">Add New Hardware/Software</a>
-        </li>
-        <li class="usa-button-group__item">
-            <i class="usa-button usa-button--accent-warm" onclick="viewEditEntry(this)" aria-disabled="true">
-                Edit Selected Hardware/Software
-            </i>
-        </li>
-        <li class="usa-button-group__item">
-            <i class="usa-button usa-button--secondary" onclick="deleteEntry(this)" aria-disabled="true">
-                Delete Selected Hardware/Software
-            </i>
-        </li>
+    <div class="usa-button-group" role="group" aria-label="Hardware/Software actions">
+        <a class="usa-button" href="/qapp/{{object.qapp_id}}/hardware-software/create/">Add New Hardware/Software</a>
+        <button class="usa-button usa-button--accent-warm" onclick="viewEditEntry(this)" aria-disabled="true">
+            Edit Selected Hardware/Software
+        </button>
+        <button class="usa-button usa-button--secondary" onclick="deleteEntry(this)" aria-disabled="true">
+            Delete Selected Hardware/Software
+        </button>
     </div>
-    <table class="usa-table grid-col">
+    <div class="usa-button-group" role="group" aria-label="Hardware defaults">
+        <select class="usa-button" aria-label="Select hardware default">
+            {% for hdw in hdw_defaults %}
+            <option value="{{hdw.Hardware}}">{{hdw.Hardware}}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <table class="usa-table grid-col" aria-label="Hardware and Software List">
         <thead>
             <tr>
                 <th scope="col">Hardware</th>
@@ -34,7 +35,7 @@
         <tbody>
             {% if hdw_sfw_list %}
             {% for entry in hdw_sfw_list %}
-            <tr id="{{entry.id}}" onclick="rowClick('{{entry.id}}')">
+            <tr id="{{entry.id}}" onclick="rowClick('{{entry.id}}')" role="button" tabindex="0" aria-label="Hardware: {{entry.hardware}}, OS: {{entry.os}}">
                 <th scope="row">{{entry.hardware}}</th>
                 <td>{{entry.os}}</td>
                 <td>{{entry.details}}</td>
@@ -48,7 +49,7 @@
         </tbody>
     </table>
 
-    <h3>{{ b74_label }}</h3>
+    <h2>{{ b74_label }}</h2>
     <p>{{ b74_boilerplate }}</p>
     {% include 'detail_buttons_partial.html' %}
 {% endblock %}

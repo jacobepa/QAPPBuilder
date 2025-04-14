@@ -11,22 +11,18 @@
 {% block content %}
     <h2>{{ title }}</h2>
 
-    <div class="usa-button-group">
-        <li class="usa-button-group__item">
-            <a class="usa-button" href="/qapp/{{qapp_id}}/document-record/create/">Add New Document/Record</a>
-        </li>
-        <li class="usa-button-group__item">
-            <i class="usa-button usa-button--accent-warm" onclick="editEntry(this)" aria-disabled="true">
-                Edit Document/Record
-            </i>
-        </li>
-        <li class="usa-button-group__item">
-            <i class="usa-button usa-button--secondary" onclick="deleteEntry(this)" aria-disabled="true">
-                Remove Document/Record
-            </i>
-        </li>
+    <div class="usa-button-group" role="group" aria-label="Document and record actions">
+        <button class="usa-button" onclick="window.location.href='/qapp/{{qapp_id}}/document-record/create/'" aria-label="Add new document or record">
+            Add New Document/Record
+        </button>
+        <button class="usa-button usa-button--accent-warm" onclick="editEntry(this)" aria-disabled="true" aria-label="Edit selected document or record">
+            Edit Document/Record
+        </button>
+        <button class="usa-button usa-button--secondary" onclick="deleteEntry(this)" aria-disabled="true" aria-label="Delete selected document or record">
+            Remove Document/Record
+        </button>
     </div>
-    <table class="usa-table grid-col">
+    <table class="usa-table grid-col" aria-label="Documents and Records">
         <thead>
             <tr>
                 <th scope="col">Record Type</th>
@@ -39,7 +35,7 @@
         <tbody>
             {% if documents_records %}
             {% for doc in documents_records %}
-            <tr id="{{doc.id}}" onclick="rowClick('{{doc.id}}')">
+            <tr id="{{doc.id}}" onclick="rowClick('{{doc.id}}')" role="button" tabindex="0" aria-label="Document record: {{doc.record_type}} by {{doc.responsible_party}}">
                 <th scope="row">{{doc.record_type}}</th>
                 <td>{{doc.responsible_party}}</td>
                 <td>{{doc.in_proj_file}}</td>

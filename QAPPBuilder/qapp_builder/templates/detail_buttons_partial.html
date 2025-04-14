@@ -1,22 +1,13 @@
-
-<div class="usa-button-group margin-top-2">
-  <li class="usa-button-group__item">
-    <a class="usa-button" href="{{previous_url}}">&laquo; Previous Page</a>
-  </li>
+<div class="usa-button-group margin-top-2" role="group" aria-label="Navigation buttons">
+  <a class="usa-button" href="{{previous_url}}">&laquo; Previous Page</a>
   {% if user_can_edit %}
-  <li class="usa-button-group__item">
-    <a class="usa-button usa-button--accent-warm" href="{{edit_url}}">
-      <svg class="usa-icon" aria-hidden="true" role="img">
-        <use href="https://www.epa.gov/themes/epa_theme/images/sprite.svg#edit"></use>
+  <a class="usa-button usa-button--accent-warm" href="{{edit_url}}">
+    <svg class="usa-icon" aria-hidden="true" role="img">
+      <use href="https://www.epa.gov/themes/epa_theme/images/sprite.svg#edit"></use>
     </svg>
-      Edit Page
-    </a>
-  </li>
+    <span>Edit Page</span>
+  </a>
   {% endif %}
-  <li class="usa-button-group__item">
-    <a class="usa-button" href="{{next_url}}">Next Page &raquo;</a>
-  </li>
-  <!-- <li class="usa-button-group__item">
-    <a class="usa-button usa-button--secondary" href="/qapp/1/sectionb/detail">Skip to Section B &raquo;</a>
-  </li> -->
+  <a class="usa-button" href="{{next_url}}">Next Page &raquo;</a>
+  <!-- <a class="usa-button usa-button--secondary" href="/qapp/1/sectionb/detail">Skip to Section B &raquo;</a> -->
 </div>

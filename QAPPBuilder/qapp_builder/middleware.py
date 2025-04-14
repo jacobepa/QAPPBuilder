@@ -7,6 +7,6 @@ class UnauthorizedMiddleware:
 
     def __call__(self, request):
         response = self.get_response(request)
-        if response.status_code == 401:
-            return render(request, '401.html', status=401)
+        if response.status_code == 403:
+            return render(request, '403.html', status=403)
         return response

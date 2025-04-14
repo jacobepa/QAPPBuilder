@@ -45,6 +45,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.humanize',
     'django_extensions',
+    # Auth SAML2
+    'django_saml2_auth',
     'simple_history',
     'accounts',
     'constants',

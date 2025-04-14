@@ -1,7 +1,6 @@
 # from django import forms
 from qapp_builder.models import SectionB, SectionB7, HardwareSoftware
 from .utility_forms import EpaBaseForm
-# from constants.qapp_section_a_const import SECTION_B
 
 
 class SectionBForm(EpaBaseForm):

@@ -135,7 +135,7 @@ class SuggestionCreateView(FormView):
                 'below.  You will have the option to add attachments ' + \
                 'after saving the suggestion.'
         else:
-            title = 'request help with QAPP Builder'
+            title = 'Request help with QAPP Builder'
             instructions = 'Describe the problem you encountered with ' + \
                 'QAPP Builder below.  You will have the option to add ' + \
                 'attachments after saving the request.'

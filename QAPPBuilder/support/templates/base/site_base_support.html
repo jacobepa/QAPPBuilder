@@ -4,19 +4,27 @@
 {% block content %}
 <div class="grid-row">
     <div class="grid-col-3">
-        <div class="panel panel-primary">
-            <div class="panel-heading">Help</div>
-            <div class="list-group">
-                <a class="list-group-item" href="{% url 'support:create_support' 'help' %}">Request Help</a>
-                <a class="list-group-item" href="{% url 'support:list_supports' 'help' %}">Show Help Requests</a>
+        <div class="usa-card">
+            <div class="usa-card__header">
+                <h2 class="usa-card__heading">Help</h2>
             </div>
-
+            <div class="usa-card__body">
+                <ul class="usa-list usa-list--unstyled">
+                    <li><a class="usa-link" href="{% url 'support:create_support' 'help' %}">Request Help</a></li>
+                    <li><a class="usa-link" href="{% url 'support:list_supports' 'help' %}">Show Help Requests</a></li>
+                </ul>
+            </div>
         </div>
-        <div class="panel panel-primary">
-            <div class = "panel-heading">Suggestions</div>
-            <div class="list-group">
-                <a class="list-group-item" href="{% url 'support:create_support' 'suggestion' %}">Make Suggestion</a>
-                <a class="list-group-item" href="{% url 'support:list_supports' 'suggestion' %}">Show Submitted Suggestions</a>
+
+        <div class="usa-card margin-top-2">
+            <div class="usa-card__header">
+                <h2 class="usa-card__heading">Suggestions</h2>
+            </div>
+            <div class="usa-card__body">
+                <ul class="usa-list usa-list--unstyled">
+                    <li><a class="usa-link" href="{% url 'support:create_support' 'suggestion' %}">Make Suggestion</a></li>
+                    <li><a class="usa-link" href="{% url 'support:list_supports' 'suggestion' %}">Show Submitted Suggestions</a></li>
+                </ul>
             </div>
         </div>
     </div>

@@ -55,3 +55,30 @@ SECTION_B = {
         'recorded in Science Hub which transmits this information to data.gov.'
     }
 }
+
+HDW_SFW_OS_DEFAULTS = [
+    {
+        'Hardware': 'Standard EPA Issued Laptop',
+        'OS': 'Microsoft Windows 11'
+    },
+    {
+        'Hardware': 'EPA Issued High Computing Laptop',
+        'OS': 'Microsoft Windows 11'
+    },
+    {
+        'Hardware': 'Non-EPA Laptop/Personal Computer',
+        'OS': 'Microsoft Windows 11'
+    },
+    {
+        'Hardware': 'Non-EPA Laptop/Personal Computer',
+        'OS': 'Apple'
+    },
+    {
+        'Hardware': 'Non-EPA Laptop/Personal Computer',
+        'OS': 'Linux'
+    },
+    {
+        'Hardware': 'Non-EPA Laptop/Personal Computer',
+        'OS': 'Other'
+    },
+]
