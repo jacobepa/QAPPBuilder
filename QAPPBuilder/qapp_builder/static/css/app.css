@@ -74,10 +74,21 @@ fieldset.inlineLabels ul {
   list-style: none;
 }
 
-ul {
+/* More specific list styling to avoid affecting navigation */
+/* Only apply to lists that are not navigation menus */
+ul:not(.menu__list):not(.menu__subnav):not(.usa-nav__primary):not(.usa-nav__secondary) {
   list-style: none;
 }
 
-li {
+li:not(.menu__item):not(.usa-nav__primary-item):not(.usa-nav__secondary-item) {
   list-style: none;
+}
+
+/* Fix for navbar layout */
+.menu__list {
+  display: flex !important;
+  flex-direction: row !important;
+  list-style: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
 }

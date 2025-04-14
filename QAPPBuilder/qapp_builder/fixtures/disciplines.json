@@ -1,9 +1,9 @@
 [
-    {"model": "qapp_builder.discipline", "pk": 1, "fields": {"name": "Measurement and Monitoring"}},
-    {"model": "qapp_builder.discipline", "pk": 2, "fields": {"name": "Social Sciences"}},
-    {"model": "qapp_builder.discipline", "pk": 3, "fields": {"name": "Existing Data"}},
-    {"model": "qapp_builder.discipline", "pk": 4, "fields": {"name": "Code-Based Modeling"}},
-    {"model": "qapp_builder.discipline", "pk": 5, "fields": {"name": "Model Application and Evaluation"}},
-    {"model": "qapp_builder.discipline", "pk": 6, "fields": {"name": "Software and Application Development"}},
-    {"model": "qapp_builder.discipline", "pk": 7, "fields": {"name": "Environmental Technology"}}
+    {"model": "qapp_builder.discipline", "pk": 1, "fields": {"name": "Measurement and Monitoring", "created_at": "2023-01-01T00:00:00Z", "updated_at": "2023-01-01T00:00:00Z"}},
+    {"model": "qapp_builder.discipline", "pk": 2, "fields": {"name": "Social Sciences", "created_at": "2023-01-01T00:00:00Z", "updated_at": "2023-01-01T00:00:00Z"}},
+    {"model": "qapp_builder.discipline", "pk": 3, "fields": {"name": "Existing Data", "created_at": "2023-01-01T00:00:00Z", "updated_at": "2023-01-01T00:00:00Z"}},
+    {"model": "qapp_builder.discipline", "pk": 4, "fields": {"name": "Code-Based Modeling", "created_at": "2023-01-01T00:00:00Z", "updated_at": "2023-01-01T00:00:00Z"}},
+    {"model": "qapp_builder.discipline", "pk": 5, "fields": {"name": "Model Application and Evaluation", "created_at": "2023-01-01T00:00:00Z", "updated_at": "2023-01-01T00:00:00Z"}},
+    {"model": "qapp_builder.discipline", "pk": 6, "fields": {"name": "Software and Application Development", "created_at": "2023-01-01T00:00:00Z", "updated_at": "2023-01-01T00:00:00Z"}},
+    {"model": "qapp_builder.discipline", "pk": 7, "fields": {"name": "Environmental Technology", "created_at": "2023-01-01T00:00:00Z", "updated_at": "2023-01-01T00:00:00Z"}}
 ]

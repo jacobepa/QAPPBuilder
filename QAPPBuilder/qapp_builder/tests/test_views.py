@@ -125,14 +125,14 @@ class TestViewAuthenticated(TestCase):
             response, 'Quality Assurance (QA) Project Plan Development', 1, 200)
         self.assertContains(response, 'New QAPP', 1, 200)
         self.assertContains(response, 'New Team', 1, 200)
-        self.assertContains(response, 'View QAPPs by User', 1, 200)
-        self.assertContains(response, 'View QAPPs by Team', 1, 200)
+        self.assertContains(response, 'View QAPPs by User', 2, 200)
+        self.assertContains(response, 'View QAPPs by Team', 2, 200)
 
     def test_qapp_list_user(self):
         """Test the qapp list page for a User."""
         response = self.client.get('/qapp/list/user/1/')
         self.assertContains(response, 'QUALITY ASSURANCE PROJECT PLAN', 1, 200)
-        self.assertContains(response, 'Create a new QAPP', 1, 200)
+        self.assertContains(response, 'Create a new QAPP', 2, 200)
         self.assertContains(response, 'View or Edit Existing QAPP', 1, 200)
         self.assertContains(response, 'Export All QAPP', 2, 200)
         self.assertContains(response, 'Export All QAPP to Word Doc', 1, 200)
@@ -142,7 +142,7 @@ class TestViewAuthenticated(TestCase):
         """Test the qapp list page for a Team."""
         response = self.client.get(f'/qapp/list/team/{self.team.id}/')
         self.assertContains(response, 'QUALITY ASSURANCE PROJECT PLAN', 1, 200)
-        self.assertContains(response, 'Create a new QAPP', 1, 200)
+        self.assertContains(response, 'Create a new QAPP', 2, 200)
         self.assertContains(response, 'View or Edit Existing QAPP', 1, 200)
         self.assertContains(response, 'Export All QAPP', 2, 200)
         self.assertContains(response, 'Export All QAPP to Word Doc', 1, 200)
