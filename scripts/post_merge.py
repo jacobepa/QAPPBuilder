@@ -1,8 +1,9 @@
 import subprocess
+from os.path import join
 
 def handle_post_merge():
   # Read current version from VERSION file
-  with open('VERSION', 'r') as f:
+  with open(join('QAPPBuilder', 'VERSION'), 'r') as f:
     version = f.read().strip()
 
   # Tag the current version and push the tags to GitHub
