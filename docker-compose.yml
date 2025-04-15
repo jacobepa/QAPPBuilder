@@ -1,6 +1,21 @@
 version: '3.8'
 
 services:
+
+  test:
+    build:
+      context: ./QAPPBuilder
+      dockerfile: Dockerfile
+    command: >
+      sh -c "while ! nc -z db 5432; do sleep 1; done &&
+             python manage.py test"
+    volumes:
+      - ./QAPPBuilder:/srv/app
+    env_file:
+      - ./.env
+    depends_on:
+      - db
+
   django:
     image: qappbuilder-django
     container_name: qappbuilder-django

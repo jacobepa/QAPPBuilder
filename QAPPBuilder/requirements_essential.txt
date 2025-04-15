@@ -32,4 +32,6 @@ coverage>=7.6.12                   # Measures code coverage during test executio
 django-docs>=0.3.3                # Allows to serve Sphinx generated docs directly from Django.
 pycodestyle>=2.10.0               # Tool to check your Python code against some of the style conventions in PEP 8.
 pydocstyle>=6.3.0                 # Static analysis tool for checking compliance with Python docstring conventions in PEP 257.
-
+flake8==6.1.0
+black==23.7.0
+isort==5.12.0
