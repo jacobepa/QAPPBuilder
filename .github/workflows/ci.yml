@@ -17,8 +17,8 @@ jobs:
 
       - name: Build and test
         run: |
-          docker-compose build
-          docker-compose run test
+          docker compose build
+          docker compose run test
 
   lint:
     runs-on: ubuntu-latest
@@ -30,10 +30,10 @@ jobs:
 
       - name: Run linting
         run: |
-          docker-compose build
-          docker-compose run django flake8
-          docker-compose run django black --check .
-          docker-compose run django isort --check-only .
+          docker compose build
+          docker compose run django flake8
+          docker compose run django black --check .
+          docker compose run django isort --check-only .
 
   security:
     runs-on: ubuntu-latest
@@ -52,5 +52,5 @@ jobs:
 
       - name: Run security checks
         run: |
-          safety check
+          safety scan
           bandit -r QAPPBuilder/
