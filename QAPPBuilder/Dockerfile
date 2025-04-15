@@ -1,33 +1,30 @@
-# Use Python 3.11 slim image as base
-FROM python:3.11-slim
+# pull official base image
+FROM python:3.13-slim
 
-# Set environment variables
+# set work directory
+WORKDIR /srv/app
+
+# set environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
-# Set work directory
-WORKDIR /app
-
-# Install system dependencies
 RUN apt-get update && apt-get install -y \
-    postgresql-client \
-    libpq-dev \
-    gcc \
-    && rm -rf /var/lib/apt/lists/*
+  gcc netcat libpq-dev postgresql-client \
+  git make pkg-config libgsl-dev automake autoconf \
+  && apt-get clean
 
-# Install Python dependencies
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+  # install dependencies
+RUN pip install --upgrade pip
+COPY ./requirements_essential.txt .
 
-# Copy project
+# install temp dependencies for build of psycopg2 etc
+RUN pip install -r requirements-essential.txt
+
+# copy entrypoint.sh
+COPY ./entrypoint.sh .
+
+# copy project
 COPY . .
 
-# Create necessary directories
-RUN mkdir -p /app/qapp_builder/media/uploads
-RUN mkdir -p /app/qapp_builder/static
-
-# Collect static files
-RUN python manage.py collectstatic --noinput
-
-# Run gunicorn
-CMD ["gunicorn", "qapp_builder.wsgi:application", "--bind", "0.0.0.0:8000"]
+# run entrypoint.sh
+ENTRYPOINT ["/srv/app/entrypoint.sh"]
