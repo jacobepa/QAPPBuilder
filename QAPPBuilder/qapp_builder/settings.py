@@ -151,7 +151,15 @@ MEDIA_URL = '/media/'
 UPLOAD_ROOT = os.path.join(MEDIA_ROOT, 'uploads')
 
 APP_NAME = 'qapp_builder'
-APP_VERSION = '2.0.0'
+
+# Read version from VERSION file
+VERSION_FILE = os.path.join(BASE_DIR, 'VERSION')
+try:
+    with open(VERSION_FILE, 'r') as f:
+        APP_VERSION = f.read().strip()
+except (IOError, FileNotFoundError):
+    APP_VERSION = '2.0.0'  # Fallback version if file not found
+
 APP_DISCLAIMER = 'The information and data presented in this product ' + \
                  'were obtained from sources that are believed to be ' + \
                  'reliable. However, in many cases the quality of the ' + \

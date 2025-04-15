@@ -22,9 +22,8 @@ def software_info(_request):
     """
     Return dictionary containing the app's version, name, and disclaimer.
 
-    :param:
-    :request:
-    :request:
+    :param _request: The HTTP request object (unused)
+    :return: Dictionary with APP_VERSION, APP_NAME, and APP_DISCLAIMER
     """
     return {
         'APP_VERSION': settings.APP_VERSION,
