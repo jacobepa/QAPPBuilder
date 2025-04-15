@@ -1,0 +1,53 @@
+version: '3.8'
+
+services:
+
+  test:
+    build:
+      context: ./QAPPBuilder
+      dockerfile: Dockerfile
+    command: >
+      sh -c "while ! nc -z db 5432; do sleep 1; done &&
+             python manage.py test"
+    volumes:
+      - ./QAPPBuilder:/srv/app
+    env_file:
+      - ./.env
+    depends_on:
+      - db
+
+  django:
+    image: qappbuilder-django
+    container_name: qappbuilder-django
+    build:
+      context: ./QAPPBuilder
+      dockerfile: Dockerfile
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./QAPPBuilder:/srv/app
+      - static_volume:/srv/app/qapp_builder/static
+      - media_volume:/srv/app/qapp_builder/media
+    ports:
+      - "8000:8000"
+    env_file:
+      - ./.env
+      - ./QAPPBuilder/.env
+    environment:
+      - DATABASE=postgres
+    depends_on:
+      - db
+
+  db:
+    image: postgres:15
+    container_name: qappbuilder-db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    env_file:
+      - ./.env
+    ports:
+      - "5432:5432"
+
+volumes:
+  postgres_data:
+  static_volume:
+  media_volume:
