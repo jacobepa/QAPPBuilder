@@ -3,6 +3,7 @@ version: '3.8'
 services:
   django:
     image: qappbuilder-django
+    container_name: qappbuilder-django
     build:
       context: ./QAPPBuilder
       dockerfile: Dockerfile
@@ -23,11 +24,11 @@ services:
 
   db:
     image: postgres:15
+    container_name: qappbuilder-db
     volumes:
       - postgres_data:/var/lib/postgresql/data
     env_file:
       - ./.env
-      - ./QAPPBuilder/.env
     ports:
       - "5432:5432"
 
